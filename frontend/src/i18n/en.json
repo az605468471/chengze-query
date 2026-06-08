@@ -166,12 +166,23 @@
   },
   "team": {
     "verified": "Team Verified",
+    "verifiedYes": "✅ Team members are verified, background checkable",
+    "verifiedNo": "⚠️ Team not verified, anonymous risk",
     "advisors": "Advisors",
+    "advisorsYes": "✅ Has well-known advisors, industry influence",
+    "advisorsNo": "⚠️ No advisors, lacks industry endorsement",
     "partners": "Partners",
+    "partnersYes": "✅ Has {{count}} partners",
+    "partnersNo": "⚠️ No partners, weak ecosystem support",
     "activity": "Community Activity",
+    "activityLevel": "Activity Level",
+    "activityHigh": "Highly Active",
+    "activityMedium": "Moderate",
+    "activityLow": "Inactive",
     "members": "Team Members",
     "score": "Score",
-    "details": "Details"
+    "details": "Details",
+    "noData": "No team background data available"
   },
   "onchain": {
     "activity": "Activity",
@@ -179,6 +190,15 @@
     "buySellRatio": "Buy/Sell Ratio",
     "recentTxs": "Recent Transactions",
     "score": "Score",
-    "details": "Details"
+    "details": "Details",
+    "buy": "Buy",
+    "sell": "Sell",
+    "buyDominant": "Buy Dominant",
+    "sellDominant": "Sell Dominant",
+    "balanced": "Balanced",
+    "activityHigh": "Highly Active",
+    "activityMedium": "Moderate",
+    "activityLow": "Inactive",
+    "noData": "No onchain analysis data available"
   }
 }

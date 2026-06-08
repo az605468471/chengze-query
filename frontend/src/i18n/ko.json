@@ -166,12 +166,23 @@
   },
   "team": {
     "verified": "팀 검증",
+    "verifiedYes": "✅ 팀 멤버가 검증되어 배경 확인 가능",
+    "verifiedNo": "⚠️ 팀 미검증, 익명 리스크",
     "advisors": "어드바이저",
+    "advisorsYes": "✅ 유명 어드바이저가 있어 업계 영향력 있음",
+    "advisorsNo": "⚠️ 어드바이저 없음, 업계 추천 부족",
     "partners": "파트너",
+    "partnersYes": "✅ {{count}}명의 파트너가 있습니다",
+    "partnersNo": "⚠️ 파트너 없음, 에코시스템 지원 약함",
     "activity": "커뮤니티 활동",
+    "activityLevel": "활동 수준",
+    "activityHigh": "매우 활발",
+    "activityMedium": "보통",
+    "activityLow": "조용함",
     "members": "팀 멤버",
     "score": "스코어",
-    "details": "상세"
+    "details": "상세",
+    "noData": "팀 배경 데이터가 없습니다"
   },
   "onchain": {
     "activity": "활동",
@@ -179,6 +190,15 @@
     "buySellRatio": "매수/매도 비율",
     "recentTxs": "최근 트랜잭션",
     "score": "스코어",
-    "details": "상세"
+    "details": "상세",
+    "buy": "매수",
+    "sell": "매도",
+    "buyDominant": "매수 우위",
+    "sellDominant": "매도 우위",
+    "balanced": "균형",
+    "activityHigh": "매우 활발",
+    "activityMedium": "보통",
+    "activityLow": "조용함",
+    "noData": "온체인 분석 데이터가 없습니다"
   }
 }

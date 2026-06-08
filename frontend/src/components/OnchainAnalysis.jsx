@@ -9,7 +9,7 @@ function OnchainAnalysis({ data }) {
         <h3 className="text-lg font-semibold text-white mb-4">
           {t('results.onchainAnalysis')}
         </h3>
-        <p className="text-gray-400">No onchain analysis data available</p>
+        <p className="text-gray-400">{t('onchain.noData')}</p>
       </div>
     );
   }
@@ -57,11 +57,11 @@ function OnchainAnalysis({ data }) {
           <div>
             <span className="text-white font-medium">{t('onchain.transactions')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              最近 10 笔交易：{data.buyCount} 买入 / {data.sellCount} 卖出
+              {t('onchain.recentTxs')}：{data.buyCount} {t('onchain.buy')} / {data.sellCount} {t('onchain.sell')}
             </p>
           </div>
           <span className={`font-bold ${buyRatio > 60 ? 'text-green-400' : buyRatio > 40 ? 'text-yellow-400' : 'text-red-400'}`}>
-            {buyRatio > 60 ? '🟢 买入主导' : buyRatio > 40 ? '🟡 均衡' : '🔴 卖出主导'}
+            {buyRatio > 60 ? `🟢 ${t('onchain.buyDominant')}` : buyRatio > 40 ? `🟡 ${t('onchain.balanced')}` : `🔴 ${t('onchain.sellDominant')}`}
           </span>
         </div>
         
@@ -70,7 +70,7 @@ function OnchainAnalysis({ data }) {
           <div>
             <span className="text-white font-medium">{t('onchain.activity')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {activityScore > 70 ? '🟢 高度活跃' : activityScore > 50 ? '🟡 一般活跃' : '🔴 冷清'}
+              {activityScore > 70 ? `🟢 ${t('onchain.activityHigh')}` : activityScore > 50 ? `🟡 ${t('onchain.activityMedium')}` : `🔴 ${t('onchain.activityLow')}`}
             </p>
           </div>
           <span className={`font-bold ${activityScore > 70 ? 'text-green-400' : activityScore > 50 ? 'text-yellow-400' : 'text-red-400'}`}>
@@ -89,7 +89,7 @@ function OnchainAnalysis({ data }) {
                 <span className={`text-sm px-2 py-1 rounded ${
                   tx.type === '买入' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
                 }`}>
-                  {tx.type}
+                  {tx.type === '买入' ? t('onchain.buy') : t('onchain.sell')}
                 </span>
                 <span className="text-gray-300 text-sm ml-2">
                   {tx.from.slice(0, 6)}...{tx.from.slice(-4)} → {tx.to.slice(0, 6)}...{tx.to.slice(-4)}

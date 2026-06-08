@@ -166,12 +166,23 @@
   },
   "team": {
     "verified": "チーム検証",
+    "verifiedYes": "✅ チームメンバーが検証ームメンバーが検証済み、経歴確認可能",
+    "verifiedNo": "⚠️ チーム未検証、匿名リスク",
     "advisors": "アドバイザー",
+    "advisorsYes": "✅ 知名アドバイザーがおり、業界影響力あり",
+    "advisorsNo": "⚠️ アドバイザーなし、業界推薦が不足",
     "partners": "パートナー",
+    "partnersYes": "✅ {{count}} 人のパートナーがいます",
+    "partnersNo": "⚠️ パートナーなし、エコシステムサポートが弱い",
     "activity": "コミュニティ活動",
+    "activityLevel": "アクティビティレベル",
+    "activityHigh": "非常に活発",
+    "activityMedium": "普通",
+    "activityLow": "静か",
     "members": "チームメンバー",
     "score": "スコア",
-    "details": "詳細"
+    "details": "詳細",
+    "noData": "チーム背景データがありません"
   },
   "onchain": {
     "activity": "アクティビティ",
@@ -179,6 +190,15 @@
     "buySellRatio": "売買比率",
     "recentTxs": "最近のトランザクション",
     "score": "スコア",
-    "details": "詳細"
+    "details": "詳細",
+    "buy": "買い",
+    "sell": "売り",
+    "buyDominant": "買い優勢",
+    "sellDominant": "売り優勢",
+    "balanced": "均衡",
+    "activityHigh": "非常に活発",
+    "activityMedium": "普通",
+    "activityLow": "静か",
+    "noData": "オンチェーン分析データがありません"
   }
 }

@@ -166,12 +166,23 @@
   },
   "team": {
     "verified": "团队验证",
+    "verifiedYes": "✅ 团队成员已验证，背景可查",
+    "verifiedNo": "⚠️ 团队未验证，匿名风险",
     "advisors": "顾问团队",
+    "advisorsYes": "✅ 有知名顾问，行业影响力",
+    "advisorsNo": "⚠️ 无顾问团队，缺乏行业背书",
     "partners": "合作伙伴",
+    "partnersYes": "✅ 有 {{count}} 个合作伙伴",
+    "partnersNo": "⚠️ 无合作伙伴，生态支持弱",
     "activity": "社区活跃度",
+    "activityLevel": "活跃度",
+    "activityHigh": "高度活跃",
+    "activityMedium": "一般",
+    "activityLow": "冷清",
     "members": "团队成员",
     "score": "评分",
-    "details": "详情"
+    "details": "详情",
+    "noData": "暂无团队背景数据"
   },
   "onchain": {
     "activity": "活跃度",
@@ -179,6 +190,15 @@
     "buySellRatio": "买卖比例",
     "recentTxs": "最近交易",
     "score": "评分",
-    "details": "详情"
+    "details": "详情",
+    "buy": "买入",
+    "sell": "卖出",
+    "buyDominant": "买入主导",
+    "sellDominant": "卖出主导",
+    "balanced": "均衡",
+    "activityHigh": "高度活跃",
+    "activityMedium": "一般活跃",
+    "activityLow": "冷清",
+    "noData": "暂无链上分析数据"
   }
 }

@@ -9,7 +9,7 @@ function TeamBackground({ data }) {
         <h3 className="text-lg font-semibold text-white mb-4">
           {t('results.teamBackground')}
         </h3>
-        <p className="text-gray-400">No team background data available</p>
+        <p className="text-gray-400">{t('team.noData')}</p>
       </div>
     );
   }
@@ -61,7 +61,7 @@ function TeamBackground({ data }) {
           <div>
             <span className="text-white font-medium">{t('team.verified')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.teamVerified ? '✅ 团队成员已验证，背景可查' : '⚠️ 团队未验证，匿名风险'}
+              {data.teamVerified ? t('team.verifiedYes') : t('team.verifiedNo')}
             </p>
           </div>
           <span className={`font-bold ${data.teamVerified ? 'text-green-400' : 'text-yellow-400'}`}>
@@ -74,7 +74,7 @@ function TeamBackground({ data }) {
           <div>
             <span className="text-white font-medium">{t('team.advisors')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.hasAdvisors ? '✅ 有知名顾问，行业影响力' : '⚠️ 无顾问团队，缺乏行业背书'}
+              {data.hasAdvisors ? t('team.advisorsYes') : t('team.advisorsNo')}
             </p>
           </div>
           <span className={`font-bold ${data.hasAdvisors ? 'text-green-400' : 'text-yellow-400'}`}>
@@ -88,8 +88,8 @@ function TeamBackground({ data }) {
             <span className="text-white font-medium">{t('team.partners')}</span>
             <p className="text-gray-400 text-sm mt-1">
               {data.partners.length > 0 
-                ? `✅ 有 ${data.partners.length} 个合作伙伴` 
-                : '⚠️ 无合作伙伴，生态支持弱'}
+                ? t('team.partnersYes', { count: data.partners.length }) 
+                : t('team.partnersNo')}
             </p>
           </div>
           <span className={`font-bold ${data.partners.length > 0 ? 'text-green-400' : 'text-yellow-400'}`}>
@@ -102,11 +102,11 @@ function TeamBackground({ data }) {
           <div>
             <span className="text-white font-medium">{t('team.activity')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              活跃度：<span className={
+              {t('team.activityLevel')}：<span className={
                 data.communityActivity > 70 ? 'text-green-400' : 
                 data.communityActivity > 50 ? 'text-yellow-400' : 'text-red-400'
               }>{data.communityActivity}%</span>
-              {data.communityActivity > 70 ? ' - 高度活跃' : data.communityActivity > 50 ? ' - 一般' : ' - 冷清'}
+              {data.communityActivity > 70 ? ` - ${t('team.activityHigh')}` : data.communityActivity > 50 ? ` - ${t('team.activityMedium')}` : ` - ${t('team.activityLow')}`}
             </p>
           </div>
           <span className={`font-bold ${data.communityActivity > 70 ? 'text-green-400' : data.communityActivity > 50 ? 'text-yellow-400' : 'text-red-400'}`}>
