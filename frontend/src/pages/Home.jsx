@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import RiskScore from '../components/RiskScore';
 import ContractInfo from '../components/ContractInfo';
@@ -10,19 +11,30 @@ import LanguageSwitcher from '../components/LanguageSwitcher';
 function Home() {
   const { t } = useTranslation();
   const [results, setResults] = useState(null);
+  const [walletAddress, setWalletAddress] = useState('');
+
+  useEffect(() => {
+    const checkWallet = async () => {
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({
+            method: 'eth_accounts'
+          });
+          if (accounts.length > 0) {
+            setWalletAddress(accounts[0]);
+          }
+        } catch (error) {
+          console.error('检查钱包失败:', error);
+        }
+      }
+    }
+    checkWallet();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header */}
-      <header className="border-b border-gray-800">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">🛡️</span>
-            <span className="text-xl font-bold">{t('title')}</span>
-          </div>
-          <LanguageSwitcher />
-        </div>
-      </header>
+      {/* Header with Wallet Connection */}
+      <Header />
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-16 text-center">
@@ -33,6 +45,16 @@ function Home() {
           {t('subtitle')}
         </p>
         <SearchBar onResults={setResults} />
+        
+        {/* Wallet Address Display */}
+        {walletAddress && (
+          <div className="mt-6">
+            <p className="text-sm text-gray-400 mb-2">已连接钱包：</p>
+            <div className="bg-gray-800 px-4 py-2 rounded-lg text-sm text-gray-300 inline-block">
+              {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Results Section */}
