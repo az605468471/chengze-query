@@ -6,6 +6,13 @@ import RiskScore from '../components/RiskScore';
 import ContractInfo from '../components/ContractInfo';
 import HolderDistribution from '../components/HolderDistribution';
 import LiquidityInfo from '../components/LiquidityInfo';
+import TransactionHistory from '../components/TransactionHistory';
+import PriceHistory from '../components/PriceHistory';
+import ContractSecurity from '../components/ContractSecurity';
+import Tokenomics from '../components/Tokenomics';
+import LiquiditySafety from '../components/LiquiditySafety';
+import Governance from '../components/Governance';
+import TeamBackground from '../components/TeamBackground';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
 function Home() {
@@ -76,9 +83,34 @@ function Home() {
             {/* Liquidity */}
             <LiquidityInfo data={results.liquidityData} />
             
+            {/* Contract Security */}
+            <ContractSecurity data={results.contractSecurity} />
+            
+            {/* Tokenomics */}
+            <Tokenomics data={results.tokenomics} />
+            
+            {/* Liquidity Safety */}
+            <LiquiditySafety data={results.liquiditySafety} />
+            
+            {/* Governance */}
+            <Governance data={results.governance} />
+            
+            {/* Team Background */}
+            <TeamBackground data={results.teamBackground} />
+            
             {/* Holder Distribution */}
             <div className="md:col-span-2">
               <HolderDistribution data={results.holderData} />
+            </div>
+            
+            {/* Price History */}
+            <div className="md:col-span-2">
+              <PriceHistory data={results.priceHistory} />
+            </div>
+            
+            {/* Transaction History */}
+            <div className="md:col-span-2">
+              <TransactionHistory data={results.transactions} />
             </div>
           </div>
         </section>

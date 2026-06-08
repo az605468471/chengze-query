@@ -3,44 +3,108 @@ import { useTranslation } from 'react-i18next';
 function RiskScore({ score, level, risks }) {
   const { t } = useTranslation();
   
-  const getScoreColor = () => {
-    if (level === 'high') return 'text-red-500';
-    if (level === 'medium') return 'text-yellow-500';
-    return 'text-green-500';
+  const getColor = (level) => {
+    switch (level) {
+      case 'high': return 'text-red-500';
+      case 'medium': return 'text-yellow-500';
+      default: return 'text-green-500';
+    }
   };
   
-  const getBgColor = () => {
-    if (level === 'high') return 'bg-red-500/20 border-red-500/50';
-    if (level === 'medium') return 'bg-yellow-500/20 border-yellow-500/50';
-    return 'bg-green-500/20 border-green-500/50';
+  const getBgColor = (level) => {
+    switch (level) {
+      case 'high': return 'bg-red-500';
+      case 'medium': return 'bg-yellow-500';
+      default: return 'bg-green-500';
+    }
   };
-
+  
+  const getLevelText = (level) => {
+    switch (level) {
+      case 'high': return '高风险';
+      case 'medium': return '中风险';
+      default: return '低风险';
+    }
+  };
+  
   return (
-    <div className={`p-6 rounded-lg border ${getBgColor()}`}>
-      <h3 className="text-lg font-semibold text-white mb-4">{t('results.riskScore')}</h3>
+    <div className="bg-gray-800 p-6 rounded-lg">
+      <h3 className="text-lg font-semibold text-white mb-4">
+        {t('results.riskScore') || '风险评分'}
+      </h3>
       
-      <div className="flex items-center gap-4">
-        <div className={`text-5xl font-bold ${getScoreColor()}`}>
-          {score}
-        </div>
-        <div>
-          <div className={`text-xl font-semibold ${getScoreColor()}`}>
-            {t(`risk.${level}`)}
-          </div>
-          <div className="text-gray-400 text-sm">
-            / 100
+      {/* Score Circle */}
+      <div className="flex items-center justify-center mb-6">
+        <div className="relative">
+          <svg className="w-32 h-32" viewBox="0 0 100 100">
+            <circle className="text-gray-700" strokeWidth="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
+            <circle 
+              className={`${getBgColor(level)}`} 
+              strokeWidth="8" 
+              stroke="currentColor" 
+              fill="transparent" 
+              r="40" 
+              cx="50" 
+              cy="50" 
+              strokeDasharray={`${(score / 100) * 251} 251`}
+              strokeLinecap="round"
+              transform="rotate(-90 50 50)"
+            />
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <span className={`text-3xl font-bold ${getColor(level)}`}>{score}</span>
+            <span className="text-sm text-gray-400">{getLevelText(level)}</span>
           </div>
         </div>
       </div>
       
+      {/* Risk Items */}
       {risks && risks.length > 0 && (
-        <div className="mt-4">
-          <p className="text-gray-400 text-sm mb-2">Risk Factors:</p>
-          <ul className="list-disc list-inside text-gray-300 text-sm">
-            {risks.map((risk, i) => (
-              <li key={i}>{risk}</li>
-            ))}
-          </ul>
+        <div className="space-y-3">
+          <h4 className="text-sm font-medium text-gray-400 mb-2">发现的风险项：</h4>
+          {risks.map((risk, index) => (
+            <div 
+              key={index} 
+              className={`p-3 rounded-lg border ${
+                risk.severity === 'high' ? 'bg-red-500/10 border-red-500/30' :
+                risk.severity === 'medium' ? 'bg-yellow-500/10 border-yellow-500/30' :
+                'bg-gray-700/50 border-gray-600/30'
+              }`}
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={`text-sm ${
+                      risk.severity === 'high' ? 'text-red-400' :
+                      risk.severity === 'medium' ? 'text-yellow-400' :
+                      'text-gray-400'
+                    }`}>
+                      {risk.severity === 'high' ? '🔴' : risk.severity === 'medium' ? '🟡' : '🟢'}
+                    </span>
+                    <span className="font-medium text-white text-sm">{risk.title}</span>
+                  </div>
+                  <p className="text-xs text-gray-400 ml-6">{risk.description}</p>
+                </div>
+                {risk.url && (
+                  <a 
+                    href={risk.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-400 hover:text-blue-300 text-xs ml-2 whitespace-nowrap"
+                  >
+                    查看来源 →
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      
+      {/* No Risks */}
+      {(!risks || risks.length === 0) && (
+        <div className="text-center py-4">
+          <p className="text-green-400">✅ 未发现明显风险</p>
         </div>
       )}
     </div>

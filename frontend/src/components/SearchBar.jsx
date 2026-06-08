@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getContractInfo, getHolderDistribution, getLiquidityData, calculateRiskScore } from '../utils/api';
+import { getContractInfo, getHolderDistribution, getLiquidityData, calculateRiskScore, getTransactionHistory, getPriceHistory, getContractSecurity, getTokenomics, getLiquiditySafety, getGovernance, getTeamBackground } from '../utils/api';
 
 function SearchBar({ onResults }) {
   const { t } = useTranslation();
@@ -18,20 +18,34 @@ function SearchBar({ onResults }) {
     setError('');
     
     try {
-      const [contractInfo, holderData, liquidityData] = await Promise.all([
+      const [contractInfo, holderData, liquidityData, transactions, priceHistory, contractSecurity, tokenomics, liquiditySafety, governance, teamBackground] = await Promise.all([
         getContractInfo(address),
         getHolderDistribution(address),
-        getLiquidityData(address)
+        getLiquidityData(address),
+        getTransactionHistory(address),
+        getPriceHistory(address),
+        getContractSecurity(address),
+        getTokenomics(address),
+        getLiquidityData(address),
+        getGovernance(address),
+        getTeamBackground(address)
       ]);
       
-      const riskScore = calculateRiskScore(contractInfo, holderData, liquidityData);
+      const riskScore = calculateRiskScore(contractInfo, holderData, liquidityData, contractSecurity, address);
       
       onResults({
         address,
         contractInfo,
         holderData,
         liquidityData,
-        riskScore
+        riskScore,
+        transactions,
+        priceHistory,
+        contractSecurity,
+        tokenomics,
+        liquiditySafety,
+        governance,
+        teamBackground
       });
     } catch (err) {
       setError(t('error'));
