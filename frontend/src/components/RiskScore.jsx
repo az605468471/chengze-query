@@ -21,16 +21,16 @@ function RiskScore({ score, level, risks }) {
   
   const getLevelText = (level) => {
     switch (level) {
-      case 'high': return '高风险';
-      case 'medium': return '中风险';
-      default: return '低风险';
+      case 'high': return t('risk.high');
+      case 'medium': return t('risk.medium');
+      default: return t('risk.low');
     }
   };
   
   return (
     <div className="bg-gray-800 p-6 rounded-lg">
       <h3 className="text-lg font-semibold text-white mb-4">
-        {t('results.riskScore') || '风险评分'}
+        {t('results.riskScore')}
       </h3>
       
       {/* Score Circle */}
@@ -61,7 +61,7 @@ function RiskScore({ score, level, risks }) {
       {/* Risk Items */}
       {risks && risks.length > 0 && (
         <div className="space-y-3">
-          <h4 className="text-sm font-medium text-gray-400 mb-2">发现的风险项：</h4>
+          <h4 className="text-sm font-medium text-gray-400 mb-2">{t('risk.foundRisks')}：</h4>
           {risks.map((risk, index) => (
             <div 
               key={index} 
@@ -92,7 +92,7 @@ function RiskScore({ score, level, risks }) {
                     rel="noopener noreferrer"
                     className="text-blue-400 hover:text-blue-300 text-xs ml-2 whitespace-nowrap"
                   >
-                    查看来源 →
+                    {t('risk.viewSource')} →
                   </a>
                 )}
               </div>
@@ -104,7 +104,7 @@ function RiskScore({ score, level, risks }) {
       {/* No Risks */}
       {(!risks || risks.length === 0) && (
         <div className="text-center py-4">
-          <p className="text-green-400">✅ 未发现明显风险</p>
+          <p className="text-green-400">✅ {t('risk.noRisks')}</p>
         </div>
       )}
     </div>

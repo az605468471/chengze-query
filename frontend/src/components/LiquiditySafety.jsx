@@ -10,7 +10,7 @@ function LiquiditySafety({ data }) {
         <h3 className="text-lg font-semibold text-white mb-4">
           {t('results.liquiditySafety')}
         </h3>
-        <p className="text-gray-400">No liquidity safety data available</p>
+        <p className="text-gray-400">{t('liquiditySafety.noData')}</p>
       </div>
     );
   }
@@ -62,7 +62,7 @@ function LiquiditySafety({ data }) {
           <div>
             <span className="text-white font-medium">{t('liquiditySafety.lpLocked')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.lpLocked ? '✅ LP 已锁定，跑路风险低' : '⚠️ LP 未锁定，存在跑路风险'}
+              {data.lpLocked ? t('liquiditySafety.lpLockedYes') : t('liquiditySafety.lpLockedNo')}
             </p>
           </div>
           <span className={`font-bold ${data.lpLocked ? 'text-green-400' : 'text-yellow-400'}`}>
@@ -75,7 +75,7 @@ function LiquiditySafety({ data }) {
           <div>
             <span className="text-white font-medium">{t('liquiditySafety.liquidityDepth')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              深度：${data.liquidityDepth?.toLocaleString() || '0'}
+              {t('liquiditySafety.depth')}：${data.liquidityDepth?.toLocaleString() || '0'}
             </p>
           </div>
           <span className={`font-bold ${data.liquidityDepth > 10000 ? 'text-green-400' : data.liquidityDepth > 5000 ? 'text-yellow-400' : 'text-red-400'}`}>
@@ -88,7 +88,7 @@ function LiquiditySafety({ data }) {
           <div>
             <span className="text-white font-medium">{t('liquiditySafety.rugPullRisk')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.rugPullRisk === 'low' ? '🟢 低风险' : data.rugPullRisk === 'medium' ? '🟡 中等风险' : '🔴 高风险'}
+              {data.rugPullRisk === 'low' ? t('liquiditySafety.riskLow') : data.rugPullRisk === 'medium' ? t('liquiditySafety.riskMedium') : t('liquiditySafety.riskHigh')}
             </p>
           </div>
           <span className={`font-bold ${data.rugPullRisk === 'low' ? 'text-green-400' : data.rugPullRisk === 'medium' ? 'text-yellow-400' : 'text-red-400'}`}>
@@ -101,7 +101,7 @@ function LiquiditySafety({ data }) {
           <div>
             <span className="text-white font-medium">{t('liquiditySafety.slippage')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              预估滑点：{data.slippage || 0}%
+              {t('liquiditySafety.slippageEst')}：{data.slippage || 0}%
             </p>
           </div>
           <span className={`font-bold ${data.slippage < 5 ? 'text-green-400' : data.slippage < 10 ? 'text-yellow-400' : 'text-red-400'}`}>

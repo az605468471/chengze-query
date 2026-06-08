@@ -23,7 +23,10 @@
     "high": "高リスク",
     "medium": "中リスク",
     "low": "低リスク",
-    "unknown": "不明"
+    "unknown": "不明",
+    "foundRisks": "発見されたリスク",
+    "noRisks": "重大なリスクは見つかりませんでした",
+    "viewSource": "ソースを見る"
   },
   "features": {
     "contractCheck": "コントラクトセキュリティ",
@@ -109,29 +112,57 @@
   },
   "tokenomics": {
     "burnMechanism": "バーンメカニズム",
+    "burnYes": "✅ バイバックバーンメカニズムがあり、デフレ圧力を維持",
+    "burnNo": "❌ バーンメカニズムなし、インフレリスクが存在",
     "inflationModel": "インフレモデル",
+    "deflationYes": "✅ デフレモデル、トークンの希少性が増加",
+    "deflationNo": "⚠️ インフレモデル、トークンが継続的に発行される可能性",
     "fairLaunch": "フェアローンチ",
+    "fairLaunchYes": "✅ フェアローンチ、プリマインや内部者配分なし",
+    "fairLaunchNo": "⚠️ プリマインや不公平な分配が存在",
     "vestingSchedule": "ベスティングスケジュール",
+    "vestingYes": "✅ ベスティングメカニズムがあり、集中売りを防止",
+    "vestingNo": "⚠️ ベスティングメカニズムなし、売り圧リスク",
     "utility": "トークンユーティリティ",
+    "utilityYes": "✅ 実際のユーティリティがあり、純粋な投機ではない",
+    "utilityNo": "⚠️ 明確なユーティリティなし、純粋な投機リスク",
     "score": "スコア",
-    "details": "詳細"
+    "details": "詳細",
+    "noData": "トークノミクスデータがありません"
   },
   "liquiditySafety": {
     "lpLocked": "LP ロック",
+    "lpLockedYes": "✅ LP がロックされており、ラグプルリスクが低い",
+    "lpLockedNo": "⚠️ LP がロックされておらず、ラグプルリスクが存在",
     "liquidityDepth": "流動性深度",
+    "depth": "深度",
     "rugPullRisk": "ラグプルリスク",
+    "riskLow": "🟢 低リスク",
+    "riskMedium": "🟡 中リスク",
+    "riskHigh": "🔴 高リスク",
     "providerType": "プロバイダータイプ",
     "slippage": "スリッページ",
+    "slippageEst": "推定スリッページ",
     "score": "スコア",
-    "details": "詳細"
+    "details": "詳細",
+    "noData": "流動性安全性データがありません"
   },
   "governance": {
     "dao": "DAO ガバナンス",
+    "daoYes": "✅ DAO ガバナンスがあり、分散型意思決定",
+    "daoNo": "⚠️ DAO ガバナンスなし、中央集権型意思決定",
     "multisig": "マルチシグ",
+    "multisigYes": "✅ マルチシグメカニズムがあり、セキュリティ向上",
+    "multisigNo": "⚠️ マルチシグなし、単一ポイント制御リスク",
     "upgradeable": "アップグレード可能",
+    "upgradeableYes": "⚠️ コントラクトがアップグレード可能、変更リスクが存在",
+    "upgradeableNo": "✅ コントラクトはアップグレード不可、コードは不変",
     "permissions": "権限制御",
+    "permissionsYes": "✅ 権限が適切に制御されており、リスクが低い",
+    "permissionsNo": "⚠️ 権限が適切に制御されておらず、リスクが高い",
     "score": "スコア",
-    "details": "詳細"
+    "details": "詳細",
+    "noData": "ガバナンスデータがありません"
   },
   "team": {
     "verified": "チーム検証",

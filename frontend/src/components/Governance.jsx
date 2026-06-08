@@ -10,7 +10,7 @@ function Governance({ data }) {
         <h3 className="text-lg font-semibold text-white mb-4">
           {t('results.governance')}
         </h3>
-        <p className="text-gray-400">No governance data available</p>
+        <p className="text-gray-400">{t('governance.noData')}</p>
       </div>
     );
   }
@@ -62,7 +62,7 @@ function Governance({ data }) {
           <div>
             <span className="text-white font-medium">{t('governance.dao')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.hasDAO ? '✅ 有 DAO 治理，去中心化决策' : '⚠️ 无 DAO 治理，中心化决策'}
+              {data.hasDAO ? t('governance.daoYes') : t('governance.daoNo')}
             </p>
           </div>
           <span className={`font-bold ${data.hasDAO ? 'text-green-400' : 'text-yellow-400'}`}>
@@ -75,7 +75,7 @@ function Governance({ data }) {
           <div>
             <span className="text-white font-medium">{t('governance.multisig')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.hasMultisig ? '✅ 有多签机制，增加安全性' : '⚠️ 无多签，单点控制风险'}
+              {data.hasMultisig ? t('governance.multisigYes') : t('governance.multisigNo')}
             </p>
           </div>
           <span className={`font-bold ${data.hasMultisig ? 'text-green-400' : 'text-yellow-400'}`}>
@@ -88,7 +88,7 @@ function Governance({ data }) {
           <div>
             <span className="text-white font-medium">{t('governance.upgradeable')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.isUpgradeable ? '⚠️ 合约可升级，存在变更风险' : '✅ 合约不可升级，代码不可变'}
+              {data.isUpgradeable ? t('governance.upgradeableYes') : t('governance.upgradeableNo')}
             </p>
           </div>
           <span className={`font-bold ${!data.isUpgradeable ? 'text-green-400' : 'text-yellow-400'}`}>
@@ -101,7 +101,7 @@ function Governance({ data }) {
           <div>
             <span className="text-white font-medium">{t('governance.permissions')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.hasPermissions ? '✅ 权限控制合理，风险较低' : '⚠️ 权限控制不当，风险较高'}
+              {data.hasPermissions ? t('governance.permissionsYes') : t('governance.permissionsNo')}
             </p>
           </div>
           <span className={`font-bold ${data.hasPermissions ? 'text-green-400' : 'text-yellow-400'}`}>

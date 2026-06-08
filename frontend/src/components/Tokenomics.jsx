@@ -10,7 +10,7 @@ function Tokenomics({ data }) {
         <h3 className="text-lg font-semibold text-white mb-4">
           {t('results.tokenomics')}
         </h3>
-        <p className="text-gray-400">No tokenomics data available</p>
+        <p className="text-gray-400">{t('tokenomics.noData')}</p>
       </div>
     );
   }
@@ -63,7 +63,7 @@ function Tokenomics({ data }) {
           <div>
             <span className="text-white font-medium">{t('tokenomics.burnMechanism')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.hasBurn ? '✅ 有回购销毁机制，维持通缩压力' : '❌ 无销毁机制，可能存在通胀风险'}
+              {data.hasBurn ? t('tokenomics.burnYes') : t('tokenomics.burnNo')}
             </p>
           </div>
           <span className={`font-bold ${data.hasBurn ? 'text-green-400' : 'text-red-400'}`}>
@@ -76,7 +76,7 @@ function Tokenomics({ data }) {
           <div>
             <span className="text-white font-medium">{t('tokenomics.inflationModel')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.isDeflationary ? '✅ 通缩模型，代币稀缺性持续增强' : '⚠️ 通胀模型，代币可能持续增发'}
+              {data.isDeflationary ? t('tokenomics.deflationYes') : t('tokenomics.deflationNo')}
             </p>
           </div>
           <span className={`font-bold ${data.isDeflationary ? 'text-green-400' : 'text-yellow-400'}`}>
@@ -89,7 +89,7 @@ function Tokenomics({ data }) {
           <div>
             <span className="text-white font-medium">{t('tokenomics.fairLaunch')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.fairLaunch ? '✅ 公平启动，无预挖或老鼠仓' : '⚠️ 存在预挖或不公平分配'}
+              {data.fairLaunch ? t('tokenomics.fairLaunchYes') : t('tokenomics.fairLaunchNo')}
             </p>
           </div>
           <span className={`font-bold ${data.fairLaunch ? 'text-green-400' : 'text-yellow-400'}`}>
@@ -102,7 +102,7 @@ function Tokenomics({ data }) {
           <div>
             <span className="text-white font-medium">{t('tokenomics.vestingSchedule')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.hasVesting ? '✅ 有解锁机制，防止集中抛售' : '⚠️ 无解锁机制，可能存在抛售压力'}
+              {data.hasVesting ? t('tokenomics.vestingYes') : t('tokenomics.vestingNo')}
             </p>
           </div>
           <span className={`font-bold ${data.hasVesting ? 'text-green-400' : 'text-yellow-400'}`}>
@@ -115,7 +115,7 @@ function Tokenomics({ data }) {
           <div>
             <span className="text-white font-medium">{t('tokenomics.utility')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.hasUtility ? '✅ 有实际用途，非纯投机' : '⚠️ 无明确用途，纯投机风险'}
+              {data.hasUtility ? t('tokenomics.utilityYes') : t('tokenomics.utilityNo')}
             </p>
           </div>
           <span className={`font-bold ${data.hasUtility ? 'text-green-400' : 'text-yellow-400'}`}>

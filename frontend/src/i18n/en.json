@@ -23,7 +23,10 @@
     "high": "High Risk",
     "medium": "Medium Risk",
     "low": "Low Risk",
-    "unknown": "Unknown"
+    "unknown": "Unknown",
+    "foundRisks": "Found Risks",
+    "noRisks": "No significant risks found",
+    "viewSource": "View Source"
   },
   "features": {
     "contractCheck": "Contract Security",
@@ -109,29 +112,57 @@
   },
   "tokenomics": {
     "burnMechanism": "Burn Mechanism",
+    "burnYes": "✅ Has buyback burn mechanism, maintains deflationary pressure",
+    "burnNo": "❌ No burn mechanism, inflation risk exists",
     "inflationModel": "Inflation Model",
+    "deflationYes": "✅ Deflationary model, token scarcity increases",
+    "deflationNo": "⚠️ Inflationary model, tokens may be continuously minted",
     "fairLaunch": "Fair Launch",
+    "fairLaunchYes": "✅ Fair launch, no pre-mine or insider allocation",
+    "fairLaunchNo": "⚠️ Pre-mine or unfair distribution exists",
     "vestingSchedule": "Vesting Schedule",
+    "vestingYes": "✅ Has vesting mechanism, prevents concentrated selling",
+    "vestingNo": "⚠️ No vesting mechanism, selling pressure risk",
     "utility": "Token Utility",
+    "utilityYes": "✅ Has real utility, not pure speculation",
+    "utilityNo": "⚠️ No clear utility, pure speculation risk",
     "score": "Score",
-    "details": "Details"
+    "details": "Details",
+    "noData": "No tokenomics data available"
   },
   "liquiditySafety": {
     "lpLocked": "LP Locked",
+    "lpLockedYes": "✅ LP is locked, low rug pull risk",
+    "lpLockedNo": "⚠️ LP not locked, rug pull risk exists",
     "liquidityDepth": "Liquidity Depth",
+    "depth": "Depth",
     "rugPullRisk": "Rug Pull Risk",
+    "riskLow": "🟢 Low Risk",
+    "riskMedium": "🟡 Medium Risk",
+    "riskHigh": "🔴 High Risk",
     "providerType": "Provider Type",
     "slippage": "Slippage",
+    "slippageEst": "Estimated Slippage",
     "score": "Score",
-    "details": "Details"
+    "details": "Details",
+    "noData": "No liquidity safety data available"
   },
   "governance": {
     "dao": "DAO Governance",
+    "daoYes": "✅ Has DAO governance, decentralized decision-making",
+    "daoNo": "⚠️ No DAO governance, centralized decision-making",
     "multisig": "Multisig",
+    "multisigYes": "✅ Has multisig mechanism, increases security",
+    "multisigNo": "⚠️ No multisig, single point of control risk",
     "upgradeable": "Upgradeable",
+    "upgradeableYes": "⚠️ Contract is upgradeable, change risk exists",
+    "upgradeableNo": "✅ Contract is not upgradeable, code is immutable",
     "permissions": "Permissions",
+    "permissionsYes": "✅ Permissions are well controlled, low risk",
+    "permissionsNo": "⚠️ Permissions are not well controlled, high risk",
     "score": "Score",
-    "details": "Details"
+    "details": "Details",
+    "noData": "No governance data available"
   },
   "team": {
     "verified": "Team Verified",

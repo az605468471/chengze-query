@@ -23,7 +23,10 @@
     "high": "고위험",
     "medium": "중위험",
     "low": "저위험",
-    "unknown": "알 수 없음"
+    "unknown": "알 수 없음",
+    "foundRisks": "발견된 리스크",
+    "noRisks": "중대한 리스크가 발견되지 않았습니다",
+    "viewSource": "소스 보기"
   },
   "features": {
     "contractCheck": "컨트랙트 보안",
@@ -76,7 +79,7 @@
     "antiBot": "안티봇",
     "antiBotRisk": "안티봇 기능 존재",
     "antiBotSafe": "안티봇 기능 없음",
-    "antiBotDesc": "봇의 프론트런NING을 방지하고 일반 사용자 보호",
+    "antiBotDesc": "봇의 프론트런닝을 방지하고 일반 사용자 보호",
     "fee": "수수료",
     "feeRisk": "수수료 기능 존재",
     "feeSafe": "수수료 없음",
@@ -109,29 +112,57 @@
   },
   "tokenomics": {
     "burnMechanism": "소각 메커니즘",
+    "burnYes": "✅ 바이백 소각 메커니즘이 있어 디플레이션 압력 유지",
+    "burnNo": "❌ 소각 메커니즘 없음, 인플레이션 리스크 존재",
     "inflationModel": "인플레이션 모델",
+    "deflationYes": "✅ 디플레이션 모델, 토큰 희소성 증가",
+    "deflationNo": "⚠️ 인플레이션 모델, 토큰이 지속적으로 발행될 가능성",
     "fairLaunch": "페어 론칭",
+    "fairLaunchYes": "✅ 페어 론칭, 프리마인 또는 내부자 배분 없음",
+    "fairLaunchNo": "⚠️ 프리마인 또는 불공정 배분 존재",
     "vestingSchedule": "베스팅 스케줄",
+    "vestingYes": "✅ 베스팅 메커니즘이 있어 집중 매도 방지",
+    "vestingNo": "⚠️ 베스팅 메커니즘 없음, 매도 압력 리스크",
     "utility": "토큰 유틸리티",
+    "utilityYes": "✅ 실제 유틸리티가 있어 순수 투기가 아님",
+    "utilityNo": "⚠️ 명확한 유틸리티 없음, 순수 투기 리스크",
     "score": "스코어",
-    "details": "상세"
+    "details": "상세",
+    "noData": "토크노믹스 데이터가 없습니다"
   },
   "liquiditySafety": {
     "lpLocked": "LP 잠금",
+    "lpLockedYes": "✅ LP가 잠겨 있어 러그 풀 리스크가 낮음",
+    "lpLockedNo": "⚠️ LP가 잠기지 않아 러그 풀 리스크 존재",
     "liquidityDepth": "유동성 깊이",
+    "depth": "깊이",
     "rugPullRisk": "러그 풀 리스크",
+    "riskLow": "🟢 낮은 리스크",
+    "riskMedium": "🟡 중간 리스크",
+    "riskHigh": "🔴 높은 리스크",
     "providerType": "공급자 유형",
     "slippage": "슬리피지",
+    "slippageEst": "예상 슬리피지",
     "score": "스코어",
-    "details": "상세"
+    "details": "상세",
+    "noData": "유동성 안전 데이터가 없습니다"
   },
   "governance": {
     "dao": "DAO 거버넌스",
+    "daoYes": "✅ DAO 거버넌스가 있어 분산형 의사 결정",
+    "daoNo": "⚠️ DAO 거버넌스 없음, 중앙집권형 의사 결정",
     "multisig": "멀티시그",
+    "multisigYes": "✅ 멀티시그 메커니즘이 있어 보안 강화",
+    "multisigNo": "⚠️ 멀티시그 없음, 단일 지점 제어 리스크",
     "upgradeable": "업그레이드 가능",
+    "upgradeableYes": "⚠️ 컨트랙트가 업그레이드 가능, 변경 리스크 존재",
+    "upgradeableNo": "✅ 컨트랙트가 업그레이드 불가, 코드 불변",
     "permissions": "권한 제어",
+    "permissionsYes": "✅ 권한이 적절히 제어되어 리스크가 낮음",
+    "permissionsNo": "⚠️ 권한이 적절히 제어되지 않아 리스크가 높음",
     "score": "스코어",
-    "details": "상세"
+    "details": "상세",
+    "noData": "거버넌스 데이터가 없습니다"
   },
   "team": {
     "verified": "팀 검증",

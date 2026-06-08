@@ -23,7 +23,10 @@
     "high": "高风险",
     "medium": "中风险",
     "low": "低风险",
-    "unknown": "未知"
+    "unknown": "未知",
+    "foundRisks": "发现的风险项",
+    "noRisks": "未发现明显风险",
+    "viewSource": "查看来源"
   },
   "features": {
     "contractCheck": "合约安全",
@@ -109,29 +112,57 @@
   },
   "tokenomics": {
     "burnMechanism": "销毁机制",
+    "burnYes": "✅ 有回购销毁机制，维持通缩压力",
+    "burnNo": "❌ 无销毁机制，可能存在通胀风险",
     "inflationModel": "通胀模型",
+    "deflationYes": "✅ 通缩模型，代币稀缺性持续增强",
+    "deflationNo": "⚠️ 通胀模型，代币可能持续增发",
     "fairLaunch": "公平启动",
+    "fairLaunchYes": "✅ 公平启动，无预挖或老鼠仓",
+    "fairLaunchNo": "⚠️ 存在预挖或不公平分配",
     "vestingSchedule": "解锁机制",
+    "vestingYes": "✅ 有解锁机制，防止集中抛售",
+    "vestingNo": "⚠️ 无解锁机制，可能存在抛售压力",
     "utility": "代币实用性",
+    "utilityYes": "✅ 有实际用途，非纯投机",
+    "utilityNo": "⚠️ 无明确用途，纯投机风险",
     "score": "评分",
-    "details": "详情"
+    "details": "详情",
+    "noData": "暂无代币经济学数据"
   },
   "liquiditySafety": {
     "lpLocked": "LP 锁定",
+    "lpLockedYes": "✅ LP 已锁定，跑路风险低",
+    "lpLockedNo": "⚠️ LP 未锁定，存在跑路风险",
     "liquidityDepth": "流动性深度",
+    "depth": "深度",
     "rugPullRisk": "跑路风险",
+    "riskLow": "🟢 低风险",
+    "riskMedium": "🟡 中等风险",
+    "riskHigh": "🔴 高风险",
     "providerType": "提供者类型",
     "slippage": "滑点",
+    "slippageEst": "预估滑点",
     "score": "评分",
-    "details": "详情"
+    "details": "详情",
+    "noData": "暂无流动性安全数据"
   },
   "governance": {
     "dao": "DAO 治理",
+    "daoYes": "✅ 有 DAO 治理，去中心化决策",
+    "daoNo": "⚠️ 无 DAO 治理，中心化决策",
     "multisig": "多签机制",
+    "multisigYes": "✅ 有多签机制，增加安全性",
+    "multisigNo": "⚠️ 无多签，单点控制风险",
     "upgradeable": "可升级性",
+    "upgradeableYes": "⚠️ 合约可升级，存在变更风险",
+    "upgradeableNo": "✅ 合约不可升级，代码不可变",
     "permissions": "权限控制",
+    "permissionsYes": "✅ 权限控制合理，风险较低",
+    "permissionsNo": "⚠️ 权限控制不当，风险较高",
     "score": "评分",
-    "details": "详情"
+    "details": "详情",
+    "noData": "暂无治理机制数据"
   },
   "team": {
     "verified": "团队验证",
