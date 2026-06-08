@@ -1,0 +1,44 @@
+{
+  "title": "DeFi シールド",
+  "subtitle": "ワンクリック DeFi プロジェクト安全性分析",
+  "searchPlaceholder": "コントラクトアドレスを入力 (0x...)",
+  "searchBtn": "分析",
+  "loading": "分析中...",
+  "error": "分析失敗、コントラクトアドレスを確認してください",
+  "results": {
+    "contractInfo": "コントラクト情報",
+    "holderDistribution": "保有者分布",
+    "liquidity": "流動性分析",
+    "riskScore": "リスクスコア",
+    "source": "データソース",
+    "viewOnExplorer": "Explorerで見る"
+  },
+  "risk": {
+    "high": "高リスク",
+    "medium": "中リスク",
+    "low": "低リスク",
+    "unknown": "不明"
+  },
+  "features": {
+    "contractCheck": "コントラクトセキュリティ",
+    "holderAnalysis": "保有者分析",
+    "liquidityCheck": "流動性チェック",
+    "auditReport": "監査レポート"
+  },
+  "pricing": {
+    "title": "価格",
+    "free": "無料",
+    "basic": "ベーシック",
+    "pro": "プロフェッショナル",
+    "price": "価格",
+    "perMonth": "/月",
+    "features": "機能",
+    "getStarted": "始める"
+  },
+  "footer": {
+    "about": "概要",
+    "docs": "ドキュメント",
+    "contact": "お問い合わせ",
+    "github": "GitHub"
+  }
+}

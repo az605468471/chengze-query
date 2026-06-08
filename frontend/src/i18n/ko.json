@@ -1,0 +1,44 @@
+{
+  "title": "DeFi 실드",
+  "subtitle": "원클릭 DeFi 프로젝트 안전성 분석",
+  "searchPlaceholder": "계약 주소 입력 (0x...)",
+  "searchBtn": "분석",
+  "loading": "분석 중...",
+  "error": "분석 실패, 계약 주소를 확인하세요",
+  "results": {
+    "contractInfo": "계약 정보",
+    "holderDistribution": "보유자 분포",
+    "liquidity": "유동성 분석",
+    "riskScore": "위험 점수",
+    "source": "데이터 소스",
+    "viewOnExplorer": "Explorer에서 보기"
+  },
+  "risk": {
+    "high": "고위험",
+    "medium": "중위험",
+    "low": "저위험",
+    "unknown": "알 수 없음"
+  },
+  "features": {
+    "contractCheck": "계약 보안",
+    "holderAnalysis": "보유자 분석",
+    "liquidityCheck": "유동성 검사",
+    "auditReport": "감사 보고서"
+  },
+  "pricing": {
+    "title": "가격",
+    "free": "무료",
+    "basic": "기본",
+    "pro": "전문가",
+    "price": "가격",
+    "perMonth": "/월",
+    "features": "기능",
+    "getStarted": "시작하기"
+  },
+  "footer": {
+    "about": "소개",
+    "docs": "문서",
+    "contact": "문의",
+    "github": "GitHub"
+  }
+}

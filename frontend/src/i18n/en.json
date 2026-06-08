@@ -1,0 +1,44 @@
+{
+  "title": "DeFi Shield",
+  "subtitle": "One-click DeFi Project Safety Analysis",
+  "searchPlaceholder": "Enter contract address (0x...)",
+  "searchBtn": "Analyze",
+  "loading": "Analyzing...",
+  "error": "Analysis failed, please check the contract address",
+  "results": {
+    "contractInfo": "Contract Information",
+    "holderDistribution": "Holder Distribution",
+    "liquidity": "Liquidity Analysis",
+    "riskScore": "Risk Score",
+    "source": "Source",
+    "viewOnExplorer": "View on Explorer"
+  },
+  "risk": {
+    "high": "High Risk",
+    "medium": "Medium Risk",
+    "low": "Low Risk",
+    "unknown": "Unknown"
+  },
+  "features": {
+    "contractCheck": "Contract Security",
+    "holderAnalysis": "Holder Analysis",
+    "liquidityCheck": "Liquidity Check",
+    "auditReport": "Audit Report"
+  },
+  "pricing": {
+    "title": "Pricing",
+    "free": "Free",
+    "basic": "Basic",
+    "pro": "Professional",
+    "price": "Price",
+    "perMonth": "/month",
+    "features": "Features",
+    "getStarted": "Get Started"
+  },
+  "footer": {
+    "about": "About",
+    "docs": "Documentation",
+    "contact": "Contact",
+    "github": "GitHub"
+  }
+}

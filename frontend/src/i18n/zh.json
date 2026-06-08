@@ -1,0 +1,44 @@
+{
+  "title": "DeFi 盾牌",
+  "subtitle": "一键分析 DeFi 项目安全性",
+  "searchPlaceholder": "输入合约地址 (0x...)",
+  "searchBtn": "分析",
+  "loading": "分析中...",
+  "error": "分析失败，请检查合约地址",
+  "results": {
+    "contractInfo": "合约信息",
+    "holderDistribution": "持仓分布",
+    "liquidity": "流动性分析",
+    "riskScore": "风险评分",
+    "source": "数据来源",
+    "viewOnExplorer": "在浏览器查看"
+  },
+  "risk": {
+    "high": "高风险",
+    "medium": "中风险",
+    "low": "低风险",
+    "unknown": "未知"
+  },
+  "features": {
+    "contractCheck": "合约安全",
+    "holderAnalysis": "持仓分析",
+    "liquidityCheck": "流动性检查",
+    "auditReport": "审计报告"
+  },
+  "pricing": {
+    "title": "定价",
+    "free": "免费",
+    "basic": "基础版",
+    "pro": "专业版",
+    "price": "价格",
+    "perMonth": "/月",
+    "features": "功能",
+    "getStarted": "开始使用"
+  },
+  "footer": {
+    "about": "关于我们",
+    "docs": "文档",
+    "contact": "联系我们",
+    "github": "GitHub"
+  }
+}
