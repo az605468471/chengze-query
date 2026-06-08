@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getContractInfo, getHolderDistribution, getLiquidityData, calculateRiskScore, getTransactionHistory, getPriceHistory, getContractSecurity, getTokenomics, getLiquiditySafety, getGovernance, getTeamBackground } from '../utils/api';
+import { getContractInfo, getHolderDistribution, getLiquidityData, calculateRiskScore, getTransactionHistory, getPriceHistory, getContractSecurity, getTokenomics, getLiquiditySafety, getGovernance, getTeamBackground, getOnchainAnalysis } from '../utils/api';
 
 function SearchBar({ onResults }) {
   const { t } = useTranslation();
@@ -18,7 +18,7 @@ function SearchBar({ onResults }) {
     setError('');
     
     try {
-      const [contractInfo, holderData, liquidityData, transactions, priceHistory, contractSecurity, tokenomics, liquiditySafety, governance, teamBackground] = await Promise.all([
+      const [contractInfo, holderData, liquidityData, transactions, priceHistory, contractSecurity, tokenomics, liquiditySafety, governance, teamBackground, onchainAnalysis] = await Promise.all([
         getContractInfo(address),
         getHolderDistribution(address),
         getLiquidityData(address),
@@ -28,7 +28,8 @@ function SearchBar({ onResults }) {
         getTokenomics(address),
         getLiquidityData(address),
         getGovernance(address),
-        getTeamBackground(address)
+        getTeamBackground(address),
+        getOnchainAnalysis(address)
       ]);
       
       const riskScore = calculateRiskScore(contractInfo, holderData, liquidityData, contractSecurity, address);
@@ -45,7 +46,8 @@ function SearchBar({ onResults }) {
         tokenomics,
         liquiditySafety,
         governance,
-        teamBackground
+        teamBackground,
+        onchainAnalysis
       });
     } catch (err) {
       setError(t('error'));

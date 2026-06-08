@@ -13,6 +13,7 @@ import Tokenomics from '../components/Tokenomics';
 import LiquiditySafety from '../components/LiquiditySafety';
 import Governance from '../components/Governance';
 import TeamBackground from '../components/TeamBackground';
+import OnchainAnalysis from '../components/OnchainAnalysis';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
 function Home() {
@@ -97,6 +98,9 @@ function Home() {
             
             {/* Team Background */}
             <TeamBackground data={results.teamBackground} />
+            
+            {/* Onchain Analysis */}
+            <OnchainAnalysis data={results.onchainAnalysis} />
             
             {/* Holder Distribution */}
             <div className="md:col-span-2">

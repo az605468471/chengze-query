@@ -126,12 +126,12 @@ function TeamBackground({ data }) {
                 <span className="text-gray-400 text-sm ml-2">{member.role}</span>
               </div>
               <a 
-                href={member.linkedin || '#'}
+                href={member.linkedin || `https://bscscan.com/address/${member.name}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-400 hover:text-blue-300 text-sm"
               >
-                LinkedIn →
+                BSCScan →
               </a>
             </div>
           ))}
