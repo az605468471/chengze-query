@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // BSCScan API (免费，5次/秒)
 const BSCSCAN_API_KEY = import.meta.env.VITE_BSCSCAN_API_KEY || 'SNJCU6W7JKDMHMNF5DY9EHTYKHPD31QEBW';
-const BSCSCAN_BASE = 'https://api.bscscan.com/api';
+const BSCSCAN_BASE = 'https://api.etherscan.io/v2/api';
 
 // DexScreener API (完全免费)
 const DEXSCREENER_BASE = 'https://api.dexscreener.com/latest/dex';
@@ -17,6 +17,7 @@ export async function getContractInfo(address) {
   try {
     const response = await axios.get(BSCSCAN_BASE, {
       params: {
+        chainid: 56,
         module: 'contract',
         action: 'getsourcecode',
         address: address,
@@ -46,6 +47,7 @@ export async function getHolderDistribution(address) {
   try {
     const response = await axios.get(BSCSCAN_BASE, {
       params: {
+        chainid: 56,
         module: 'token',
         action: 'tokenholderlist',
         contractaddress: address,
