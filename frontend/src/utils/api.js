@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // BSCScan API (免费，5次/秒)
-const BSCSCAN_API_KEY = import.meta.env.VITE_BSCSCAN_API_KEY || 'YOUR_BSCSCAN_API_KEY';
+const BSCSCAN_API_KEY = import.meta.env.VITE_BSCSCAN_API_KEY || 'SNJCU6W7JKDMHMNF5DY9EHTYKHPD31QEBW';
 const BSCSCAN_BASE = 'https://api.bscscan.com/api';
 
 // DexScreener API (完全免费)
