@@ -8,7 +8,7 @@ frontend/node_modules/
 .env.*.local
 
 # Build output
-frontend/dist/
+# frontend/dist/
 
 # Hardhat
 contracts/cache/
