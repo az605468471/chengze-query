@@ -8,7 +8,7 @@ function Tokenomics({ data }) {
     return (
       <div className="bg-gray-800 p-6 rounded-lg">
         <h3 className="text-lg font-semibold text-white mb-4">
-          {t('results.tokenomics') || '代币经济学'}
+          {t('results.tokenomics')}
         </h3>
         <p className="text-gray-400">No tokenomics data available</p>
       </div>
@@ -39,13 +39,13 @@ function Tokenomics({ data }) {
   return (
     <div className="bg-gray-800 p-6 rounded-lg">
       <h3 className="text-lg font-semibold text-white mb-4">
-        {t('results.tokenomics') || '代币经济学'}
+        {t('results.tokenomics')}
       </h3>
       
       {/* 评分概览 */}
       <div className="mb-6 p-4 bg-gray-700 rounded-lg">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-gray-300">代币经济学评分</span>
+          <span className="text-gray-300">{t('tokenomics.score')}</span>
           <span className={`text-2xl font-bold ${getColor(totalScore)}`}>{totalScore}/100</span>
         </div>
         <div className="w-full bg-gray-600 rounded-full h-2">
@@ -61,7 +61,7 @@ function Tokenomics({ data }) {
         {/* 销毁机制 */}
         <div className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
           <div>
-            <span className="text-white font-medium">销毁机制</span>
+            <span className="text-white font-medium">{t('tokenomics.burnMechanism')}</span>
             <p className="text-gray-400 text-sm mt-1">
               {data.hasBurn ? '✅ 有回购销毁机制，维持通缩压力' : '❌ 无销毁机制，可能存在通胀风险'}
             </p>
@@ -74,7 +74,7 @@ function Tokenomics({ data }) {
         {/* 通缩模型 */}
         <div className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
           <div>
-            <span className="text-white font-medium">通缩模型</span>
+            <span className="text-white font-medium">{t('tokenomics.inflationModel')}</span>
             <p className="text-gray-400 text-sm mt-1">
               {data.isDeflationary ? '✅ 通缩模型，代币稀缺性持续增强' : '⚠️ 通胀模型，代币可能持续增发'}
             </p>
@@ -87,7 +87,7 @@ function Tokenomics({ data }) {
         {/* 公平启动 */}
         <div className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
           <div>
-            <span className="text-white font-medium">公平启动</span>
+            <span className="text-white font-medium">{t('tokenomics.fairLaunch')}</span>
             <p className="text-gray-400 text-sm mt-1">
               {data.fairLaunch ? '✅ 公平启动，无预挖或老鼠仓' : '⚠️ 存在预挖或不公平分配'}
             </p>
@@ -100,7 +100,7 @@ function Tokenomics({ data }) {
         {/* 解锁机制 */}
         <div className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
           <div>
-            <span className="text-white font-medium">解锁机制</span>
+            <span className="text-white font-medium">{t('tokenomics.vestingSchedule')}</span>
             <p className="text-gray-400 text-sm mt-1">
               {data.hasVesting ? '✅ 有解锁机制，防止集中抛售' : '⚠️ 无解锁机制，可能存在抛售压力'}
             </p>
@@ -113,7 +113,7 @@ function Tokenomics({ data }) {
         {/* 实用性 */}
         <div className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
           <div>
-            <span className="text-white font-medium">代币实用性</span>
+            <span className="text-white font-medium">{t('tokenomics.utility')}</span>
             <p className="text-gray-400 text-sm mt-1">
               {data.hasUtility ? '✅ 有实际用途，非纯投机' : '⚠️ 无明确用途，纯投机风险'}
             </p>
@@ -127,7 +127,7 @@ function Tokenomics({ data }) {
       {/* 出处链接 */}
       <div className="mt-6 pt-4 border-t border-gray-600">
         <div className="flex items-center justify-between">
-          <span className="text-gray-400 text-sm">数据来源</span>
+          <span className="text-gray-400 text-sm">{t('results.source')}</span>
           <a 
             href={data.sourceUrl || '#'}
             target="_blank"

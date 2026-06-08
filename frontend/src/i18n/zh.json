@@ -16,7 +16,8 @@
     "tokenomics": "代币经济学",
     "liquiditySafety": "流动性安全",
     "governance": "治理机制",
-    "teamBackground": "团队与背景"
+    "teamBackground": "团队与背景",
+    "onchainAnalysis": "链上分析"
   },
   "risk": {
     "high": "高风险",
@@ -45,5 +46,64 @@
     "docs": "文档",
     "contact": "联系我们",
     "github": "GitHub"
+  },
+  "contract": {
+    "name": "合约名称",
+    "symbol": "代币符号",
+    "decimals": "精度",
+    "totalSupply": "总供应量",
+    "verified": "已验证",
+    "unverified": "未验证",
+    "holderCount": "持仓地址数",
+    "top10": "前10持仓",
+    "poolReserves": "池子储备",
+    "poolShare": "池子份额",
+    "score": "评分",
+    "level": "风险等级",
+    "risks": "风险项",
+    "details": "详情"
+  },
+  "tokenomics": {
+    "burnMechanism": "销毁机制",
+    "inflationModel": "通胀模型",
+    "fairLaunch": "公平启动",
+    "vestingSchedule": "解锁机制",
+    "utility": "代币实用性",
+    "score": "评分",
+    "details": "详情"
+  },
+  "liquiditySafety": {
+    "lpLocked": "LP 锁定",
+    "liquidityDepth": "流动性深度",
+    "rugPullRisk": "跑路风险",
+    "providerType": "提供者类型",
+    "slippage": "滑点",
+    "score": "评分",
+    "details": "详情"
+  },
+  "governance": {
+    "dao": "DAO 治理",
+    "multisig": "多签机制",
+    "upgradeable": "可升级性",
+    "permissions": "权限控制",
+    "score": "评分",
+    "details": "详情"
+  },
+  "team": {
+    "verified": "团队验证",
+    "advisors": "顾问团队",
+    "partners": "合作伙伴",
+    "activity": "社区活跃度",
+    "members": "团队成员",
+    "score": "评分",
+    "details": "详情"
+  },
+  "onchain": {
+    "activity": "活跃度",
+    "transactions": "交易统计",
+    "buySellRatio": "买卖比例",
+    "recentTxs": "最近交易",
+    "score": "评分",
+    "details": "详情"
   }
 }

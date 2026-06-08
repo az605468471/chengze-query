@@ -7,7 +7,7 @@ function OnchainAnalysis({ data }) {
     return (
       <div className="bg-gray-800 p-6 rounded-lg">
         <h3 className="text-lg font-semibold text-white mb-4">
-          链上分析
+          {t('results.onchainAnalysis')}
         </h3>
         <p className="text-gray-400">No onchain analysis data available</p>
       </div>
@@ -33,13 +33,13 @@ function OnchainAnalysis({ data }) {
   return (
     <div className="bg-gray-800 p-6 rounded-lg">
       <h3 className="text-lg font-semibold text-white mb-4">
-        链上分析
+        {t('results.onchainAnalysis')}
       </h3>
       
       {/* 评分概览 */}
       <div className="mb-6 p-4 bg-gray-700 rounded-lg">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-gray-300">活跃度评分</span>
+          <span className="text-gray-300">{t('onchain.score')}</span>
           <span className={`text-2xl font-bold ${getColor(activityScore)}`}>{activityScore}/100</span>
         </div>
         <div className="w-full bg-gray-600 rounded-full h-2">
@@ -55,7 +55,7 @@ function OnchainAnalysis({ data }) {
         {/* 交易统计 */}
         <div className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
           <div>
-            <span className="text-white font-medium">交易统计</span>
+            <span className="text-white font-medium">{t('onchain.transactions')}</span>
             <p className="text-gray-400 text-sm mt-1">
               最近 10 笔交易：{data.buyCount} 买入 / {data.sellCount} 卖出
             </p>
@@ -68,7 +68,7 @@ function OnchainAnalysis({ data }) {
         {/* 活跃度 */}
         <div className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
           <div>
-            <span className="text-white font-medium">活跃度</span>
+            <span className="text-white font-medium">{t('onchain.activity')}</span>
             <p className="text-gray-400 text-sm mt-1">
               {activityScore > 70 ? '🟢 高度活跃' : activityScore > 50 ? '🟡 一般活跃' : '🔴 冷清'}
             </p>
@@ -81,7 +81,7 @@ function OnchainAnalysis({ data }) {
       
       {/* 最近交易 */}
       <div className="mt-6 pt-4 border-t border-gray-600">
-        <h4 className="text-white font-medium mb-3">最近交易</h4>
+        <h4 className="text-white font-medium mb-3">{t('onchain.recentTxs')}</h4>
         <div className="space-y-2">
           {data.recentTransactions?.slice(0, 5).map((tx, index) => (
             <div key={index} className="flex items-center justify-between p-2 bg-gray-700 rounded">
@@ -111,7 +111,7 @@ function OnchainAnalysis({ data }) {
       {/* 出处链接 */}
       <div className="mt-6 pt-4 border-t border-gray-600">
         <div className="flex items-center justify-between">
-          <span className="text-gray-400 text-sm">数据来源</span>
+          <span className="text-gray-400 text-sm">{t('results.source')}</span>
           <a 
             href={data.sourceUrl || '#'}
             target="_blank"

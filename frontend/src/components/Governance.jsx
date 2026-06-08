@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 function Governance({ data }) {
@@ -7,7 +8,7 @@ function Governance({ data }) {
     return (
       <div className="bg-gray-800 p-6 rounded-lg">
         <h3 className="text-lg font-semibold text-white mb-4">
-          {t('results.governance') || '治理机制'}
+          {t('results.governance')}
         </h3>
         <p className="text-gray-400">No governance data available</p>
       </div>
@@ -15,12 +16,12 @@ function Governance({ data }) {
   }
   
   // 计算治理机制得分
-  const daoScore = data.isDAO ? 25 : 0;
+  const daoScore = data.hasDAO ? 25 : 0;
   const multisigScore = data.hasMultisig ? 25 : 0;
-  const upgradeScore = data.upgradeable ? 0 : 25; // 不可升级更安全
-  const permissionScore = data.permissionControlled ? 0 : 25; // 无权限控制更去中心化
+  const upgradeableScore = !data.isUpgradeable ? 25 : 0; // 不可升级更安全
+  const permissionsScore = data.hasPermissions ? 25 : 0;
   
-  const totalScore = daoScore + multisigScore + upgradeScore + permissionScore;
+  const totalScore = daoScore + multisigScore + upgradeableScore + permissionsScore;
   
   const getColor = (score) => {
     if (score >= 80) return 'text-green-400';
@@ -37,13 +38,13 @@ function Governance({ data }) {
   return (
     <div className="bg-gray-800 p-6 rounded-lg">
       <h3 className="text-lg font-semibold text-white mb-4">
-        {t('results.governance') || '治理机制'}
+        {t('results.governance')}
       </h3>
       
       {/* 评分概览 */}
       <div className="mb-6 p-4 bg-gray-700 rounded-lg">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-gray-300">治理机制评分</span>
+          <span className="text-gray-300">{t('governance.score')}</span>
           <span className={`text-2xl font-bold ${getColor(totalScore)}`}>{totalScore}/100</span>
         </div>
         <div className="w-full bg-gray-600 rounded-full h-2">
@@ -59,22 +60,22 @@ function Governance({ data }) {
         {/* DAO 治理 */}
         <div className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
           <div>
-            <span className="text-white font-medium">DAO 治理</span>
+            <span className="text-white font-medium">{t('governance.dao')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.isDAO ? '✅ DAO 治理，社区决策' : '⚠️ 非 DAO 治理，中心化决策'}
+              {data.hasDAO ? '✅ 有 DAO 治理，去中心化决策' : '⚠️ 无 DAO 治理，中心化决策'}
             </p>
           </div>
-          <span className={`font-bold ${data.isDAO ? 'text-green-400' : 'text-yellow-400'}`}>
-            {data.isDAO ? '+25' : '0'}
+          <span className={`font-bold ${data.hasDAO ? 'text-green-400' : 'text-yellow-400'}`}>
+            {data.hasDAO ? '+25' : '0'}
           </span>
         </div>
         
         {/* 多签机制 */}
         <div className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
           <div>
-            <span className="text-white font-medium">多签机制</span>
+            <span className="text-white font-medium">{t('governance.multisig')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.hasMultisig ? '✅ 多签机制，资金安全有保障' : '⚠️ 无多签机制，资金风险较高'}
+              {data.hasMultisig ? '✅ 有多签机制，增加安全性' : '⚠️ 无多签，单点控制风险'}
             </p>
           </div>
           <span className={`font-bold ${data.hasMultisig ? 'text-green-400' : 'text-yellow-400'}`}>
@@ -82,59 +83,37 @@ function Governance({ data }) {
           </span>
         </div>
         
-        {/* 合约可升级性 */}
+        {/* 可升级性 */}
         <div className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
           <div>
-            <span className="text-white font-medium">合约可升级性</span>
+            <span className="text-white font-medium">{t('governance.upgradeable')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.upgradeable ? '⚠️ 合约可升级，存在被恶意升级风险' : '✅ 合约不可升级，代码固定安全'}
+              {data.isUpgradeable ? '⚠️ 合约可升级，存在变更风险' : '✅ 合约不可升级，代码不可变'}
             </p>
           </div>
-          <span className={`font-bold ${data.upgradeable ? 'text-yellow-400' : 'text-green-400'}`}>
-            {data.upgradeable ? '0' : '+25'}
+          <span className={`font-bold ${!data.isUpgradeable ? 'text-green-400' : 'text-yellow-400'}`}>
+            {!data.isUpgradeable ? '+25' : '0'}
           </span>
         </div>
         
         {/* 权限控制 */}
         <div className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
           <div>
-            <span className="text-white font-medium">权限控制</span>
+            <span className="text-white font-medium">{t('governance.permissions')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.permissionControlled ? '⚠️ 存在权限控制，中心化风险' : '✅ 无权限控制，完全去中心化'}
+              {data.hasPermissions ? '✅ 权限控制合理，风险较低' : '⚠️ 权限控制不当，风险较高'}
             </p>
           </div>
-          <span className={`font-bold ${data.permissionControlled ? 'text-yellow-400' : 'text-green-400'}`}>
-            {data.permissionControlled ? '0' : '+25'}
+          <span className={`font-bold ${data.hasPermissions ? 'text-green-400' : 'text-yellow-400'}`}>
+            {data.hasPermissions ? '+25' : '0'}
           </span>
-        </div>
-      </div>
-      
-      {/* 治理详情 */}
-      <div className="mt-6 pt-4 border-t border-gray-600">
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <span className="text-gray-400">治理模式</span>
-            <p className="text-white font-medium">{data.governanceType || 'N/A'}</p>
-          </div>
-          <div>
-            <span className="text-gray-400">投票机制</span>
-            <p className="text-white font-medium">{data.votingMechanism || 'N/A'}</p>
-          </div>
-          <div>
-            <span className="text-gray-400">提案门槛</span>
-            <p className="text-white font-medium">{data.proposalThreshold || 'N/A'}</p>
-          </div>
-          <div>
-            <span className="text-gray-400">投票周期</span>
-            <p className="text-white font-medium">{data.votingPeriod || 'N/A'}</p>
-          </div>
         </div>
       </div>
       
       {/* 出处链接 */}
       <div className="mt-6 pt-4 border-t border-gray-600">
         <div className="flex items-center justify-between">
-          <span className="text-gray-400 text-sm">数据来源</span>
+          <span className="text-gray-400 text-sm">{t('results.source')}</span>
           <a 
             href={data.sourceUrl || '#'}
             target="_blank"

@@ -11,7 +11,13 @@
     "liquidity": "Liquidity Analysis",
     "riskScore": "Risk Score",
     "source": "Source",
-    "viewOnExplorer": "View on Explorer"
+    "viewOnExplorer": "View on Explorer",
+    "contractSecurity": "Contract Security",
+    "tokenomics": "Tokenomics",
+    "liquiditySafety": "Liquidity Safety",
+    "governance": "Governance",
+    "teamBackground": "Team & Background",
+    "onchainAnalysis": "Onchain Analysis"
   },
   "risk": {
     "high": "High Risk",
@@ -40,5 +46,64 @@
     "docs": "Documentation",
     "contact": "Contact",
     "github": "GitHub"
+  },
+  "contract": {
+    "name": "Contract Name",
+    "symbol": "Symbol",
+    "decimals": "Decimals",
+    "totalSupply": "Total Supply",
+    "verified": "Verified",
+    "unverified": "Unverified",
+    "holderCount": "Holder Count",
+    "top10": "Top 10 Holders",
+    "poolReserves": "Pool Reserves",
+    "poolShare": "Pool Share",
+    "score": "Score",
+    "level": "Risk Level",
+    "risks": "Risk Items",
+    "details": "Details"
+  },
+  "tokenomics": {
+    "burnMechanism": "Burn Mechanism",
+    "inflationModel": "Inflation Model",
+    "fairLaunch": "Fair Launch",
+    "vestingSchedule": "Vesting Schedule",
+    "utility": "Token Utility",
+    "score": "Score",
+    "details": "Details"
+  },
+  "liquiditySafety": {
+    "lpLocked": "LP Locked",
+    "liquidityDepth": "Liquidity Depth",
+    "rugPullRisk": "Rug Pull Risk",
+    "providerType": "Provider Type",
+    "slippage": "Slippage",
+    "score": "Score",
+    "details": "Details"
+  },
+  "governance": {
+    "dao": "DAO Governance",
+    "multisig": "Multisig",
+    "upgradeable": "Upgradeable",
+    "permissions": "Permissions",
+    "score": "Score",
+    "details": "Details"
+  },
+  "team": {
+    "verified": "Team Verified",
+    "advisors": "Advisors",
+    "partners": "Partners",
+    "activity": "Community Activity",
+    "members": "Team Members",
+    "score": "Score",
+    "details": "Details"
+  },
+  "onchain": {
+    "activity": "Activity",
+    "transactions": "Transactions",
+    "buySellRatio": "Buy/Sell Ratio",
+    "recentTxs": "Recent Transactions",
+    "score": "Score",
+    "details": "Details"
   }
 }

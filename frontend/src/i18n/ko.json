@@ -1,17 +1,23 @@
 {
   "title": "DeFi 실드",
   "subtitle": "원클릭 DeFi 프로젝트 안전성 분석",
-  "searchPlaceholder": "계약 주소 입력 (0x...)",
+  "searchPlaceholder": "컨트랙트 주소 입력 (0x...)",
   "searchBtn": "분석",
   "loading": "분석 중...",
-  "error": "분석 실패, 계약 주소를 확인하세요",
+  "error": "분석 실패, 컨트랙트 주소를 확인하세요",
   "results": {
-    "contractInfo": "계약 정보",
-    "holderDistribution": "보유자 분포",
+    "contractInfo": "컨트랙트 정보",
+    "holderDistribution": "홀더 분포",
     "liquidity": "유동성 분석",
-    "riskScore": "위험 점수",
+    "riskScore": "리스크 스코어",
     "source": "데이터 소스",
-    "viewOnExplorer": "Explorer에서 보기"
+    "viewOnExplorer": "탐색기에서 보기",
+    "contractSecurity": "컨트랙트 보안",
+    "tokenomics": "토크노믹스",
+    "liquiditySafety": "유동성 안전",
+    "governance": "거버넌스",
+    "teamBackground": "팀과 배경",
+    "onchainAnalysis": "온체인 분석"
   },
   "risk": {
     "high": "고위험",
@@ -20,16 +26,16 @@
     "unknown": "알 수 없음"
   },
   "features": {
-    "contractCheck": "계약 보안",
-    "holderAnalysis": "보유자 분석",
+    "contractCheck": "컨트랙트 보안",
+    "holderAnalysis": "홀더 분석",
     "liquidityCheck": "유동성 검사",
     "auditReport": "감사 보고서"
   },
   "pricing": {
     "title": "가격",
     "free": "무료",
-    "basic": "기본",
-    "pro": "전문가",
+    "basic": "베이직",
+    "pro": "프로페셔널",
     "price": "가격",
     "perMonth": "/월",
     "features": "기능",
@@ -40,5 +46,64 @@
     "docs": "문서",
     "contact": "문의",
     "github": "GitHub"
+  },
+  "contract": {
+    "name": "컨트랙트 이름",
+    "symbol": "심볼",
+    "decimals": "소수점",
+    "totalSupply": "총 공급량",
+    "verified": "검증됨",
+    "unverified": "미검증",
+    "holderCount": "홀더 수",
+    "top10": "상위 10 홀더",
+    "poolReserves": "풀 준비금",
+    "poolShare": "풀 점유율",
+    "score": "스코어",
+    "level": "리스크 레벨",
+    "risks": "리스크 항목",
+    "details": "상세"
+  },
+  "tokenomics": {
+    "burnMechanism": "소각 메커니즘",
+    "inflationModel": "인플레이션 모델",
+    "fairLaunch": "페어 론칭",
+    "vestingSchedule": "베스팅 스케줄",
+    "utility": "토큰 유틸리티",
+    "score": "스코어",
+    "details": "상세"
+  },
+  "liquiditySafety": {
+    "lpLocked": "LP 잠금",
+    "liquidityDepth": "유동성 깊이",
+    "rugPullRisk": "러그 풀 리스크",
+    "providerType": "공급자 유형",
+    "slippage": "슬리피지",
+    "score": "스코어",
+    "details": "상세"
+  },
+  "governance": {
+    "dao": "DAO 거버넌스",
+    "multisig": "멀티시그",
+    "upgradeable": "업그레이드 가능",
+    "permissions": "권한 제어",
+    "score": "스코어",
+    "details": "상세"
+  },
+  "team": {
+    "verified": "팀 검증",
+    "advisors": "어드바이저",
+    "partners": "파트너",
+    "activity": "커뮤니티 활동",
+    "members": "팀 멤버",
+    "score": "스코어",
+    "details": "상세"
+  },
+  "onchain": {
+    "activity": "활동",
+    "transactions": "트랜잭션",
+    "buySellRatio": "매수/매도 비율",
+    "recentTxs": "최근 트랜잭션",
+    "score": "스코어",
+    "details": "상세"
   }
 }

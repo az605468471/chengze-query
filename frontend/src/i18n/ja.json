@@ -1,17 +1,23 @@
 {
   "title": "DeFi シールド",
-  "subtitle": "ワンクリック DeFi プロジェクト安全性分析",
+  "subtitle": "ワンクリックで DeFi プロジェクトの安全性を分析",
   "searchPlaceholder": "コントラクトアドレスを入力 (0x...)",
   "searchBtn": "分析",
   "loading": "分析中...",
-  "error": "分析失敗、コントラクトアドレスを確認してください",
+  "error": "分析に失敗しました。コントラクトアドレスを確認してください",
   "results": {
     "contractInfo": "コントラクト情報",
     "holderDistribution": "保有者分布",
     "liquidity": "流動性分析",
     "riskScore": "リスクスコア",
     "source": "データソース",
-    "viewOnExplorer": "Explorerで見る"
+    "viewOnExplorer": "エクスプローラーで見る",
+    "contractSecurity": "コントラクトセキュリティ",
+    "tokenomics": "トークノミクス",
+    "liquiditySafety": "流動性安全性",
+    "governance": "ガバナンス",
+    "teamBackground": "チームと背景",
+    "onchainAnalysis": "オンチェーン分析"
   },
   "risk": {
     "high": "高リスク",
@@ -36,9 +42,68 @@
     "getStarted": "始める"
   },
   "footer": {
-    "about": "概要",
+    "about": "私たちについて",
     "docs": "ドキュメント",
     "contact": "お問い合わせ",
     "github": "GitHub"
+  },
+  "contract": {
+    "name": "コントラクト名",
+    "symbol": "シンボル",
+    "decimals": "デシマル",
+    "totalSupply": "総供給量",
+    "verified": "検証済み",
+    "unverified": "未検証",
+    "holderCount": "保有者数",
+    "top10": "トップ10保有者",
+    "poolReserves": "プール準備金",
+    "poolShare": "プールシェア",
+    "score": "スコア",
+    "level": "リスクレベル",
+    "risks": "リスク項目",
+    "details": "詳細"
+  },
+  "tokenomics": {
+    "burnMechanism": "バーンメカニズム",
+    "inflationModel": "インフレモデル",
+    "fairLaunch": "フェアローンチ",
+    "vestingSchedule": "ベスティングスケジュール",
+    "utility": "トークンユーティリティ",
+    "score": "スコア",
+    "details": "詳細"
+  },
+  "liquiditySafety": {
+    "lpLocked": "LP ロック",
+    "liquidityDepth": "流動性深度",
+    "rugPullRisk": "ラグプルリスク",
+    "providerType": "プロバイダータイプ",
+    "slippage": "スリッページ",
+    "score": "スコア",
+    "details": "詳細"
+  },
+  "governance": {
+    "dao": "DAO ガバナンス",
+    "multisig": "マルチシグ",
+    "upgradeable": "アップグレード可能",
+    "permissions": "権限制御",
+    "score": "スコア",
+    "details": "詳細"
+  },
+  "team": {
+    "verified": "チーム検証",
+    "advisors": "アドバイザー",
+    "partners": "パートナー",
+    "activity": "コミュニティ活動",
+    "members": "チームメンバー",
+    "score": "スコア",
+    "details": "詳細"
+  },
+  "onchain": {
+    "activity": "アクティビティ",
+    "transactions": "トランザクション",
+    "buySellRatio": "売買比率",
+    "recentTxs": "最近のトランザクション",
+    "score": "スコア",
+    "details": "詳細"
   }
 }

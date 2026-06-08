@@ -7,7 +7,7 @@ function TeamBackground({ data }) {
     return (
       <div className="bg-gray-800 p-6 rounded-lg">
         <h3 className="text-lg font-semibold text-white mb-4">
-          {t('results.teamBackground') || '团队与背景'}
+          {t('results.teamBackground')}
         </h3>
         <p className="text-gray-400">No team background data available</p>
       </div>
@@ -37,13 +37,13 @@ function TeamBackground({ data }) {
   return (
     <div className="bg-gray-800 p-6 rounded-lg">
       <h3 className="text-lg font-semibold text-white mb-4">
-        {t('results.teamBackground') || '团队与背景'}
+        {t('results.teamBackground')}
       </h3>
       
       {/* 评分概览 */}
       <div className="mb-6 p-4 bg-gray-700 rounded-lg">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-gray-300">团队背景评分</span>
+          <span className="text-gray-300">{t('team.score')}</span>
           <span className={`text-2xl font-bold ${getColor(totalScore)}`}>{totalScore}/100</span>
         </div>
         <div className="w-full bg-gray-600 rounded-full h-2">
@@ -59,7 +59,7 @@ function TeamBackground({ data }) {
         {/* 团队验证 */}
         <div className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
           <div>
-            <span className="text-white font-medium">团队验证</span>
+            <span className="text-white font-medium">{t('team.verified')}</span>
             <p className="text-gray-400 text-sm mt-1">
               {data.teamVerified ? '✅ 团队成员已验证，背景可查' : '⚠️ 团队未验证，匿名风险'}
             </p>
@@ -72,7 +72,7 @@ function TeamBackground({ data }) {
         {/* 顾问团队 */}
         <div className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
           <div>
-            <span className="text-white font-medium">顾问团队</span>
+            <span className="text-white font-medium">{t('team.advisors')}</span>
             <p className="text-gray-400 text-sm mt-1">
               {data.hasAdvisors ? '✅ 有知名顾问，行业影响力' : '⚠️ 无顾问团队，缺乏行业背书'}
             </p>
@@ -85,7 +85,7 @@ function TeamBackground({ data }) {
         {/* 合作伙伴 */}
         <div className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
           <div>
-            <span className="text-white font-medium">合作伙伴</span>
+            <span className="text-white font-medium">{t('team.partners')}</span>
             <p className="text-gray-400 text-sm mt-1">
               {data.partners.length > 0 
                 ? `✅ 有 ${data.partners.length} 个合作伙伴` 
@@ -100,7 +100,7 @@ function TeamBackground({ data }) {
         {/* 社区活跃度 */}
         <div className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
           <div>
-            <span className="text-white font-medium">社区活跃度</span>
+            <span className="text-white font-medium">{t('team.activity')}</span>
             <p className="text-gray-400 text-sm mt-1">
               活跃度：<span className={
                 data.communityActivity > 70 ? 'text-green-400' : 
@@ -117,7 +117,7 @@ function TeamBackground({ data }) {
       
       {/* 团队详情 */}
       <div className="mt-6 pt-4 border-t border-gray-600">
-        <h4 className="text-white font-medium mb-3">团队成员</h4>
+        <h4 className="text-white font-medium mb-3">{t('team.members')}</h4>
         <div className="space-y-2">
           {data.teamMembers?.map((member, index) => (
             <div key={index} className="flex items-center justify-between p-2 bg-gray-700 rounded">
@@ -140,7 +140,7 @@ function TeamBackground({ data }) {
       
       {/* 合作伙伴详情 */}
       <div className="mt-6 pt-4 border-t border-gray-600">
-        <h4 className="text-white font-medium mb-3">合作伙伴</h4>
+        <h4 className="text-white font-medium mb-3">{t('team.partners')}</h4>
         <div className="flex flex-wrap gap-2">
           {data.partners?.map((partner, index) => (
             <span key={index} className="px-3 py-1 bg-gray-700 rounded-full text-gray-300 text-sm">
@@ -153,14 +153,14 @@ function TeamBackground({ data }) {
       {/* 出处链接 */}
       <div className="mt-6 pt-4 border-t border-gray-600">
         <div className="flex items-center justify-between">
-          <span className="text-gray-400 text-sm">数据来源</span>
+          <span className="text-gray-400 text-sm">{t('results.source')}</span>
           <a 
             href={data.sourceUrl || '#'}
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-400 hover:text-blue-300 text-sm"
           >
-            {data.source || '项目官网'} →
+            {data.source || 'BSCScan'} →
           </a>
         </div>
       </div>
