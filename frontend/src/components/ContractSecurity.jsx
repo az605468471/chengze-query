@@ -12,81 +12,81 @@ function ContractSecurity({ data }) {
   const securityItems = [
     {
       key: 'hasOwner',
-      label: 'Owner 权限',
+      label: t('security.owner'),
       hasRisk: securityChecks.hasOwner,
-      riskText: '存在管理员权限',
-      safeText: '无管理员权限',
-      description: 'Owner 可修改合约参数、暂停交易、转移权限等',
+      riskText: t('security.ownerRisk'),
+      safeText: t('security.ownerSafe'),
+      description: t('security.ownerDesc'),
       severity: 'high',
       icon: '👑'
     },
     {
       key: 'hasMint',
-      label: '增发功能',
+      label: t('security.mint'),
       hasRisk: securityChecks.hasMint,
-      riskText: '可无限增发',
-      safeText: '无增发功能',
-      description: '可无限增发代币，导致代币贬值',
+      riskText: t('security.mintRisk'),
+      safeText: t('security.mintSafe'),
+      description: t('security.mintDesc'),
       severity: 'high',
       icon: '🖨️'
     },
     {
       key: 'hasPause',
-      label: '暂停功能',
+      label: t('security.pause'),
       hasRisk: securityChecks.hasPause,
-      riskText: '可暂停交易',
-      safeText: '无暂停功能',
-      description: '可暂停所有交易，可能被恶意使用',
+      riskText: t('security.pauseRisk'),
+      safeText: t('security.pauseSafe'),
+      description: t('security.pauseDesc'),
       severity: 'medium',
       icon: '⏸️'
     },
     {
       key: 'hasBlacklist',
-      label: '黑名单机制',
+      label: t('security.blacklist'),
       hasRisk: securityChecks.hasBlacklist,
-      riskText: '存在黑名单机制',
-      safeText: '无黑名单机制',
-      description: '可限制特定地址交易，可能被恶意使用',
+      riskText: t('security.blacklistRisk'),
+      safeText: t('security.blacklistSafe'),
+      description: t('security.blacklistDesc'),
       severity: 'medium',
       icon: '🚫'
     },
     {
       key: 'hasMaxTx',
-      label: '交易限制',
+      label: t('security.maxTx'),
       hasRisk: securityChecks.hasMaxTx,
-      riskText: '有交易限额',
-      safeText: '无交易限额',
-      description: '限制单笔交易最大数量，防止大额交易',
+      riskText: t('security.maxTxRisk'),
+      safeText: t('security.maxTxSafe'),
+      description: t('security.maxTxDesc'),
       severity: 'low',
       icon: '📊'
     },
     {
       key: 'hasAntiBot',
-      label: '防机器人',
+      label: t('security.antiBot'),
       hasRisk: securityChecks.hasAntiBot,
-      riskText: '有防机器人机制',
-      safeText: '无防机器人机制',
-      description: '防止机器人抢跑交易，保护普通用户',
+      riskText: t('security.antiBotRisk'),
+      safeText: t('security.antiBotSafe'),
+      description: t('security.antiBotDesc'),
       severity: 'info',
       icon: '🤖'
     },
     {
       key: 'hasFee',
-      label: '手续费',
+      label: t('security.fee'),
       hasRisk: securityChecks.hasFee,
-      riskText: '有手续费机制',
-      safeText: '无手续费机制',
-      description: '交易需支付手续费，需确认费率是否合理',
+      riskText: t('security.feeRisk'),
+      safeText: t('security.feeSafe'),
+      description: t('security.feeDesc'),
       severity: 'low',
       icon: '💰'
     },
     {
       key: 'hasReflection',
-      label: '分红机制',
+      label: t('security.reflection'),
       hasRisk: securityChecks.hasReflection,
-      riskText: '有分红机制',
-      safeText: '无分红机制',
-      description: '持有代币可获得分红，通常为交易手续费分成',
+      riskText: t('security.reflectionRisk'),
+      safeText: t('security.reflectionSafe'),
+      description: t('security.reflectionDesc'),
       severity: 'info',
       icon: '🔄'
     }
@@ -95,7 +95,7 @@ function ContractSecurity({ data }) {
   return (
     <div className="bg-gray-800 p-6 rounded-lg">
       <h3 className="text-lg font-semibold text-white mb-4">
-        {t('results.contractSecurity') || '合约安全分析'}
+        {t('results.contractSecurity')}
       </h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -133,7 +133,7 @@ function ContractSecurity({ data }) {
                        'bg-blue-500/20 text-blue-300') :
                       'bg-green-500/20 text-green-300'
                   }`}>
-                    {item.hasRisk ? '风险' : '安全'}
+                    {item.hasRisk ? t('security.risk') : t('security.safe')}
                   </span>
                 </div>
                 <p className="text-xs text-gray-400">{item.description}</p>
@@ -144,7 +144,7 @@ function ContractSecurity({ data }) {
                 rel="noopener noreferrer"
                 className="text-blue-400 hover:text-blue-300 text-xs ml-2 whitespace-nowrap"
               >
-                查看代码 →
+                {t('security.viewCode')} →
               </a>
             </div>
           </div>
@@ -154,8 +154,8 @@ function ContractSecurity({ data }) {
       <div className="mt-4 pt-4 border-t border-gray-700">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-400">数据来源：{data.source}</p>
-            <p className="text-xs text-gray-500">通过合约源代码分析检测</p>
+            <p className="text-sm text-gray-400">{t('results.source')}：{data.source}</p>
+            <p className="text-xs text-gray-500">{t('security.sourceDesc')}</p>
           </div>
           <a 
             href={data.url} 
@@ -163,7 +163,7 @@ function ContractSecurity({ data }) {
             rel="noopener noreferrer"
             className="text-blue-400 hover:text-blue-300 text-sm"
           >
-            查看完整代码 →
+            {t('security.viewFullCode')} →
           </a>
         </div>
       </div>

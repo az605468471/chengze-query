@@ -57,7 +57,7 @@ function Home() {
         {/* Wallet Address Display */}
         {walletAddress && (
           <div className="mt-6">
-            <p className="text-sm text-gray-400 mb-2">已连接钱包：</p>
+            <p className="text-sm text-gray-400 mb-2">{t('wallet.connected')}：</p>
             <div className="bg-gray-800 px-4 py-2 rounded-lg text-sm text-gray-300 inline-block">
               {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
             </div>
