@@ -11,7 +11,12 @@
     "liquidity": "流动性分析",
     "riskScore": "风险评分",
     "source": "数据来源",
-    "viewOnExplorer": "在浏览器查看"
+    "viewOnExplorer": "在浏览器查看",
+    "contractSecurity": "合约安全分析",
+    "tokenomics": "代币经济学",
+    "liquiditySafety": "流动性安全",
+    "governance": "治理机制",
+    "teamBackground": "团队与背景"
   },
   "risk": {
     "high": "高风险",
