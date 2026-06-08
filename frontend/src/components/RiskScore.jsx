@@ -81,9 +81,13 @@ function RiskScore({ score, level, risks }) {
                     }`}>
                       {risk.severity === 'high' ? '🔴' : risk.severity === 'medium' ? '🟡' : '🟢'}
                     </span>
-                    <span className="font-medium text-white text-sm">{risk.title}</span>
+                    <span className="font-medium text-white text-sm">
+                      {t(risk.titleKey, risk.titleParams)}
+                    </span>
                   </div>
-                  <p className="text-xs text-gray-400 ml-6">{risk.description}</p>
+                  <p className="text-xs text-gray-400 ml-6">
+                    {t(risk.descriptionKey, risk.descriptionParams)}
+                  </p>
                 </div>
                 {risk.url && (
                   <a 

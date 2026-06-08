@@ -440,7 +440,7 @@ export async function getTeamBackground(address) {
 }
 
 /**
- * 计算风险评分（优化版）
+ * 计算风险评分（优化版，支持翻译键）
  */
 export function calculateRiskScore(contractInfo, holderData, liquidityData, contractSecurity, address) {
   let score = 100;
@@ -450,8 +450,10 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
   if (!contractInfo?.verified) {
     score -= 30;
     risks.push({
-      title: '合约未验证',
-      description: '合约源代码未验证，无法确认合约逻辑',
+      titleKey: 'risks.contractNotVerified',
+      titleParams: {},
+      descriptionKey: 'risks.contractNotVerifiedDesc',
+      descriptionParams: {},
       severity: 'high',
       source: 'BSCScan',
       url: `https://bscscan.com/address/${address}#code`
@@ -464,8 +466,10 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
     if (top10Percentage > 70) {
       score -= 25;
       risks.push({
-        title: '持仓集中度过高',
-        description: `前10大持仓占比 ${top10Percentage.toFixed(2)}%，存在抛售风险`,
+        titleKey: 'risks.holderConcentrationHigh',
+        titleParams: {},
+        descriptionKey: 'risks.holderConcentrationHighDesc',
+        descriptionParams: { percentage: top10Percentage.toFixed(2) },
         severity: 'high',
         source: 'BSCScan',
         url: `https://bscscan.com/token/${address}#balances`
@@ -473,8 +477,10 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
     } else if (top10Percentage > 50) {
       score -= 15;
       risks.push({
-        title: '持仓集中度较高',
-        description: `前10大持仓占比 ${top10Percentage.toFixed(2)}%，有一定抛售风险`,
+        titleKey: 'risks.holderConcentrationMedium',
+        titleParams: {},
+        descriptionKey: 'risks.holderConcentrationMediumDesc',
+        descriptionParams: { percentage: top10Percentage.toFixed(2) },
         severity: 'medium',
         source: 'BSCScan',
         url: `https://bscscan.com/token/${address}#balances`
@@ -486,8 +492,10 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
   if (liquidityData?.liquidity < 5000) {
     score -= 30;
     risks.push({
-      title: '流动性严重不足',
-      description: `流动性仅 $${(liquidityData?.liquidity || 0).toLocaleString()}，存在跑路风险`,
+      titleKey: 'risks.liquidityVeryLow',
+      titleParams: {},
+      descriptionKey: 'risks.liquidityVeryLowDesc',
+      descriptionParams: { liquidity: (liquidityData?.liquidity || 0).toLocaleString() },
       severity: 'high',
       source: 'DexScreener',
       url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`
@@ -495,8 +503,10 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
   } else if (liquidityData?.liquidity < 10000) {
     score -= 20;
     risks.push({
-      title: '流动性不足',
-      description: `流动性 $${(liquidityData?.liquidity || 0).toLocaleString()}，存在跑路风险`,
+      titleKey: 'risks.liquidityLow',
+      titleParams: {},
+      descriptionKey: 'risks.liquidityLowDesc',
+      descriptionParams: { liquidity: (liquidityData?.liquidity || 0).toLocaleString() },
       severity: 'high',
       source: 'DexScreener',
       url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`
@@ -507,8 +517,10 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
   if (liquidityData?.volume24h < 500) {
     score -= 20;
     risks.push({
-      title: '交易量过低',
-      description: `24小时交易量仅 $${(liquidityData?.volume24h || 0).toLocaleString()}，流动性差`,
+      titleKey: 'risks.volumeVeryLow',
+      titleParams: {},
+      descriptionKey: 'risks.volumeVeryLowDesc',
+      descriptionParams: { volume: (liquidityData?.volume24h || 0).toLocaleString() },
       severity: 'medium',
       source: 'DexScreener',
       url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`
@@ -516,8 +528,10 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
   } else if (liquidityData?.volume24h < 1000) {
     score -= 10;
     risks.push({
-      title: '交易量较低',
-      description: `24小时交易量 $${(liquidityData?.volume24h || 0).toLocaleString()}，流动性一般`,
+      titleKey: 'risks.volumeLow',
+      titleParams: {},
+      descriptionKey: 'risks.volumeLowDesc',
+      descriptionParams: { volume: (liquidityData?.volume24h || 0).toLocaleString() },
       severity: 'low',
       source: 'DexScreener',
       url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`
@@ -528,8 +542,10 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
   if (Math.abs(liquidityData?.priceChange24h || 0) > 80) {
     score -= 15;
     risks.push({
-      title: '价格波动过大',
-      description: `24小时价格变化 ${(liquidityData?.priceChange24h || 0).toFixed(2)}%，风险较高`,
+      titleKey: 'risks.priceVolatilityHigh',
+      titleParams: {},
+      descriptionKey: 'risks.priceVolatilityHighDesc',
+      descriptionParams: { change: (liquidityData?.priceChange24h || 0).toFixed(2) },
       severity: 'medium',
       source: 'DexScreener',
       url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`
@@ -537,8 +553,10 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
   } else if (Math.abs(liquidityData?.priceChange24h || 0) > 50) {
     score -= 8;
     risks.push({
-      title: '价格波动较大',
-      description: `24小时价格变化 ${(liquidityData?.priceChange24h || 0).toFixed(2)}%，有一定风险`,
+      titleKey: 'risks.priceVolatilityMedium',
+      titleParams: {},
+      descriptionKey: 'risks.priceVolatilityMediumDesc',
+      descriptionParams: { change: (liquidityData?.priceChange24h || 0).toFixed(2) },
       severity: 'low',
       source: 'DexScreener',
       url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`
@@ -552,8 +570,10 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
     if (checks.hasOwner) {
       score -= 10;
       risks.push({
-        title: 'Owner 权限风险',
-        description: '合约存在 Owner 权限，可能被恶意使用',
+        titleKey: 'risks.ownerPermission',
+        titleParams: {},
+        descriptionKey: 'risks.ownerPermissionDesc',
+        descriptionParams: {},
         severity: 'medium',
         source: 'BSCScan',
         url: `https://bscscan.com/address/${address}#code`
@@ -563,8 +583,10 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
     if (checks.hasMint) {
       score -= 15;
       risks.push({
-        title: '增发功能风险',
-        description: '合约可无限增发代币，可能导致通胀',
+        titleKey: 'risks.mintFunction',
+        titleParams: {},
+        descriptionKey: 'risks.mintFunctionDesc',
+        descriptionParams: {},
         severity: 'high',
         source: 'BSCScan',
         url: `https://bscscan.com/address/${address}#code`
@@ -574,19 +596,23 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
     if (checks.hasPause) {
       score -= 8;
       risks.push({
-        title: '暂停功能风险',
-      description: '合约可暂停交易，可能被恶意使用',
-      severity: 'medium',
-      source: 'BSCScan',
-      url: `https://bscscan.com/address/${address}#code`
+        titleKey: 'risks.pauseFunction',
+        titleParams: {},
+        descriptionKey: 'risks.pauseFunctionDesc',
+        descriptionParams: {},
+        severity: 'medium',
+        source: 'BSCScan',
+        url: `https://bscscan.com/address/${address}#code`
       });
     }
     
     if (checks.hasBlacklist) {
       score -= 10;
       risks.push({
-        title: '黑名单机制',
-        description: '合约存在黑名单机制，可限制用户交易',
+        titleKey: 'risks.blacklistMechanism',
+        titleParams: {},
+        descriptionKey: 'risks.blacklistMechanismDesc',
+        descriptionParams: {},
         severity: 'medium',
         source: 'BSCScan',
         url: `https://bscscan.com/address/${address}#code`
@@ -596,8 +622,10 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
     if (checks.hasMaxTx) {
       score -= 3;
       risks.push({
-        title: '交易限制',
-        description: '合约存在最大交易额限制',
+        titleKey: 'risks.transactionLimit',
+        titleParams: {},
+        descriptionKey: 'risks.transactionLimitDesc',
+        descriptionParams: {},
         severity: 'low',
         source: 'BSCScan',
         url: `https://bscscan.com/address/${address}#code`
@@ -607,11 +635,13 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
     if (checks.hasFee) {
       score -= 2;
       risks.push({
-        title: '手续费机制',
-        description: '合约存在手续费机制，需确认费率是否合理',
-      severity: 'low',
-      source: 'BSCScan',
-      url: `https://bscscan.com/address/${address}#code`
+        titleKey: 'risks.feeMechanism',
+        titleParams: {},
+        descriptionKey: 'risks.feeMechanismDesc',
+        descriptionParams: {},
+        severity: 'low',
+        source: 'BSCScan',
+        url: `https://bscscan.com/address/${address}#code`
       });
     }
   }
