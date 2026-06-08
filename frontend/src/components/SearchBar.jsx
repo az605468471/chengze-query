@@ -10,7 +10,7 @@ function SearchBar({ onResults }) {
 
   const handleSearch = async () => {
     if (!address.match(/^0x[a-fA-F0-9]{40}$/)) {
-      setError('Invalid contract address');
+      setError(t('error'));
       return;
     }
     

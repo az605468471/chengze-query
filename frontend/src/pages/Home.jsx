@@ -5,6 +5,7 @@ import RiskScore from '../components/RiskScore';
 import ContractInfo from '../components/ContractInfo';
 import HolderDistribution from '../components/HolderDistribution';
 import LiquidityInfo from '../components/LiquidityInfo';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 function Home() {
   const { t } = useTranslation();
