@@ -10,8 +10,53 @@ const DEXSCREENER_BASE = 'https://api.dexscreener.com/latest/dex';
 // DefiLlama API (完全免费)
 const DEFILLAMA_BASE = 'https://api.llama.fi';
 
+// 输入验证
+function validateAddress(address) {
+  if (!address || typeof address !== 'string') {
+    return { valid: false, error: 'Address is required' };
+  }
+  
+  // 检查是否为 0x 开头的 42 位地址
+  if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
+    return { valid: false, error: 'Invalid Ethereum address format' };
+  }
+  
+  return { valid: true };
+}
+
+// 安全的 HTML 转义（防 XSS）
+function escapeHtml(text) {
+  if (!text) return '';
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, m => map[m]);
+}
+
 // 缓存对象
 const cache = {};
+
+// 性能监控
+const performance = {
+  startTime: null,
+  endTime: null,
+  start() {
+    this.startTime = Date.now();
+  },
+  end() {
+    this.endTime = Date.now();
+    return this.endTime - this.startTime;
+  },
+  measure(label) {
+    const duration = this.end();
+    console.log(`[Performance] ${label}: ${duration}ms`);
+    return duration;
+  }
+};
 
 // 获取缓存数据
 function getCache(key, ttl = 300000) { // 默认 5 分钟 TTL
@@ -33,12 +78,21 @@ function setCache(key, data) {
  * 获取合约基本信息
  */
 export async function getContractInfo(address) {
+  // 验证地址
+  const validation = validateAddress(address);
+  if (!validation.valid) {
+    console.error('Invalid address:', validation.error);
+    return null;
+  }
+  
   // 检查缓存
   const cacheKey = `contractInfo_${address}`;
   const cachedData = getCache(cacheKey);
   if (cachedData) {
     return cachedData;
   }
+  
+  performance.start();
   
   try {
     const response = await axios.get(BSCSCAN_BASE, {
@@ -64,6 +118,7 @@ export async function getContractInfo(address) {
     // 设置缓存
     setCache(cacheKey, result);
     
+    performance.measure('getContractInfo');
     return result;
   } catch (error) {
     console.error('Error fetching contract info:', error);
@@ -75,12 +130,21 @@ export async function getContractInfo(address) {
  * 获取持仓分布
  */
 export async function getHolderDistribution(address) {
+  // 验证地址
+  const validation = validateAddress(address);
+  if (!validation.valid) {
+    console.error('Invalid address:', validation.error);
+    return null;
+  }
+  
   // 检查缓存
   const cacheKey = `holderDistribution_${address}`;
   const cachedData = getCache(cacheKey);
   if (cachedData) {
     return cachedData;
   }
+  
+  performance.start();
   
   try {
     const response = await axios.get(BSCSCAN_BASE, {
@@ -113,6 +177,7 @@ export async function getHolderDistribution(address) {
     // 设置缓存
     setCache(cacheKey, result);
     
+    performance.measure('getHolderDistribution');
     return result;
   } catch (error) {
     console.error('Error fetching holder distribution:', error);
@@ -124,12 +189,21 @@ export async function getHolderDistribution(address) {
  * 获取流动性数据
  */
 export async function getLiquidityData(address) {
+  // 验证地址
+  const validation = validateAddress(address);
+  if (!validation.valid) {
+    console.error('Invalid address:', validation.error);
+    return null;
+  }
+  
   // 检查缓存
   const cacheKey = `liquidityData_${address}`;
   const cachedData = getCache(cacheKey);
   if (cachedData) {
     return cachedData;
   }
+  
+  performance.start();
   
   try {
     const response = await axios.get(`${DEXSCREENER_BASE}/tokens/${address}`);
@@ -152,6 +226,7 @@ export async function getLiquidityData(address) {
       // 设置缓存
       setCache(cacheKey, result);
       
+      performance.measure('getLiquidityData');
       return result;
     }
     return null;
@@ -165,12 +240,21 @@ export async function getLiquidityData(address) {
  * 获取代币交易历史
  */
 export async function getTransactionHistory(address) {
+  // 验证地址
+  const validation = validateAddress(address);
+  if (!validation.valid) {
+    console.error('Invalid address:', validation.error);
+    return [];
+  }
+  
   // 检查缓存
   const cacheKey = `transactionHistory_${address}`;
   const cachedData = getCache(cacheKey);
   if (cachedData) {
     return cachedData;
   }
+  
+  performance.start();
   
   try {
     const response = await axios.get(BSCSCAN_BASE, {
@@ -198,6 +282,7 @@ export async function getTransactionHistory(address) {
     // 设置缓存
     setCache(cacheKey, result);
     
+    performance.measure('getTransactionHistory');
     return result;
   } catch (error) {
     console.error('Error fetching transactions:', error);
@@ -209,12 +294,21 @@ export async function getTransactionHistory(address) {
  * 获取代币价格历史
  */
 export async function getPriceHistory(address) {
+  // 验证地址
+  const validation = validateAddress(address);
+  if (!validation.valid) {
+    console.error('Invalid address:', validation.error);
+    return null;
+  }
+  
   // 检查缓存
   const cacheKey = `priceHistory_${address}`;
   const cachedData = getCache(cacheKey);
   if (cachedData) {
     return cachedData;
   }
+  
+  performance.start();
   
   try {
     const response = await axios.get(`${DEXSCREENER_BASE}/tokens/${address}`);
@@ -239,6 +333,7 @@ export async function getPriceHistory(address) {
       // 设置缓存
       setCache(cacheKey, result);
       
+      performance.measure('getPriceHistory');
       return result;
     }
     return null;
@@ -252,12 +347,21 @@ export async function getPriceHistory(address) {
  * 获取合约安全分析
  */
 export async function getContractSecurity(address) {
+  // 验证地址
+  const validation = validateAddress(address);
+  if (!validation.valid) {
+    console.error('Invalid address:', validation.error);
+    return null;
+  }
+  
   // 检查缓存
   const cacheKey = `contractSecurity_${address}`;
   const cachedData = getCache(cacheKey);
   if (cachedData) {
     return cachedData;
   }
+  
+  performance.start();
   
   try {
     const response = await axios.get(BSCSCAN_BASE, {
@@ -295,6 +399,7 @@ export async function getContractSecurity(address) {
     // 设置缓存
     setCache(cacheKey, result);
     
+    performance.measure('getContractSecurity');
     return result;
   } catch (error) {
     console.error('Error fetching contract security:', error);
@@ -306,12 +411,21 @@ export async function getContractSecurity(address) {
  * 获取链上交易分析
  */
 export async function getOnchainAnalysis(address) {
+  // 验证地址
+  const validation = validateAddress(address);
+  if (!validation.valid) {
+    console.error('Invalid address:', validation.error);
+    return null;
+  }
+  
   // 检查缓存
   const cacheKey = `onchainAnalysis_${address}`;
   const cachedData = getCache(cacheKey);
   if (cachedData) {
     return cachedData;
   }
+  
+  performance.start();
   
   try {
     // 获取最近交易
@@ -351,6 +465,7 @@ export async function getOnchainAnalysis(address) {
     // 设置缓存
     setCache(cacheKey, result);
     
+    performance.measure('getOnchainAnalysis');
     return result;
   } catch (error) {
     console.error('Error fetching onchain analysis:', error);
@@ -362,12 +477,21 @@ export async function getOnchainAnalysis(address) {
  * 获取代币经济学数据
  */
 export async function getTokenomics(address) {
+  // 验证地址
+  const validation = validateAddress(address);
+  if (!validation.valid) {
+    console.error('Invalid address:', validation.error);
+    return null;
+  }
+  
   // 检查缓存
   const cacheKey = `tokenomics_${address}`;
   const cachedData = getCache(cacheKey);
   if (cachedData) {
     return cachedData;
   }
+  
+  performance.start();
   
   try {
     // 通过合约代码分析代币经济学
@@ -409,6 +533,7 @@ export async function getTokenomics(address) {
     // 设置缓存
     setCache(cacheKey, result);
     
+    performance.measure('getTokenomics');
     return result;
   } catch (error) {
     console.error('Error fetching tokenomics:', error);
@@ -429,12 +554,21 @@ export async function getTokenomics(address) {
  * 获取流动性安全数据
  */
 export async function getLiquiditySafety(address) {
+  // 验证地址
+  const validation = validateAddress(address);
+  if (!validation.valid) {
+    console.error('Invalid address:', validation.error);
+    return null;
+  }
+  
   // 检查缓存
   const cacheKey = `liquiditySafety_${address}`;
   const cachedData = getCache(cacheKey);
   if (cachedData) {
     return cachedData;
   }
+  
+  performance.start();
   
   try {
     // 获取流动性数据
@@ -478,6 +612,7 @@ export async function getLiquiditySafety(address) {
     // 设置缓存
     setCache(cacheKey, result);
     
+    performance.measure('getLiquiditySafety');
     return result;
   } catch (error) {
     console.error('Error fetching liquidity safety:', error);
@@ -489,12 +624,21 @@ export async function getLiquiditySafety(address) {
  * 获取治理机制数据
  */
 export async function getGovernance(address) {
+  // 验证地址
+  const validation = validateAddress(address);
+  if (!validation.valid) {
+    console.error('Invalid address:', validation.error);
+    return null;
+  }
+  
   // 检查缓存
   const cacheKey = `governance_${address}`;
   const cachedData = getCache(cacheKey);
   if (cachedData) {
     return cachedData;
   }
+  
+  performance.start();
   
   try {
     // 通过合约代码分析治理机制
@@ -525,6 +669,7 @@ export async function getGovernance(address) {
     // 设置缓存
     setCache(cacheKey, result);
     
+    performance.measure('getGovernance');
     return result;
   } catch (error) {
     console.error('Error fetching governance:', error);
@@ -536,12 +681,21 @@ export async function getGovernance(address) {
  * 获取团队背景数据
  */
 export async function getTeamBackground(address) {
+  // 验证地址
+  const validation = validateAddress(address);
+  if (!validation.valid) {
+    console.error('Invalid address:', validation.error);
+    return null;
+  }
+  
   // 检查缓存
   const cacheKey = `teamBackground_${address}`;
   const cachedData = getCache(cacheKey);
   if (cachedData) {
     return cachedData;
   }
+  
+  performance.start();
   
   try {
     // 通过合约地址获取项目信息
@@ -575,6 +729,7 @@ export async function getTeamBackground(address) {
     // 设置缓存
     setCache(cacheKey, result);
     
+    performance.measure('getTeamBackground');
     return result;
   } catch (error) {
     console.error('Error fetching team background:', error);
@@ -594,6 +749,19 @@ export async function getTeamBackground(address) {
  * 计算风险评分（优化版，支持翻译键）
  */
 export function calculateRiskScore(contractInfo, holderData, liquidityData, contractSecurity, address) {
+  // 验证地址
+  const validation = validateAddress(address);
+  if (!validation.valid) {
+    console.error('Invalid address:', validation.error);
+    return {
+      score: 0,
+      level: 'unknown',
+      risks: [],
+      confidence: 0,
+      lastUpdated: new Date().toISOString()
+    };
+  }
+  
   let score = 100;
   let risks = [];
   
