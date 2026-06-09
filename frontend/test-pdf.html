@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Export Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <h1>PDF Export Test</h1>
+    <button onclick="testPDF()">Test PDF Export</button>
+    <div id="result"></div>
+    
+    <script>
+        function testPDF() {
+            try {
+                const doc = new window.jspdf.jsPDF();
+                
+                // 标题
+                doc.setFontSize(20);
+                doc.text('DeFi Project Analysis Report', 14, 22);
+                
+                // 合约地址
+                doc.setFontSize(12);
+                doc.text('Contract Address: 0x1234...5678', 14, 35);
+                
+                // 风险评分表格
+                const riskData = [
+                    ['Score', '65'],
+                    ['Level', 'Medium Risk'],
+                    ['Risks', '3']
+                ];
+                
+                doc.autoTable({
+                    startY: 50,
+                    head: [['Item', 'Value']],
+                    body: riskData,
+                });
+                
+                // 保存PDF
+                doc.save('test-report.pdf');
+                
+                document.getElementById('result').innerHTML = '<p style="color: green;">✅ PDF export successful!</p>';
+            } catch (error) {
+                document.getElementById('result').innerHTML = '<p style="color: red;">❌ PDF export failed: ' + error.message + '</p>';
+                console.error('PDF export error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

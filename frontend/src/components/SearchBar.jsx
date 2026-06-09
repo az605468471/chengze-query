@@ -26,7 +26,7 @@ function SearchBar({ onResults }) {
         getPriceHistory(address),
         getContractSecurity(address),
         getTokenomics(address),
-        getLiquidityData(address),
+        getLiquiditySafety(address),
         getGovernance(address),
         getTeamBackground(address),
         getOnchainAnalysis(address)
@@ -36,20 +36,21 @@ function SearchBar({ onResults }) {
       
       onResults({
         address,
-        contractInfo,
-        holderData,
-        liquidityData,
-        riskScore,
-        transactions,
-        priceHistory,
-        contractSecurity,
-        tokenomics,
-        liquiditySafety,
-        governance,
-        teamBackground,
-        onchainAnalysis
+        contractInfo: contractInfo || {},
+        holderData: holderData || {},
+        liquidityData: liquidityData || {},
+        riskScore: riskScore || { score: 0, level: 'low', risks: [] },
+        transactions: transactions || [],
+        priceHistory: priceHistory || {},
+        contractSecurity: contractSecurity || {},
+        tokenomics: tokenomics || {},
+        liquiditySafety: liquiditySafety || {},
+        governance: governance || {},
+        teamBackground: teamBackground || {},
+        onchainAnalysis: onchainAnalysis || {}
       });
     } catch (err) {
+      console.error('Analysis error:', err);
       setError(t('error'));
     } finally {
       setLoading(false);

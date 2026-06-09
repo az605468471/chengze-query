@@ -17,6 +17,43 @@ import OnchainAnalysis from '../components/OnchainAnalysis';
 import ExportReport from '../components/ExportReport';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
+// Error Boundary Component
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('Error caught by boundary:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="bg-red-900 border border-red-700 rounded-lg p-4 m-4">
+          <h3 className="text-red-200 font-semibold">⚠️ Component Error</h3>
+          <p className="text-red-300 text-sm mt-2">
+            Something went wrong while displaying this component.
+          </p>
+          <button
+            onClick={() => this.setState({ hasError: false })}
+            className="mt-2 px-4 py-2 bg-red-700 text-white rounded hover:bg-red-600"
+          >
+            Try Again
+          </button>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 function Home() {
   const { t } = useTranslation();
   const [results, setResults] = useState(null);
@@ -72,50 +109,74 @@ function Home() {
           <div className="grid md:grid-cols-2 gap-6">
             {/* Risk Score */}
             <div className="md:col-span-2">
-              <RiskScore
-                score={results.riskScore.score}
-                level={results.riskScore.level}
-                risks={results.riskScore.risks}
-              />
+              <ErrorBoundary>
+                <RiskScore
+                  score={results.riskScore.score}
+                  level={results.riskScore.level}
+                  risks={results.riskScore.risks}
+                />
+              </ErrorBoundary>
             </div>
             
             {/* Contract Info */}
-            <ContractInfo data={results.contractInfo} />
+            <ErrorBoundary>
+              <ContractInfo data={results.contractInfo} />
+            </ErrorBoundary>
             
             {/* Liquidity */}
-            <LiquidityInfo data={results.liquidityData} />
+            <ErrorBoundary>
+              <LiquidityInfo data={results.liquidityData} />
+            </ErrorBoundary>
             
             {/* Contract Security */}
-            <ContractSecurity data={results.contractSecurity} />
+            <ErrorBoundary>
+              <ContractSecurity data={results.contractSecurity} />
+            </ErrorBoundary>
             
             {/* Tokenomics */}
-            <Tokenomics data={results.tokenomics} />
+            <ErrorBoundary>
+              <Tokenomics data={results.tokenomics} />
+            </ErrorBoundary>
             
             {/* Liquidity Safety */}
-            <LiquiditySafety data={results.liquiditySafety} />
+            <ErrorBoundary>
+              <LiquiditySafety data={results.liquiditySafety} />
+            </ErrorBoundary>
             
             {/* Governance */}
-            <Governance data={results.governance} />
+            <ErrorBoundary>
+              <Governance data={results.governance} />
+            </ErrorBoundary>
             
             {/* Team Background */}
-            <TeamBackground data={results.teamBackground} />
+            <ErrorBoundary>
+              <TeamBackground data={results.teamBackground} />
+            </ErrorBoundary>
             
             {/* Onchain Analysis */}
-            <OnchainAnalysis data={results.onchainAnalysis} />
+            <ErrorBoundary>
+              <OnchainAnalysis data={results.onchainAnalysis} />
+            </ErrorBoundary>
             
             {/* Holder Distribution */}
             <div className="md:col-span-2">
-              <HolderDistribution data={results.holderData} />
+              <ErrorBoundary>
+                <HolderDistribution data={results.holderData} />
+              </ErrorBoundary>
             </div>
             
             {/* Price History */}
             <div className="md:col-span-2">
-              <PriceHistory data={results.priceHistory} />
+              <ErrorBoundary>
+                <PriceHistory data={results.priceHistory} />
+              </ErrorBoundary>
             </div>
             
             {/* Transaction History */}
             <div className="md:col-span-2">
-              <TransactionHistory data={results.transactions} />
+              <ErrorBoundary>
+                <TransactionHistory data={results.transactions} />
+              </ErrorBoundary>
             </div>
           </div>
         </section>
@@ -125,10 +186,12 @@ function Home() {
       {results && (
         <section className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
-            <ExportReport
-              data={results}
-              contractAddress={results.contractInfo?.address || ''}
-            />
+            <ErrorBoundary>
+              <ExportReport
+                data={results}
+                contractAddress={results.contractInfo?.address || ''}
+              />
+            </ErrorBoundary>
           </div>
         </section>
       )}
