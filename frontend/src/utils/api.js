@@ -607,7 +607,8 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
       descriptionParams: {},
       severity: 'high',
       source: 'BSCScan',
-      url: `https://bscscan.com/address/${address}#code`
+      url: `https://bscscan.com/address/${address}#code`,
+      mitigation: 'Verify contract source code on BSCScan'
     });
   }
   
@@ -623,7 +624,8 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
         descriptionParams: { percentage: top10Percentage.toFixed(2) },
         severity: 'high',
         source: 'BSCScan',
-        url: `https://bscscan.com/token/${address}#balances`
+        url: `https://bscscan.com/token/${address}#balances`,
+        mitigation: 'Monitor large holder movements, set stop-loss orders'
       });
     } else if (top10Percentage > 50) {
       score -= 15;
@@ -634,7 +636,8 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
         descriptionParams: { percentage: top10Percentage.toFixed(2) },
         severity: 'medium',
         source: 'BSCScan',
-        url: `https://bscscan.com/token/${address}#balances`
+        url: `https://bscscan.com/token/${address}#balances`,
+        mitigation: 'Diversify holdings, monitor large transactions'
       });
     }
   }
@@ -649,7 +652,8 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
       descriptionParams: { liquidity: (liquidityData?.liquidity || 0).toLocaleString() },
       severity: 'high',
       source: 'DexScreener',
-      url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`
+      url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`,
+      mitigation: 'Avoid large trades, use limit orders, monitor liquidity changes'
     });
   } else if (liquidityData?.liquidity < 10000) {
     score -= 20;
@@ -660,7 +664,8 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
       descriptionParams: { liquidity: (liquidityData?.liquidity || 0).toLocaleString() },
       severity: 'high',
       source: 'DexScreener',
-      url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`
+      url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`,
+      mitigation: 'Use smaller trade sizes, monitor liquidity depth'
     });
   }
   
@@ -674,7 +679,8 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
       descriptionParams: { volume: (liquidityData?.volume24h || 0).toLocaleString() },
       severity: 'medium',
       source: 'DexScreener',
-      url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`
+      url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`,
+      mitigation: 'Consider market impact before trading, use limit orders'
     });
   } else if (liquidityData?.volume24h < 1000) {
     score -= 10;
@@ -685,7 +691,8 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
       descriptionParams: { volume: (liquidityData?.volume24h || 0).toLocaleString() },
       severity: 'low',
       source: 'DexScreener',
-      url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`
+      url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`,
+      mitigation: 'Monitor trading activity, consider market hours'
     });
   }
   
@@ -699,7 +706,8 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
       descriptionParams: { change: (liquidityData?.priceChange24h || 0).toFixed(2) },
       severity: 'medium',
       source: 'DexScreener',
-      url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`
+      url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`,
+      mitigation: 'Use stop-loss orders, consider position sizing'
     });
   } else if (Math.abs(liquidityData?.priceChange24h || 0) > 50) {
     score -= 8;
@@ -710,7 +718,8 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
       descriptionParams: { change: (liquidityData?.priceChange24h || 0).toFixed(2) },
       severity: 'low',
       source: 'DexScreener',
-      url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`
+      url: `https://dexscreener.com/bsc/${liquidityData?.pairAddress}`,
+      mitigation: 'Monitor price action, consider dollar-cost averaging'
     });
   }
   
@@ -727,7 +736,8 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
         descriptionParams: {},
         severity: 'medium',
         source: 'BSCScan',
-        url: `https://bscscan.com/address/${address}#code`
+        url: `https://bscscan.com/address/${address}#code`,
+        mitigation: 'Monitor owner actions, check for timelock mechanisms'
       });
     }
     
@@ -740,7 +750,8 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
         descriptionParams: {},
         severity: 'high',
         source: 'BSCScan',
-        url: `https://bscscan.com/address/${address}#code`
+        url: `https://bscscan.com/address/${address}#code`,
+        mitigation: 'Check minting limits, monitor total supply changes'
       });
     }
     
@@ -753,7 +764,8 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
         descriptionParams: {},
         severity: 'medium',
         source: 'BSCScan',
-        url: `https://bscscan.com/address/${address}#code`
+        url: `https://bscscan.com/address/${address}#code`,
+        mitigation: 'Monitor contract state, check pause conditions'
       });
     }
     
@@ -766,7 +778,8 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
         descriptionParams: {},
         severity: 'medium',
         source: 'BSCScan',
-        url: `https://bscscan.com/address/${address}#code`
+        url: `https://bscscan.com/address/${address}#code`,
+        mitigation: 'Check blacklist criteria, monitor for arbitrary additions'
       });
     }
     
@@ -779,7 +792,8 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
         descriptionParams: {},
         severity: 'low',
         source: 'BSCScan',
-        url: `https://bscscan.com/address/${address}#code`
+        url: `https://bscscan.com/address/${address}#code`,
+        mitigation: 'Check if limits are reasonable for trading strategy'
       });
     }
     
@@ -792,7 +806,8 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
         descriptionParams: {},
         severity: 'low',
         source: 'BSCScan',
-        url: `https://bscscan.com/address/${address}#code`
+        url: `https://bscscan.com/address/${address}#code`,
+        mitigation: 'Check fee rates, understand fee distribution'
       });
     }
   }
