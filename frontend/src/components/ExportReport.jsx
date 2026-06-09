@@ -195,7 +195,7 @@ const ExportReport = memo(function ExportReport({ contractData }) {
       doc.text(`${currentLang === 'zh' ? '本报告仅供参考，不构成投资建议' : currentLang === 'ja' ? '本レポートは参考のみであり、投資助言ではありません' : currentLang === 'ko' ? '본 보고서는 참고용이며 투자 조언이 아닙니다' : 'This report is for reference only and does not constitute investment advice'}`, 14, 290)
       
       // 保存PDF
-      doc.save(`defi-report-${contractAddress.slice(0, 8)}.pdf`)
+      doc.save(`defi-report-${data.address.slice(0, 8)}.pdf`)
     } catch (error) {
       console.error('PDF export error:', error)
       alert('PDF export failed: ' + error.message)

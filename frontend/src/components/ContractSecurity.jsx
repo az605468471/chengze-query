@@ -139,7 +139,7 @@ function ContractSecurity({ security }) {
                 <p className="text-xs text-gray-400">{item.description}</p>
               </div>
               <a 
-                href={data.url} 
+                href={security.url} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-blue-400 hover:text-blue-300 text-xs ml-2 whitespace-nowrap"
