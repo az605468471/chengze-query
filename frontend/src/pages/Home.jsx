@@ -1,4 +1,4 @@
-import { useState, Suspense, lazy } from 'react'
+import { useState, Suspense, lazy, useEffect } from 'react'
 import Header from '../components/Header'
 import SearchBar from '../components/SearchBar'
 import ErrorBoundary from '../components/ErrorBoundary'
@@ -15,11 +15,13 @@ import Governance from '../components/Governance'
 import TeamBackground from '../components/TeamBackground'
 import OnchainAnalysis from '../components/OnchainAnalysis'
 import ExportReport from '../components/ExportReport'
+import { useTranslation } from 'react-i18next'
 
 export default function Home() {
   const [contractData, setContractData] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
+  const { t } = useTranslation()
 
   const handleResults = (data) => {
     console.log('Contract data received:', data)
@@ -51,8 +53,8 @@ export default function Home() {
         {isLoading && (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-            <p className="text-white">分析中...</p>
-            <p className="text-gray-400 text-sm mt-2">正在获取链上数据并分析风险...</p>
+            <p className="text-white">{t('common.loading')}</p>
+            <p className="text-gray-400 text-sm mt-2">{t('loading')}</p>
           </div>
         )}
         
@@ -64,7 +66,7 @@ export default function Home() {
               onClick={() => setError(null)}
               className="mt-4 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600"
             >
-              重试
+              {t('common.retry')}
             </button>
           </div>
         )}
@@ -93,7 +95,7 @@ export default function Home() {
         
         {!contractData && !isLoading && !error && (
           <div className="text-center py-12">
-            <p className="text-gray-400 text-lg">请输入合约地址开始分析</p>
+            <p className="text-gray-400 text-lg">{t('searchPlaceholder')}</p>
           </div>
         )}
       </main>

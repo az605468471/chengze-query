@@ -205,8 +205,8 @@ const ExportReport = memo(function ExportReport({ contractData }) {
   }
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-      <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+    <div className="bg-gray-800 rounded-lg p-4 sm:p-6 border border-gray-700">
+      <h3 className="text-base sm:text-lg font-semibold text-white mb-4 flex items-center gap-2">
         <span>📊</span>
         {t('export.title')}
       </h3>
@@ -216,14 +216,14 @@ const ExportReport = memo(function ExportReport({ contractData }) {
         <button
           onClick={exportToPDF}
           disabled={exporting}
-          className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-8 py-4 rounded-lg flex items-center justify-center gap-3 transition-all disabled:opacity-50 min-w-[250px] shadow-lg hover:shadow-xl"
+          className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg flex items-center justify-center gap-3 transition-all disabled:opacity-50 w-full sm:w-auto sm:min-w-[250px] shadow-lg hover:shadow-xl"
         >
-          <span className="text-2xl">📄</span>
+          <span className="text-xl sm:text-2xl">📄</span>
           <div className="text-left">
-            <div className="text-lg font-semibold">
+            <div className="text-base sm:text-lg font-semibold">
               {exporting ? t('export.exporting') : t('export.pdf')}
             </div>
-            <div className="text-sm opacity-90">
+            <div className="text-xs sm:text-sm opacity-90">
               {t('export.description')}
             </div>
           </div>

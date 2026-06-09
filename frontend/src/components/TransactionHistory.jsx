@@ -8,18 +8,18 @@ function TransactionHistory({ transactions }) {
   }
   
   return (
-    <div className="bg-gray-800 p-6 rounded-lg">
-      <h3 className="text-lg font-semibold text-white mb-4">
-        {t('results.transactionHistory') || '交易记录'}
+    <div className="bg-gray-800 p-4 sm:p-6 rounded-lg">
+      <h3 className="text-base sm:text-lg font-semibold text-white mb-4">
+        {t('results.transactionHistory')}
       </h3>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-gray-400 border-b border-gray-700">
-              <th className="text-left py-2">类型</th>
-              <th className="text-left py-2">地址</th>
-              <th className="text-right py-2">数量</th>
-              <th className="text-right py-2">时间</th>
+              <th className="text-left py-2 text-sm">{t('onchain.buy')}/{t('onchain.sell')}</th>
+              <th className="text-left py-2 text-sm">{t('contract.holderCount')}</th>
+              <th className="text-right py-2 text-sm">{t('contract.poolReserves')}</th>
+              <th className="text-right py-2 text-sm">{t('common.sort')}</th>
             </tr>
           </thead>
           <tbody>

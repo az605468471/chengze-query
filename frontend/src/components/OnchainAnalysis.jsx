@@ -31,8 +31,8 @@ function OnchainAnalysis({ analysis }) {
   };
   
   return (
-    <div className="bg-gray-800 p-6 rounded-lg">
-      <h3 className="text-lg font-semibold text-white mb-4">
+    <div className="bg-gray-800 p-4 sm:p-6 rounded-lg">
+      <h3 className="text-base sm:text-lg font-semibold text-white mb-4">
         {t('results.onchainAnalysis')}
       </h3>
       
