@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>承泽查询系统 - 测试</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #1a1a2e; color: white; padding: 20px; }
+    .test { background: #16213e; padding: 20px; margin: 10px 0; border-radius: 8px; }
+    button { background: #4ade80; color: black; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #22c55e; }
+    input { padding: 10px; width: 400px; background: #0f0f23; color: white; border: 1px solid #333; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>承泽查询系统 - 测试页面</h1>
+  <div class="test">
+    <h2>功能测试</h2>
+    <p>1. 输入合约地址进行分析</p>
+    <p>2. 查看分析结果</p>
+    <p>3. 导出 PDF 报告</p>
+    <button onclick="testAnalysis()">测试分析功能</button>
+  </div>
+  
+  <div class="test">
+    <h2>API 测试</h2>
+    <input type="text" id="testAddress" placeholder="输入合约地址 (0x...)" value="0x...">
+    <button onclick="testAPI()">测试 API 调用</button>
+    <p id="apiResult"></p>
+  </div>
+  
+  <script>
+    function testAnalysis() {
+      alert('测试分析功能！请访问主页面进行测试。');
+    }
+    
+    async function testAPI() {
+      const address = document.getElementById('testAddress').value;
+      if (!address.match(/^0x[a-fA-F0-9]{40}$/)) {
+        document.getElementById('apiResult').textContent = '❌ 无效的合约地址格式';
+        return;
+      }
+      
+      document.getElementById('apiResult').textContent = '⏳ 正在测试 API...';
+      
+      try {
+        // 模拟 API 调用
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        document.getElementById('apiResult').textContent = '✅ API 调用成功';
+      } catch (error) {
+        document.getElementById('apiResult').textContent = '❌ API 调用失败: ' + error.message;
+      }
+    }
+  </script>
+</body>
+</html>

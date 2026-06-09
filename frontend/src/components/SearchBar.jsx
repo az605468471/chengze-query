@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getContractInfo, getHolderDistribution, getLiquidityData, calculateRiskScore, getTransactionHistory, getPriceHistory, getContractSecurity, getTokenomics, getLiquiditySafety, getGovernance, getTeamBackground, getOnchainAnalysis } from '../utils/api';
 
-function SearchBar({ onResults, onLoading }) {
+function SearchBar({ onResults, onLoading, onError }) {
   const { t } = useTranslation();
   const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(false);
@@ -11,14 +11,17 @@ function SearchBar({ onResults, onLoading }) {
   const handleSearch = async () => {
     if (!address.match(/^0x[a-fA-F0-9]{40}$/)) {
       setError(t('error'));
+      if (onError) onError(t('error'));
       return;
     }
     
     setLoading(true);
     setError('');
+    if (onLoading) onLoading(true);
     
     try {
-      if (onLoading) onLoading(true);
+      console.log('Starting analysis for address:', address);
+      
       const [contractInfo, holderData, liquidityData, transactions, priceHistory, contractSecurity, tokenomics, liquiditySafety, governance, teamBackground, onchainAnalysis] = await Promise.all([
         getContractInfo(address),
         getHolderDistribution(address),
@@ -33,9 +36,24 @@ function SearchBar({ onResults, onLoading }) {
         getOnchainAnalysis(address)
       ]);
       
-      const riskScore = calculateRiskScore(contractInfo, holderData, liquidityData, contractSecurity, address);
+      console.log('API responses received:', {
+        contractInfo,
+        holderData,
+        liquidityData,
+        transactions,
+        priceHistory,
+        contractSecurity,
+        tokenomics,
+        liquiditySafety,
+        governance,
+        teamBackground,
+        onchainAnalysis
+      });
       
-      onResults({
+      const riskScore = calculateRiskScore(contractInfo, holderData, liquidityData, contractSecurity, address);
+      console.log('Risk score calculated:', riskScore);
+      
+      const resultData = {
         address,
         contractInfo: contractInfo || {},
         holderData: holderData || {},
@@ -49,10 +67,15 @@ function SearchBar({ onResults, onLoading }) {
         governance: governance || {},
         teamBackground: teamBackground || {},
         onchainAnalysis: onchainAnalysis || {}
-      });
+      };
+      
+      console.log('Result data prepared:', resultData);
+      onResults(resultData);
     } catch (err) {
       console.error('Analysis error:', err);
-      setError(t('error'));
+      const errorMessage = err.message || t('error');
+      setError(errorMessage);
+      if (onError) onError(errorMessage);
     } finally {
       setLoading(false);
       if (onLoading) onLoading(false);
