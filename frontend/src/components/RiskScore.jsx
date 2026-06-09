@@ -29,7 +29,7 @@ const RiskScore = memo(function RiskScore({ score, level, risks }) {
   };
   
   return (
-    <div className="bg-gray-800 p-6 rounded-lg">
+    <div className="bg-gray-800 p-4 sm:p-6 rounded-lg">
       <h3 className="text-lg font-semibold text-white mb-4">
         {t('results.riskScore')}
       </h3>
@@ -37,7 +37,7 @@ const RiskScore = memo(function RiskScore({ score, level, risks }) {
       {/* Score Circle */}
       <div className="flex items-center justify-center mb-6">
         <div className="relative">
-          <svg className="w-32 h-32" viewBox="0 0 100 100">
+          <svg className="w-24 h-24 sm:w-32 sm:h-32" viewBox="0 0 100 100">
             <circle className="text-gray-700" strokeWidth="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
             <circle 
               className={`${getBgColor(level)}`} 
@@ -53,8 +53,8 @@ const RiskScore = memo(function RiskScore({ score, level, risks }) {
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className={`text-3xl font-bold ${getColor(level)}`}>{score}</span>
-            <span className="text-sm text-gray-400">{getLevelText(level)}</span>
+            <span className={`text-2xl sm:text-3xl font-bold ${getColor(level)}`}>{score}</span>
+            <span className="text-xs sm:text-sm text-gray-400">{getLevelText(level)}</span>
           </div>
         </div>
       </div>

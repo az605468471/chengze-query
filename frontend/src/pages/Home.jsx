@@ -75,7 +75,7 @@ export default function Home() {
               <ExportReport contractData={contractData} />
             </div>
             <RiskScore score={contractData.riskScore?.score} level={contractData.riskScore?.level} risks={contractData.riskScore?.risks} />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 mt-4 sm:mt-6">
               <ErrorBoundary><ContractInfo contract={contractData.contractInfo} /></ErrorBoundary>
               <ErrorBoundary><HolderDistribution holders={contractData.holderData} /></ErrorBoundary>
               <ErrorBoundary><LiquidityInfo liquidity={contractData.liquidityData} /></ErrorBoundary>

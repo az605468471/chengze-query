@@ -97,19 +97,19 @@ function SearchBar({ onResults, onLoading, onError }) {
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row gap-2">
         <input
           type="text"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           placeholder={t('searchPlaceholder')}
-          className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
+          className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 text-base"
           onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
         />
         <button
           onClick={handleSearch}
           disabled={loading}
-          className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 font-semibold"
+          className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 font-semibold w-full sm:w-auto"
         >
           {loading ? t('loading') : t('searchBtn')}
         </button>

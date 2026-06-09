@@ -1,0 +1,318 @@
+/* 手机端优化样式 */
+
+/* 基础响应式调整 */
+@media (max-width: 768px) {
+  /* Header 优化 */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  header .flex {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  header .flex.items-center {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  /* 搜索框优化 */
+  .max-w-2xl {
+    max-width: 100%;
+  }
+  
+  .flex.gap-2 {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .flex.gap-2 input {
+    width: 100%;
+    font-size: 16px; /* 防止 iOS 缩放 */
+  }
+  
+  .flex.gap-2 button {
+    width: 100%;
+    padding: 0.75rem;
+  }
+  
+  /* 卡片布局优化 */
+  .grid-cols-1.md\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  /* 卡片内边距优化 */
+  .bg-gray-800.p-6 {
+    padding: 1rem;
+  }
+  
+  /* 文字大小优化 */
+  .text-2xl {
+    font-size: 1.5rem;
+  }
+  
+  .text-xl {
+    font-size: 1.25rem;
+  }
+  
+  .text-lg {
+    font-size: 1rem;
+  }
+  
+  /* 表格优化 */
+  .overflow-x-auto {
+    margin: 0 -1rem;
+    padding: 0 1rem;
+  }
+  
+  table {
+    font-size: 0.75rem;
+  }
+  
+  th, td {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  /* 按钮优化 */
+  button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  /* 模态框优化 */
+  .fixed.inset-0 {
+    padding: 1rem;
+  }
+  
+  .w-96 {
+    width: 100%;
+  }
+  
+  /* 间距优化 */
+  .py-8 {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .mb-6 {
+    margin-bottom: 1rem;
+  }
+  
+  .mt-6 {
+    margin-top: 1rem;
+  }
+  
+  /* 风险评分圆环优化 */
+  .w-32.h-32 {
+    width: 6rem;
+    height: 6rem;
+  }
+  
+  .text-3xl {
+    font-size: 1.5rem;
+  }
+  
+  /* 评分概览优化 */
+  .p-4 {
+    padding: 0.75rem;
+  }
+  
+  .text-2xl.font-bold {
+    font-size: 1.25rem;
+  }
+  
+  /* 详细指标优化 */
+  .p-3 {
+    padding: 0.5rem;
+  }
+  
+  .text-sm {
+    font-size: 0.8125rem;
+  }
+  
+  .text-xs {
+    font-size: 0.6875rem;
+  }
+  
+  /* 链接优化 */
+  .text-blue-400 {
+    padding: 0.25rem 0;
+    display: inline-block;
+  }
+  
+  /* 价格历史网格优化 */
+  .grid-cols-2.md\:grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  
+  /* 安全检查网格优化 */
+  .grid-cols-1.md\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  /* 合约安全卡片优化 */
+  .p-4.rounded-lg.border {
+    padding: 0.75rem;
+  }
+  
+  /* 团队成员列表优化 */
+  .space-y-2 > div {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  /* 合作伙伴标签优化 */
+  .flex.flex-wrap.gap-2 {
+    gap: 0.375rem;
+  }
+  
+  .px-3.py-1 {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.6875rem;
+  }
+  
+  /* 导出按钮优化 */
+  .min-w-\[250px\] {
+    min-width: 100%;
+  }
+  
+  /* 钱包地址显示优化 */
+  .bg-gray-700.px-3.py-2 {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.5rem;
+  }
+  
+  /* 语言切换器优化 */
+  .relative {
+    position: static;
+  }
+  
+  .absolute.right-0 {
+    right: auto;
+    left: 0;
+    width: 100%;
+  }
+}
+
+/* 小屏幕手机优化 (375px 及以下) */
+@media (max-width: 375px) {
+  .text-2xl {
+    font-size: 1.25rem;
+  }
+  
+  .text-xl {
+    font-size: 1.125rem;
+  }
+  
+  .text-lg {
+    font-size: 0.9375rem;
+  }
+  
+  .px-4 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  .py-3 {
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+  }
+  
+  .gap-3 {
+    gap: 0.5rem;
+  }
+  
+  .gap-2 {
+    gap: 0.375rem;
+  }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) {
+  button:hover {
+    background-color: inherit;
+  }
+  
+  a:hover {
+    color: inherit;
+  }
+  
+  /* 增大触摸目标 */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* 优化滚动 */
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .overflow-x-auto::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* 暗色模式优化 */
+@media (prefers-color-scheme: dark) {
+  /* 确保暗色模式下对比度足够 */
+  .text-gray-400 {
+    color: #9ca3af;
+  }
+  
+  .text-gray-300 {
+    color: #d1d5db;
+  }
+  
+  .bg-gray-800 {
+    background-color: #1f2937;
+  }
+  
+  .bg-gray-700 {
+    background-color: #374151;
+  }
+}
+
+/* 动画优化 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .animate-spin {
+    animation: none;
+  }
+}
+
+/* 打印优化 */
+@media print {
+  header, button, .flex.justify-end {
+    display: none !important;
+  }
+  
+  .bg-gray-900 {
+    background-color: white !important;
+    color: black !important;
+  }
+  
+  .bg-gray-800 {
+    background-color: #f3f4f6 !important;
+    border: 1px solid #e5e7eb !important;
+  }
+  
+  .text-white {
+    color: black !important;
+  }
+  
+  .text-gray-400 {
+    color: #6b7280 !important;
+  }
+}
