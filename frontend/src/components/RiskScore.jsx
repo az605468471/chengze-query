@@ -34,12 +34,7 @@ const RiskScore = memo(function RiskScore({ score, level, risks }) {
         <h3 className="text-base sm:text-lg font-semibold text-white">
           {t('results.riskScore')}
         </h3>
-        {contractData.riskScore?.confidence && (
-          <div className="text-xs sm:text-sm text-gray-400">
-            {t('risk.confidence')}: {contractData.riskScore.confidence}%
-          </div>
-        )}
-        </div>
+      </div>
         
         {/* Score Circle */}
       <div className="flex items-center justify-center mb-6">
