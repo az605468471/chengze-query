@@ -345,7 +345,7 @@ export async function getLiquiditySafety(address) {
       priceChange24h,
       lpLocked: liquidity > 10000, // 简化判断
       liquidityDepth: liquidity,
-      rugPullRisk,
+      rugPullRisk: rugPullRisk < 40 ? 'low' : rugPullRisk < 70 ? 'medium' : 'high',
       providerType,
       lockDuration: 'Permanent', // 需要链上数据确认
       slippage,
@@ -376,10 +376,10 @@ export async function getGovernance(address) {
     const permissionControlled = sourceCode.toLowerCase().includes('onlyowner') || sourceCode.toLowerCase().includes('admin');
     
     return {
-      isDAO,
+      hasDAO: isDAO,
       hasMultisig,
-      upgradeable,
-      permissionControlled,
+      isUpgradeable: upgradeable,
+      hasPermissions: permissionControlled,
       governanceType: isDAO ? 'DAO' : 'Centralized',
       votingMechanism: isDAO ? 'Token Voting' : 'N/A',
       proposalThreshold: isDAO ? '1% Supply' : 'N/A',
