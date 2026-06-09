@@ -16,13 +16,23 @@ import TeamBackground from '../components/TeamBackground'
 import OnchainAnalysis from '../components/OnchainAnalysis'
 import ExportReport from '../components/ExportReport'
 import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router-dom'
 
 export default function Home() {
   const [contractData, setContractData] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
   const { t } = useTranslation()
-
+  const { address } = useParams()
+  
+  // 如果 URL 中有地址，自动分析
+  useEffect(() => {
+    if (address) {
+      console.log('Auto-analyzing address from URL:', address)
+      // 这里可以触发自动分析
+    }
+  }, [address])
+  
   const handleResults = (data) => {
     console.log('Contract data received:', data)
     setContractData(data)
@@ -44,12 +54,12 @@ export default function Home() {
     <div className="min-h-screen bg-gray-900">
       <Header />
       <main className="container mx-auto px-4 py-8">
-        <SearchBar 
+        <SearchBar
           onResults={handleResults}
           onLoading={handleLoading}
           onError={handleError}
         />
-        
+
         {isLoading && (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
@@ -57,12 +67,12 @@ export default function Home() {
             <p className="text-gray-400 text-sm mt-2">{t('loading')}</p>
           </div>
         )}
-        
+
         {error && (
           <div className="text-center py-12">
             <div className="text-red-500 text-xl mb-4">⚠️</div>
             <p className="text-red-400">{error}</p>
-            <button 
+            <button
               onClick={() => setError(null)}
               className="mt-4 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600"
             >
@@ -70,9 +80,9 @@ export default function Home() {
             </button>
           </div>
         )}
-        
+
         {contractData && !isLoading && !error && (
-          <ErrorBoundary fallback={<div className="text-red-500 text-center p-4">组件加载出错，请刷新重试。</div>}>
+          <ErrorBoundary fallback={<div className="text-red-500 text-center p-4">组件加载出错,请刷新重试。</div>}>
             <div className="flex justify-end mb-4">
               <ExportReport contractData={contractData} />
             </div>
@@ -92,7 +102,7 @@ export default function Home() {
             </div>
           </ErrorBoundary>
         )}
-        
+
         {!contractData && !isLoading && !error && (
           <div className="text-center py-12">
             <p className="text-gray-400 text-lg">{t('searchPlaceholder')}</p>
