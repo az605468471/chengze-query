@@ -22,7 +22,7 @@ function SearchBar({ onResults, onLoading, onError }) {
     try {
       console.log('Starting analysis for address:', address);
       
-      const [contractInfo, holderData, liquidityData, transactions, priceHistory, contractSecurity, tokenomics, liquiditySafety, governance, teamBackground, onchainAnalysis] = await Promise.all([
+      const results = await Promise.allSettled([
         getContractInfo(address),
         getHolderDistribution(address),
         getLiquidityData(address),
@@ -34,7 +34,20 @@ function SearchBar({ onResults, onLoading, onError }) {
         getGovernance(address),
         getTeamBackground(address),
         getOnchainAnalysis(address)
-      ]);
+      ])
+      
+      const getStatus = (result) => result.status === 'fulfilled' ? result.value : {}
+      const contractInfo = getStatus(results[0])
+      const holderData = getStatus(results[1])
+      const liquidityData = getStatus(results[2])
+      const transactions = getStatus(results[3])
+      const priceHistory = getStatus(results[4])
+      const contractSecurity = getStatus(results[5])
+      const tokenomics = getStatus(results[6])
+      const liquiditySafety = getStatus(results[7])
+      const governance = getStatus(results[8])
+      const teamBackground = getStatus(results[9])
+      const onchainAnalysis = getStatus(results[10]);
       
       console.log('API responses received:', {
         contractInfo,

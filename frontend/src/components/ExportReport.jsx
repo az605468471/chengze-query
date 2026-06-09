@@ -3,9 +3,10 @@ import { useState, memo } from 'react'
 import jsPDF from 'jspdf'
 import 'jspdf-autotable'
 
-const ExportReport = memo(function ExportReport({ data, contractAddress }) {
+const ExportReport = memo(function ExportReport({ contractData }) {
   const { t, i18n } = useTranslation()
   const [exporting, setExporting] = useState(false)
+  const data = contractData
 
   const exportToPDF = async () => {
     setExporting(true)

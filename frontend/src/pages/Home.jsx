@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, Suspense, lazy } from 'react'
 import Header from '../components/Header'
 import SearchBar from '../components/SearchBar'
+import ErrorBoundary from '../components/ErrorBoundary'
 import RiskScore from '../components/RiskScore'
 import ContractInfo from '../components/ContractInfo'
 import HolderDistribution from '../components/HolderDistribution'
@@ -69,25 +70,25 @@ export default function Home() {
         )}
         
         {contractData && !isLoading && !error && (
-          <>
+          <ErrorBoundary fallback={<div className="text-red-500 text-center p-4">组件加载出错，请刷新重试。</div>}>
             <div className="flex justify-end mb-4">
               <ExportReport contractData={contractData} />
             </div>
             <RiskScore score={contractData.riskScore?.score} risks={contractData.riskScore?.risks} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-              <ContractInfo contract={contractData.contractInfo} />
-              <HolderDistribution holders={contractData.holderData} />
-              <LiquidityInfo liquidity={contractData.liquidityData} />
-              <TransactionHistory transactions={contractData.transactions} />
-              <PriceHistory price={contractData.priceHistory} />
-              <ContractSecurity security={contractData.contractSecurity} />
-              <Tokenomics tokenomics={contractData.tokenomics} />
-              <LiquiditySafety liquiditySafety={contractData.liquiditySafety} />
-              <Governance governance={contractData.governance} />
-              <TeamBackground team={contractData.teamBackground} />
-              <OnchainAnalysis analysis={contractData.onchainAnalysis} />
+              <ErrorBoundary><ContractInfo contract={contractData.contractInfo} /></ErrorBoundary>
+              <ErrorBoundary><HolderDistribution holders={contractData.holderData} /></ErrorBoundary>
+              <ErrorBoundary><LiquidityInfo liquidity={contractData.liquidityData} /></ErrorBoundary>
+              <ErrorBoundary><TransactionHistory transactions={contractData.transactions} /></ErrorBoundary>
+              <ErrorBoundary><PriceHistory price={contractData.priceHistory} /></ErrorBoundary>
+              <ErrorBoundary><ContractSecurity security={contractData.contractSecurity} /></ErrorBoundary>
+              <ErrorBoundary><Tokenomics tokenomics={contractData.tokenomics} /></ErrorBoundary>
+              <ErrorBoundary><LiquiditySafety liquiditySafety={contractData.liquiditySafety} /></ErrorBoundary>
+              <ErrorBoundary><Governance governance={contractData.governance} /></ErrorBoundary>
+              <ErrorBoundary><TeamBackground team={contractData.teamBackground} /></ErrorBoundary>
+              <ErrorBoundary><OnchainAnalysis analysis={contractData.onchainAnalysis} /></ErrorBoundary>
             </div>
-          </>
+          </ErrorBoundary>
         )}
         
         {!contractData && !isLoading && !error && (

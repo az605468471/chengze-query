@@ -22,9 +22,9 @@ const RiskScore = memo(function RiskScore({ score, level, risks }) {
   
   const getLevelText = (level) => {
     switch (level) {
-      case 'high': return t('risk.high');
-      case 'medium': return t('risk.medium');
-      default: return t('risk.low');
+      case 'high': return 'High Risk';
+      case 'medium': return 'Medium Risk';
+      default: return 'Low Risk';
     }
   };
   
