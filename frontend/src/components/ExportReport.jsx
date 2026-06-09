@@ -64,7 +64,7 @@ const ExportReport = memo(function ExportReport({ contractData }) {
       doc.text(currentLang === 'zh' ? '合约地址' : currentLang === 'ja' ? 'コントラクトアドレス' : currentLang === 'ko' ? '컨트랙트 주소' : 'Contract Address', 14, yPos)
       doc.setFontSize(11)
       doc.setTextColor(75, 85, 99)
-      doc.text(contractAddress, 14, yPos + 8)
+      doc.text(contractData.address, 14, yPos + 8)
       
       yPos += 20
       

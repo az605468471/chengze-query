@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
 
-function TeamBackground({ data }) {
+function TeamBackground({ team }) {
   const { t } = useTranslation();
   
-  if (!data) {
+  if (!team) {
     return (
       <div className="bg-gray-800 p-6 rounded-lg">
         <h3 className="text-lg font-semibold text-white mb-4">
@@ -15,10 +15,10 @@ function TeamBackground({ data }) {
   }
   
   // 计算团队背景得分
-  const teamScore = data.teamVerified ? 25 : 0;
-  const advisorScore = data.hasAdvisors ? 25 : 0;
-  const partnerScore = data.partners.length > 0 ? 25 : 0;
-  const communityScore = data.communityActivity > 70 ? 25 : data.communityActivity > 50 ? 15 : 0;
+  const teamScore = team.teamVerified ? 25 : 0;
+  const advisorScore = team.hasAdvisors ? 25 : 0;
+  const partnerScore = team.partners.length > 0 ? 25 : 0;
+  const communityScore = team.communityActivity > 70 ? 25 : team.communityActivity > 50 ? 15 : 0;
   
   const totalScore = teamScore + advisorScore + partnerScore + communityScore;
   
@@ -61,11 +61,11 @@ function TeamBackground({ data }) {
           <div>
             <span className="text-white font-medium">{t('team.verified')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.teamVerified ? t('team.verifiedYes') : t('team.verifiedNo')}
+              {team.teamVerified ? t('team.verifiedYes') : t('team.verifiedNo')}
             </p>
           </div>
-          <span className={`font-bold ${data.teamVerified ? 'text-green-400' : 'text-yellow-400'}`}>
-            {data.teamVerified ? '+25' : '0'}
+          <span className={`font-bold ${team.teamVerified ? 'text-green-400' : 'text-yellow-400'}`}>
+            {team.teamVerified ? '+25' : '0'}
           </span>
         </div>
         
@@ -74,11 +74,11 @@ function TeamBackground({ data }) {
           <div>
             <span className="text-white font-medium">{t('team.advisors')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.hasAdvisors ? t('team.advisorsYes') : t('team.advisorsNo')}
+              {team.hasAdvisors ? t('team.advisorsYes') : t('team.advisorsNo')}
             </p>
           </div>
-          <span className={`font-bold ${data.hasAdvisors ? 'text-green-400' : 'text-yellow-400'}`}>
-            {data.hasAdvisors ? '+25' : '0'}
+          <span className={`font-bold ${team.hasAdvisors ? 'text-green-400' : 'text-yellow-400'}`}>
+            {team.hasAdvisors ? '+25' : '0'}
           </span>
         </div>
         
@@ -87,13 +87,13 @@ function TeamBackground({ data }) {
           <div>
             <span className="text-white font-medium">{t('team.partners')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.partners.length > 0 
-                ? t('team.partnersYes', { count: data.partners.length }) 
+              {team.partners.length > 0 
+                ? t('team.partnersYes', { count: team.partners.length }) 
                 : t('team.partnersNo')}
             </p>
           </div>
-          <span className={`font-bold ${data.partners.length > 0 ? 'text-green-400' : 'text-yellow-400'}`}>
-            {data.partners.length > 0 ? '+25' : '0'}
+          <span className={`font-bold ${team.partners.length > 0 ? 'text-green-400' : 'text-yellow-400'}`}>
+            {team.partners.length > 0 ? '+25' : '0'}
           </span>
         </div>
         
@@ -103,14 +103,14 @@ function TeamBackground({ data }) {
             <span className="text-white font-medium">{t('team.activity')}</span>
             <p className="text-gray-400 text-sm mt-1">
               {t('team.activityLevel')}：<span className={
-                data.communityActivity > 70 ? 'text-green-400' : 
-                data.communityActivity > 50 ? 'text-yellow-400' : 'text-red-400'
-              }>{data.communityActivity}%</span>
-              {data.communityActivity > 70 ? ` - ${t('team.activityHigh')}` : data.communityActivity > 50 ? ` - ${t('team.activityMedium')}` : ` - ${t('team.activityLow')}`}
+                team.communityActivity > 70 ? 'text-green-400' : 
+                team.communityActivity > 50 ? 'text-yellow-400' : 'text-red-400'
+              }>{team.communityActivity}%</span>
+              {team.communityActivity > 70 ? ` - ${t('team.activityHigh')}` : team.communityActivity > 50 ? ` - ${t('team.activityMedium')}` : ` - ${t('team.activityLow')}`}
             </p>
           </div>
-          <span className={`font-bold ${data.communityActivity > 70 ? 'text-green-400' : data.communityActivity > 50 ? 'text-yellow-400' : 'text-red-400'}`}>
-            {data.communityActivity > 70 ? '+25' : data.communityActivity > 50 ? '+15' : '0'}
+          <span className={`font-bold ${team.communityActivity > 70 ? 'text-green-400' : team.communityActivity > 50 ? 'text-yellow-400' : 'text-red-400'}`}>
+            {team.communityActivity > 70 ? '+25' : team.communityActivity > 50 ? '+15' : '0'}
           </span>
         </div>
       </div>
@@ -119,7 +119,7 @@ function TeamBackground({ data }) {
       <div className="mt-6 pt-4 border-t border-gray-600">
         <h4 className="text-white font-medium mb-3">{t('team.members')}</h4>
         <div className="space-y-2">
-          {data.teamMembers?.map((member, index) => (
+          {team.teamMembers?.map((member, index) => (
             <div key={index} className="flex items-center justify-between p-2 bg-gray-700 rounded">
               <div>
                 <span className="text-white">{member.name}</span>
@@ -142,7 +142,7 @@ function TeamBackground({ data }) {
       <div className="mt-6 pt-4 border-t border-gray-600">
         <h4 className="text-white font-medium mb-3">{t('team.partners')}</h4>
         <div className="flex flex-wrap gap-2">
-          {data.partners?.map((partner, index) => (
+          {team.partners?.map((partner, index) => (
             <span key={index} className="px-3 py-1 bg-gray-700 rounded-full text-gray-300 text-sm">
               {partner}
             </span>
@@ -155,12 +155,12 @@ function TeamBackground({ data }) {
         <div className="flex items-center justify-between">
           <span className="text-gray-400 text-sm">{t('results.source')}</span>
           <a 
-            href={data.sourceUrl || '#'}
+            href={team.sourceUrl || '#'}
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-400 hover:text-blue-300 text-sm"
           >
-            {data.source || 'BSCScan'} →
+            {team.source || 'BSCScan'} →
           </a>
         </div>
       </div>

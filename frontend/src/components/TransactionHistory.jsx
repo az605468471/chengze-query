@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
 
-function TransactionHistory({ data }) {
+function TransactionHistory({ transactions }) {
   const { t } = useTranslation();
   
-  if (!data || data.length === 0) {
+  if (!transactions || transactions.length === 0) {
     return null;
   }
   
@@ -23,7 +23,7 @@ function TransactionHistory({ data }) {
             </tr>
           </thead>
           <tbody>
-            {data.slice(0, 10).map((tx, index) => (
+            {transactions.slice(0, 10).map((tx, index) => (
               <tr key={index} className="border-b border-gray-700/50 hover:bg-gray-700/30">
                 <td className="py-2">
                   <span className={`px-2 py-1 rounded text-xs ${tx.type === '买入' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>

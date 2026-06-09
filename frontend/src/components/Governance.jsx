@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-function Governance({ data }) {
+function Governance({ governance }) {
   const { t } = useTranslation();
   
-  if (!data) {
+  if (!governance) {
     return (
       <div className="bg-gray-800 p-6 rounded-lg">
         <h3 className="text-lg font-semibold text-white mb-4">
@@ -16,10 +16,10 @@ function Governance({ data }) {
   }
   
   // 计算治理机制得分
-  const daoScore = data.hasDAO ? 25 : 0;
-  const multisigScore = data.hasMultisig ? 25 : 0;
-  const upgradeableScore = !data.isUpgradeable ? 25 : 0; // 不可升级更安全
-  const permissionsScore = data.hasPermissions ? 25 : 0;
+  const daoScore = governance.hasDAO ? 25 : 0;
+  const multisigScore = governance.hasMultisig ? 25 : 0;
+  const upgradeableScore = !governance.isUpgradeable ? 25 : 0; // 不可升级更安全
+  const permissionsScore = governance.hasPermissions ? 25 : 0;
   
   const totalScore = daoScore + multisigScore + upgradeableScore + permissionsScore;
   
@@ -62,11 +62,11 @@ function Governance({ data }) {
           <div>
             <span className="text-white font-medium">{t('governance.dao')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.hasDAO ? t('governance.daoYes') : t('governance.daoNo')}
+              {governance.hasDAO ? t('governance.daoYes') : t('governance.daoNo')}
             </p>
           </div>
-          <span className={`font-bold ${data.hasDAO ? 'text-green-400' : 'text-yellow-400'}`}>
-            {data.hasDAO ? '+25' : '0'}
+          <span className={`font-bold ${governance.hasDAO ? 'text-green-400' : 'text-yellow-400'}`}>
+            {governance.hasDAO ? '+25' : '0'}
           </span>
         </div>
         
@@ -75,11 +75,11 @@ function Governance({ data }) {
           <div>
             <span className="text-white font-medium">{t('governance.multisig')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.hasMultisig ? t('governance.multisigYes') : t('governance.multisigNo')}
+              {governance.hasMultisig ? t('governance.multisigYes') : t('governance.multisigNo')}
             </p>
           </div>
-          <span className={`font-bold ${data.hasMultisig ? 'text-green-400' : 'text-yellow-400'}`}>
-            {data.hasMultisig ? '+25' : '0'}
+          <span className={`font-bold ${governance.hasMultisig ? 'text-green-400' : 'text-yellow-400'}`}>
+            {governance.hasMultisig ? '+25' : '0'}
           </span>
         </div>
         
@@ -88,11 +88,11 @@ function Governance({ data }) {
           <div>
             <span className="text-white font-medium">{t('governance.upgradeable')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.isUpgradeable ? t('governance.upgradeableYes') : t('governance.upgradeableNo')}
+              {governance.isUpgradeable ? t('governance.upgradeableYes') : t('governance.upgradeableNo')}
             </p>
           </div>
-          <span className={`font-bold ${!data.isUpgradeable ? 'text-green-400' : 'text-yellow-400'}`}>
-            {!data.isUpgradeable ? '+25' : '0'}
+          <span className={`font-bold ${!governance.isUpgradeable ? 'text-green-400' : 'text-yellow-400'}`}>
+            {!governance.isUpgradeable ? '+25' : '0'}
           </span>
         </div>
         
@@ -101,11 +101,11 @@ function Governance({ data }) {
           <div>
             <span className="text-white font-medium">{t('governance.permissions')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.hasPermissions ? t('governance.permissionsYes') : t('governance.permissionsNo')}
+              {governance.hasPermissions ? t('governance.permissionsYes') : t('governance.permissionsNo')}
             </p>
           </div>
-          <span className={`font-bold ${data.hasPermissions ? 'text-green-400' : 'text-yellow-400'}`}>
-            {data.hasPermissions ? '+25' : '0'}
+          <span className={`font-bold ${governance.hasPermissions ? 'text-green-400' : 'text-yellow-400'}`}>
+            {governance.hasPermissions ? '+25' : '0'}
           </span>
         </div>
       </div>
@@ -115,12 +115,12 @@ function Governance({ data }) {
         <div className="flex items-center justify-between">
           <span className="text-gray-400 text-sm">{t('results.source')}</span>
           <a 
-            href={data.sourceUrl || '#'}
+            href={governance.sourceUrl || '#'}
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-400 hover:text-blue-300 text-sm"
           >
-            {data.source || 'BSCScan'} →
+            {governance.source || 'BSCScan'} →
           </a>
         </div>
       </div>

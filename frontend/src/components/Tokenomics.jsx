@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-function Tokenomics({ data }) {
+function Tokenomics({ tokenomics }) {
   const { t } = useTranslation();
   
-  if (!data) {
+  if (!tokenomics) {
     return (
       <div className="bg-gray-800 p-6 rounded-lg">
         <h3 className="text-lg font-semibold text-white mb-4">
@@ -16,11 +16,11 @@ function Tokenomics({ data }) {
   }
   
   // 计算销毁机制得分
-  const burnScore = data.hasBurn ? 20 : 0;
-  const deflationScore = data.isDeflationary ? 20 : 0;
-  const fairLaunchScore = data.fairLaunch ? 20 : 0;
-  const vestingScore = data.hasVesting ? 20 : 0;
-  const utilityScore = data.hasUtility ? 20 : 0;
+  const burnScore = tokenomics.hasBurn ? 20 : 0;
+  const deflationScore = tokenomics.isDeflationary ? 20 : 0;
+  const fairLaunchScore = tokenomics.fairLaunch ? 20 : 0;
+  const vestingScore = tokenomics.hasVesting ? 20 : 0;
+  const utilityScore = tokenomics.hasUtility ? 20 : 0;
   
   const totalScore = burnScore + deflationScore + fairLaunchScore + vestingScore + utilityScore;
   
@@ -63,11 +63,11 @@ function Tokenomics({ data }) {
           <div>
             <span className="text-white font-medium">{t('tokenomics.burnMechanism')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.hasBurn ? t('tokenomics.burnYes') : t('tokenomics.burnNo')}
+              {tokenomics.hasBurn ? t('tokenomics.burnYes') : t('tokenomics.burnNo')}
             </p>
           </div>
-          <span className={`font-bold ${data.hasBurn ? 'text-green-400' : 'text-red-400'}`}>
-            {data.hasBurn ? '+20' : '0'}
+          <span className={`font-bold ${tokenomics.hasBurn ? 'text-green-400' : 'text-red-400'}`}>
+            {tokenomics.hasBurn ? '+20' : '0'}
           </span>
         </div>
         
@@ -76,11 +76,11 @@ function Tokenomics({ data }) {
           <div>
             <span className="text-white font-medium">{t('tokenomics.inflationModel')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.isDeflationary ? t('tokenomics.deflationYes') : t('tokenomics.deflationNo')}
+              {tokenomics.isDeflationary ? t('tokenomics.deflationYes') : t('tokenomics.deflationNo')}
             </p>
           </div>
-          <span className={`font-bold ${data.isDeflationary ? 'text-green-400' : 'text-yellow-400'}`}>
-            {data.isDeflationary ? '+20' : '0'}
+          <span className={`font-bold ${tokenomics.isDeflationary ? 'text-green-400' : 'text-yellow-400'}`}>
+            {tokenomics.isDeflationary ? '+20' : '0'}
           </span>
         </div>
         
@@ -89,11 +89,11 @@ function Tokenomics({ data }) {
           <div>
             <span className="text-white font-medium">{t('tokenomics.fairLaunch')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.fairLaunch ? t('tokenomics.fairLaunchYes') : t('tokenomics.fairLaunchNo')}
+              {tokenomics.fairLaunch ? t('tokenomics.fairLaunchYes') : t('tokenomics.fairLaunchNo')}
             </p>
           </div>
-          <span className={`font-bold ${data.fairLaunch ? 'text-green-400' : 'text-yellow-400'}`}>
-            {data.fairLaunch ? '+20' : '0'}
+          <span className={`font-bold ${tokenomics.fairLaunch ? 'text-green-400' : 'text-yellow-400'}`}>
+            {tokenomics.fairLaunch ? '+20' : '0'}
           </span>
         </div>
         
@@ -102,11 +102,11 @@ function Tokenomics({ data }) {
           <div>
             <span className="text-white font-medium">{t('tokenomics.vestingSchedule')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.hasVesting ? t('tokenomics.vestingYes') : t('tokenomics.vestingNo')}
+              {tokenomics.hasVesting ? t('tokenomics.vestingYes') : t('tokenomics.vestingNo')}
             </p>
           </div>
-          <span className={`font-bold ${data.hasVesting ? 'text-green-400' : 'text-yellow-400'}`}>
-            {data.hasVesting ? '+20' : '0'}
+          <span className={`font-bold ${tokenomics.hasVesting ? 'text-green-400' : 'text-yellow-400'}`}>
+            {tokenomics.hasVesting ? '+20' : '0'}
           </span>
         </div>
         
@@ -115,11 +115,11 @@ function Tokenomics({ data }) {
           <div>
             <span className="text-white font-medium">{t('tokenomics.utility')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {data.hasUtility ? t('tokenomics.utilityYes') : t('tokenomics.utilityNo')}
+              {tokenomics.hasUtility ? t('tokenomics.utilityYes') : t('tokenomics.utilityNo')}
             </p>
           </div>
-          <span className={`font-bold ${data.hasUtility ? 'text-green-400' : 'text-yellow-400'}`}>
-            {data.hasUtility ? '+20' : '0'}
+          <span className={`font-bold ${tokenomics.hasUtility ? 'text-green-400' : 'text-yellow-400'}`}>
+            {tokenomics.hasUtility ? '+20' : '0'}
           </span>
         </div>
       </div>
@@ -129,12 +129,12 @@ function Tokenomics({ data }) {
         <div className="flex items-center justify-between">
           <span className="text-gray-400 text-sm">{t('results.source')}</span>
           <a 
-            href={data.sourceUrl || '#'}
+            href={tokenomics.sourceUrl || '#'}
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-400 hover:text-blue-300 text-sm"
           >
-            {data.source || 'BSCScan'} →
+            {tokenomics.source || 'BSCScan'} →
           </a>
         </div>
       </div>

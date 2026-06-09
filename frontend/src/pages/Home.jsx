@@ -74,7 +74,7 @@ export default function Home() {
             <div className="flex justify-end mb-4">
               <ExportReport contractData={contractData} />
             </div>
-            <RiskScore score={contractData.riskScore?.score} risks={contractData.riskScore?.risks} />
+            <RiskScore score={contractData.riskScore?.score} level={contractData.riskScore?.level} risks={contractData.riskScore?.risks} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
               <ErrorBoundary><ContractInfo contract={contractData.contractInfo} /></ErrorBoundary>
               <ErrorBoundary><HolderDistribution holders={contractData.holderData} /></ErrorBoundary>

@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
 
-function OnchainAnalysis({ data }) {
+function OnchainAnalysis({ analysis }) {
   const { t } = useTranslation();
   
-  if (!data) {
+  if (!analysis) {
     return (
       <div className="bg-gray-800 p-6 rounded-lg">
         <h3 className="text-lg font-semibold text-white mb-4">
@@ -15,8 +15,8 @@ function OnchainAnalysis({ data }) {
   }
   
   // 计算活跃度得分
-  const activityScore = data.activityScore || 0;
-  const buyRatio = data.buyCount / (data.buyCount + data.sellCount) * 100 || 0;
+  const activityScore = analysis.activityScore || 0;
+  const buyRatio = analysis.buyCount / (analysis.buyCount + analysis.sellCount) * 100 || 0;
   
   const getColor = (score) => {
     if (score >= 80) return 'text-green-400';
@@ -57,7 +57,7 @@ function OnchainAnalysis({ data }) {
           <div>
             <span className="text-white font-medium">{t('onchain.transactions')}</span>
             <p className="text-gray-400 text-sm mt-1">
-              {t('onchain.recentTxs')}：{data.buyCount} {t('onchain.buy')} / {data.sellCount} {t('onchain.sell')}
+              {t('onchain.recentTxs')}：{analysis.buyCount} {t('onchain.buy')} / {analysis.sellCount} {t('onchain.sell')}
             </p>
           </div>
           <span className={`font-bold ${buyRatio > 60 ? 'text-green-400' : buyRatio > 40 ? 'text-yellow-400' : 'text-red-400'}`}>
@@ -83,7 +83,7 @@ function OnchainAnalysis({ data }) {
       <div className="mt-6 pt-4 border-t border-gray-600">
         <h4 className="text-white font-medium mb-3">{t('onchain.recentTxs')}</h4>
         <div className="space-y-2">
-          {data.recentTransactions?.slice(0, 5).map((tx, index) => (
+          {analysis.recentTransactions?.slice(0, 5).map((tx, index) => (
             <div key={index} className="flex items-center justify-between p-2 bg-gray-700 rounded">
               <div>
                 <span className={`text-sm px-2 py-1 rounded ${
@@ -113,12 +113,12 @@ function OnchainAnalysis({ data }) {
         <div className="flex items-center justify-between">
           <span className="text-gray-400 text-sm">{t('results.source')}</span>
           <a 
-            href={data.sourceUrl || '#'}
+            href={analysis.sourceUrl || '#'}
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-400 hover:text-blue-300 text-sm"
           >
-            {data.source || 'BSCScan'} →
+            {analysis.source || 'BSCScan'} →
           </a>
         </div>
       </div>

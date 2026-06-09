@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next';
 
-function ContractSecurity({ data }) {
+function ContractSecurity({ security }) {
   const { t } = useTranslation();
   
-  if (!data) {
+  if (!security) {
     return null;
   }
   
-  const securityChecks = data.securityChecks || {};
+  const securityChecks = security.securityChecks || {};
   
   const securityItems = [
     {
@@ -154,11 +154,11 @@ function ContractSecurity({ data }) {
       <div className="mt-4 pt-4 border-t border-gray-700">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-400">{t('results.source')}：{data.source}</p>
+            <p className="text-sm text-gray-400">{t('results.source')}：{security.source}</p>
             <p className="text-xs text-gray-500">{t('security.sourceDesc')}</p>
           </div>
           <a 
-            href={data.url} 
+            href={security.url} 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-blue-400 hover:text-blue-300 text-sm"
