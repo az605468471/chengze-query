@@ -1,10 +1,10 @@
 {
   "export": {
     "title": "Export Report",
-    "pdf": "Export PDF",
-    "exporting": "Exporting...",
-    "error": "Export failed, please try again later",
-    "description": "Export analysis results as PDF format for saving and sharing"
+    "pdf": "Export PDF Report",
+    "exporting": "Generating PDF...",
+    "error": "PDF export failed, please try again later",
+    "description": "One-click professional analysis report"
   },
   "header": {
     "systemName": "Chengze Query System",

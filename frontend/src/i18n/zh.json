@@ -1,10 +1,10 @@
 {
   "export": {
     "title": "导出报告",
-    "pdf": "导出 PDF",
-    "exporting": "导出中...",
-    "error": "导出失败，请稍后重试",
-    "description": "将分析结果导出为 PDF 格式，方便保存和分享"
+    "pdf": "导出 PDF 报告",
+    "exporting": "正在生成 PDF...",
+    "error": "PDF 导出失败，请稍后重试",
+    "description": "一键生成专业分析报告"
   },
   "header": {
     "systemName": "承泽查询系统",

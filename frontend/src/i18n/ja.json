@@ -1,10 +1,10 @@
 {
   "export": {
     "title": "レポート出力",
-    "pdf": "PDF 出力",
-    "exporting": "出力中...",
-    "error": "出力に失敗しました。後でもう一度お試しください",
-    "description": "分析結果を PDF 形式で出力し、保存や共有に便利です"
+    "pdf": "PDF レポート出力",
+    "exporting": "PDF 生成中...",
+    "error": "PDF 出力に失敗しました。後でもう一度お試しください",
+    "description": "ワンクリックでプロフェッショナルな分析レポートを生成"
   },
   "header": {
     "systemName": "承泽クエリシステム",

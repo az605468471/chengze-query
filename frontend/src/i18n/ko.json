@@ -1,10 +1,10 @@
 {
   "export": {
     "title": "보고서 내보내기",
-    "pdf": "PDF 내보내기",
-    "exporting": "내보내는 중...",
-    "error": "내보내기에 실패했습니다. 나중에 다시 시도해 주세요",
-    "description": "분석 결과를 PDF 형식으로 내보내 저장 및 공유에 편리합니다"
+    "pdf": "PDF 보고서 내보내기",
+    "exporting": "PDF 생성 중...",
+    "error": "PDF 내보내기에 실패했습니다. 나중에 다시 시도해 주세요",
+    "description": "원클릭 전문 분석 보고서 생성"
   },
   "header": {
     "systemName": "승택 쿼리 시스템",
