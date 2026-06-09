@@ -10,10 +10,36 @@ const DEXSCREENER_BASE = 'https://api.dexscreener.com/latest/dex';
 // DefiLlama API (完全免费)
 const DEFILLAMA_BASE = 'https://api.llama.fi';
 
+// 缓存对象
+const cache = {};
+
+// 获取缓存数据
+function getCache(key, ttl = 300000) { // 默认 5 分钟 TTL
+  if (cache[key] && Date.now() - cache[key].timestamp < ttl) {
+    return cache[key].data;
+  }
+  return null;
+}
+
+// 设置缓存数据
+function setCache(key, data) {
+  cache[key] = {
+    data,
+    timestamp: Date.now()
+  };
+}
+
 /**
  * 获取合约基本信息
  */
 export async function getContractInfo(address) {
+  // 检查缓存
+  const cacheKey = `contractInfo_${address}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+  
   try {
     const response = await axios.get(BSCSCAN_BASE, {
       params: {
@@ -26,7 +52,7 @@ export async function getContractInfo(address) {
     });
     
     const data = response.data.result[0];
-    return {
+    const result = {
       name: data.ContractName || 'Unknown',
       compiler: data.CompilerVersion || 'Unknown',
       verified: data.SourceCode !== '',
@@ -34,6 +60,11 @@ export async function getContractInfo(address) {
       source: 'BSCScan',
       url: `https://bscscan.com/address/${address}`
     };
+    
+    // 设置缓存
+    setCache(cacheKey, result);
+    
+    return result;
   } catch (error) {
     console.error('Error fetching contract info:', error);
     return null;
@@ -44,6 +75,13 @@ export async function getContractInfo(address) {
  * 获取持仓分布
  */
 export async function getHolderDistribution(address) {
+  // 检查缓存
+  const cacheKey = `holderDistribution_${address}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+  
   try {
     const response = await axios.get(BSCSCAN_BASE, {
       params: {
@@ -60,7 +98,7 @@ export async function getHolderDistribution(address) {
     const holders = response.data.result;
     const totalSupply = holders.reduce((sum, h) => sum + parseFloat(h.TokenHolderQuantity), 0);
     
-    return {
+    const result = {
       top10: holders.slice(0, 10).map((h, i) => ({
         rank: i + 1,
         address: h.TokenHolderAddress,
@@ -71,6 +109,11 @@ export async function getHolderDistribution(address) {
       source: 'BSCScan',
       url: `https://bscscan.com/token/${address}#balances`
     };
+    
+    // 设置缓存
+    setCache(cacheKey, result);
+    
+    return result;
   } catch (error) {
     console.error('Error fetching holder distribution:', error);
     return null;
@@ -81,12 +124,19 @@ export async function getHolderDistribution(address) {
  * 获取流动性数据
  */
 export async function getLiquidityData(address) {
+  // 检查缓存
+  const cacheKey = `liquidityData_${address}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+  
   try {
     const response = await axios.get(`${DEXSCREENER_BASE}/tokens/${address}`);
     
     if (response.data.pairs && response.data.pairs.length > 0) {
       const pair = response.data.pairs[0];
-      return {
+      const result = {
         dex: pair.dexId,
         pairAddress: pair.pairAddress,
         baseToken: pair.baseToken.symbol,
@@ -98,6 +148,11 @@ export async function getLiquidityData(address) {
         source: 'DexScreener',
         url: `https://dexscreener.com/bsc/${pair.pairAddress}`
       };
+      
+      // 设置缓存
+      setCache(cacheKey, result);
+      
+      return result;
     }
     return null;
   } catch (error) {
@@ -110,6 +165,13 @@ export async function getLiquidityData(address) {
  * 获取代币交易历史
  */
 export async function getTransactionHistory(address) {
+  // 检查缓存
+  const cacheKey = `transactionHistory_${address}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+  
   try {
     const response = await axios.get(BSCSCAN_BASE, {
       params: {
@@ -124,7 +186,7 @@ export async function getTransactionHistory(address) {
       }
     });
     
-    return response.data.result.slice(0, 10).map(tx => ({
+    const result = response.data.result.slice(0, 10).map(tx => ({
       hash: tx.hash,
       from: tx.from,
       to: tx.to,
@@ -132,6 +194,11 @@ export async function getTransactionHistory(address) {
       timestamp: new Date(parseInt(tx.timeStamp) * 1000).toLocaleString(),
       type: tx.from.toLowerCase() === address.toLowerCase() ? '卖出' : '买入'
     }));
+    
+    // 设置缓存
+    setCache(cacheKey, result);
+    
+    return result;
   } catch (error) {
     console.error('Error fetching transactions:', error);
     return [];
@@ -142,12 +209,19 @@ export async function getTransactionHistory(address) {
  * 获取代币价格历史
  */
 export async function getPriceHistory(address) {
+  // 检查缓存
+  const cacheKey = `priceHistory_${address}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+  
   try {
     const response = await axios.get(`${DEXSCREENER_BASE}/tokens/${address}`);
     
     if (response.data.pairs && response.data.pairs.length > 0) {
       const pair = response.data.pairs[0];
-      return {
+      const result = {
         priceChange5m: pair.priceChange?.m5 || 0,
         priceChange1h: pair.priceChange?.h1 || 0,
         priceChange6h: pair.priceChange?.h6 || 0,
@@ -161,6 +235,11 @@ export async function getPriceHistory(address) {
         txns6h: pair.txns?.h6 || { buys: 0, sells: 0 },
         txns24h: pair.txns?.h24 || { buys: 0, sells: 0 }
       };
+      
+      // 设置缓存
+      setCache(cacheKey, result);
+      
+      return result;
     }
     return null;
   } catch (error) {
@@ -173,6 +252,13 @@ export async function getPriceHistory(address) {
  * 获取合约安全分析
  */
 export async function getContractSecurity(address) {
+  // 检查缓存
+  const cacheKey = `contractSecurity_${address}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+  
   try {
     const response = await axios.get(BSCSCAN_BASE, {
       params: {
@@ -199,12 +285,17 @@ export async function getContractSecurity(address) {
       hasReflection: sourceCode.includes('reflection') || sourceCode.includes('Reflection')
     };
     
-    return {
+    const result = {
       verified: data.SourceCode !== '',
       securityChecks,
       source: 'BSCScan',
       url: `https://bscscan.com/address/${address}#code`
     };
+    
+    // 设置缓存
+    setCache(cacheKey, result);
+    
+    return result;
   } catch (error) {
     console.error('Error fetching contract security:', error);
     return null;
@@ -215,6 +306,13 @@ export async function getContractSecurity(address) {
  * 获取链上交易分析
  */
 export async function getOnchainAnalysis(address) {
+  // 检查缓存
+  const cacheKey = `onchainAnalysis_${address}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+  
   try {
     // 获取最近交易
     const txResponse = await fetch(
@@ -234,7 +332,7 @@ export async function getOnchainAnalysis(address) {
     // 计算活跃度
     const activityScore = Math.min(100, (buyCount + sellCount) * 10);
     
-    return {
+    const result = {
       recentTransactions: recentTxs.map(tx => ({
         hash: tx.hash,
         from: tx.from,
@@ -249,6 +347,11 @@ export async function getOnchainAnalysis(address) {
       source: 'BSCScan',
       sourceUrl: `https://bscscan.com/token/${address}`
     };
+    
+    // 设置缓存
+    setCache(cacheKey, result);
+    
+    return result;
   } catch (error) {
     console.error('Error fetching onchain analysis:', error);
     return null;
@@ -259,6 +362,13 @@ export async function getOnchainAnalysis(address) {
  * 获取代币经济学数据
  */
 export async function getTokenomics(address) {
+  // 检查缓存
+  const cacheKey = `tokenomics_${address}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+  
   try {
     // 通过合约代码分析代币经济学
     const contractResponse = await fetch(
@@ -286,7 +396,7 @@ export async function getTokenomics(address) {
       fairLaunch = true; // 默认假设公平启动
     }
     
-    return {
+    const result = {
       hasBurn,
       isDeflationary,
       fairLaunch,
@@ -295,6 +405,11 @@ export async function getTokenomics(address) {
       source: 'BSCScan',
       sourceUrl: `https://bscscan.com/address/${address}#code`
     };
+    
+    // 设置缓存
+    setCache(cacheKey, result);
+    
+    return result;
   } catch (error) {
     console.error('Error fetching tokenomics:', error);
     // 返回默认值，避免 null
@@ -314,6 +429,13 @@ export async function getTokenomics(address) {
  * 获取流动性安全数据
  */
 export async function getLiquiditySafety(address) {
+  // 检查缓存
+  const cacheKey = `liquiditySafety_${address}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+  
   try {
     // 获取流动性数据
     const dexResponse = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${address}`);
@@ -339,7 +461,7 @@ export async function getLiquiditySafety(address) {
     // 计算滑点（简化计算）
     const slippage = liquidity > 50000 ? 0.5 : liquidity > 10000 ? 2 : 5;
     
-    return {
+    const result = {
       liquidity,
       volume24h,
       priceChange24h,
@@ -352,6 +474,11 @@ export async function getLiquiditySafety(address) {
       source: 'DexScreener',
       sourceUrl: `https://dexscreener.com/bsc/${pair.pairAddress}`
     };
+    
+    // 设置缓存
+    setCache(cacheKey, result);
+    
+    return result;
   } catch (error) {
     console.error('Error fetching liquidity safety:', error);
     return null;
@@ -362,6 +489,13 @@ export async function getLiquiditySafety(address) {
  * 获取治理机制数据
  */
 export async function getGovernance(address) {
+  // 检查缓存
+  const cacheKey = `governance_${address}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+  
   try {
     // 通过合约代码分析治理机制
     const contractResponse = await fetch(
@@ -375,7 +509,7 @@ export async function getGovernance(address) {
     const upgradeable = sourceCode.toLowerCase().includes('upgrade') || sourceCode.toLowerCase().includes('proxy');
     const permissionControlled = sourceCode.toLowerCase().includes('onlyowner') || sourceCode.toLowerCase().includes('admin');
     
-    return {
+    const result = {
       hasDAO: isDAO,
       hasMultisig,
       isUpgradeable: upgradeable,
@@ -387,6 +521,11 @@ export async function getGovernance(address) {
       source: 'BSCScan',
       sourceUrl: `https://bscscan.com/address/${address}#code`
     };
+    
+    // 设置缓存
+    setCache(cacheKey, result);
+    
+    return result;
   } catch (error) {
     console.error('Error fetching governance:', error);
     return null;
@@ -397,6 +536,13 @@ export async function getGovernance(address) {
  * 获取团队背景数据
  */
 export async function getTeamBackground(address) {
+  // 检查缓存
+  const cacheKey = `teamBackground_${address}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+  
   try {
     // 通过合约地址获取项目信息
     const contractResponse = await fetch(
@@ -414,7 +560,7 @@ export async function getTeamBackground(address) {
     // 检查社区活跃度
     const communityActivity = hasTeam ? 60 : 40;
     
-    return {
+    const result = {
       teamVerified: hasTeam,
       hasAdvisors,
       partners: hasPartners ? ['BSCScan', 'DexScreener'] : [],
@@ -425,6 +571,11 @@ export async function getTeamBackground(address) {
       source: 'BSCScan',
       sourceUrl: `https://bscscan.com/address/${address}`
     };
+    
+    // 设置缓存
+    setCache(cacheKey, result);
+    
+    return result;
   } catch (error) {
     console.error('Error fetching team background:', error);
     return {
