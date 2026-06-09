@@ -14,6 +14,7 @@ import LiquiditySafety from '../components/LiquiditySafety';
 import Governance from '../components/Governance';
 import TeamBackground from '../components/TeamBackground';
 import OnchainAnalysis from '../components/OnchainAnalysis';
+import ExportReport from '../components/ExportReport';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
 function Home() {
@@ -116,6 +117,18 @@ function Home() {
             <div className="md:col-span-2">
               <TransactionHistory data={results.transactions} />
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* Export Report Section */}
+      {results && (
+        <section className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto">
+            <ExportReport
+              data={results}
+              contractAddress={results.contractInfo?.address || ''}
+            />
           </div>
         </section>
       )}

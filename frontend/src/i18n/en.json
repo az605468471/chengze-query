@@ -1,4 +1,13 @@
 {
+  "export": {
+    "title": "Export Report",
+    "pdf": "Export PDF",
+    "json": "Export JSON",
+    "csv": "Export CSV",
+    "exporting": "Exporting...",
+    "error": "Export failed, please try again later",
+    "description": "Export analysis results as PDF, JSON, or CSV format for saving and sharing"
+  },
   "header": {
     "systemName": "Chengze Query System",
     "systemDesc": "DeFi Project Comprehensive Analysis & Risk Assessment"

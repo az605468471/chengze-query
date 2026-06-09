@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import LanguageSwitcher from './LanguageSwitcher'
 
-function Header() {
+const Header = memo(function Header() {
   const { t } = useTranslation()
   const [walletAddress, setWalletAddress] = useState('')
   const [isConnecting, setIsConnecting] = useState(false)
@@ -100,6 +100,6 @@ function Header() {
       </div>
     </header>
   )
-}
+})
 
 export default Header

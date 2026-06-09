@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
+import { memo, useMemo } from 'react';
 
-function RiskScore({ score, level, risks }) {
+const RiskScore = memo(function RiskScore({ score, level, risks }) {
   const { t } = useTranslation();
   
   const getColor = (level) => {
@@ -113,6 +114,6 @@ function RiskScore({ score, level, risks }) {
       )}
     </div>
   );
-}
+});
 
 export default RiskScore;

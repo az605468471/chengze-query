@@ -1,4 +1,13 @@
 {
+  "export": {
+    "title": "レポート出力",
+    "pdf": "PDF 出力",
+    "json": "JSON 出力",
+    "csv": "CSV 出力",
+    "exporting": "出力中...",
+    "error": "出力に失敗しました。後でもう一度お試しください",
+    "description": "分析結果を PDF、JSON、または CSV 形式で出力し、保存や共有に便利です"
+  },
   "header": {
     "systemName": "承泽クエリシステム",
     "systemDesc": "DeFi プロジェクトの包括的分析とリスク評価"
