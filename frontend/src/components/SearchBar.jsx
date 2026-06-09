@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getContractInfo, getHolderDistribution, getLiquidityData, calculateRiskScore, getTransactionHistory, getPriceHistory, getContractSecurity, getTokenomics, getLiquiditySafety, getGovernance, getTeamBackground, getOnchainAnalysis } from '../utils/api';
 
-function SearchBar({ onResults }) {
+function SearchBar({ onResults, onLoading }) {
   const { t } = useTranslation();
   const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(false);
@@ -18,6 +18,7 @@ function SearchBar({ onResults }) {
     setError('');
     
     try {
+      if (onLoading) onLoading(true);
       const [contractInfo, holderData, liquidityData, transactions, priceHistory, contractSecurity, tokenomics, liquiditySafety, governance, teamBackground, onchainAnalysis] = await Promise.all([
         getContractInfo(address),
         getHolderDistribution(address),
@@ -54,6 +55,7 @@ function SearchBar({ onResults }) {
       setError(t('error'));
     } finally {
       setLoading(false);
+      if (onLoading) onLoading(false);
     }
   };
 
