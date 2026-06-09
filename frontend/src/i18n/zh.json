@@ -2,11 +2,9 @@
   "export": {
     "title": "导出报告",
     "pdf": "导出 PDF",
-    "json": "导出 JSON",
-    "csv": "导出 CSV",
     "exporting": "导出中...",
     "error": "导出失败，请稍后重试",
-    "description": "将分析结果导出为 PDF、JSON 或 CSV 格式，方便保存和分享"
+    "description": "将分析结果导出为 PDF 格式，方便保存和分享"
   },
   "header": {
     "systemName": "承泽查询系统",
