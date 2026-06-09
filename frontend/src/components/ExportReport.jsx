@@ -7,6 +7,7 @@ const ExportReport = memo(function ExportReport({ contractData }) {
   const { t, i18n } = useTranslation()
   const [exporting, setExporting] = useState(false)
   const data = contractData
+  const currentLang = i18n.language
 
   const exportToPDF = async () => {
     setExporting(true)
