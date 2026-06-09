@@ -816,13 +816,27 @@ export function calculateRiskScore(contractInfo, holderData, liquidityData, cont
   const randomAdjustment = Math.floor(Math.random() * 11) - 5; // -5 到 +5
   score += randomAdjustment;
   
+  // 确保分数在合理范围内
+  score = Math.max(0, Math.min(100, score));
+  
   let riskLevel = 'low';
   if (score < 40) riskLevel = 'high';
   else if (score < 70) riskLevel = 'medium';
   
+  // 计算置信度（基于数据完整性）
+  const confidence = Math.min(100, 
+    (contractInfo ? 20 : 0) + 
+    (holderData ? 20 : 0) + 
+    (liquidityData ? 20 : 0) + 
+    (contractSecurity ? 20 : 0) + 
+    (risks.length > 0 ? 20 : 10)
+  );
+  
   return {
-    score: Math.max(0, Math.min(100, score)),
+    score: score,
     level: riskLevel,
-    risks: risks
+    risks: risks,
+    confidence: confidence,
+    lastUpdated: new Date().toISOString()
   };
 }
