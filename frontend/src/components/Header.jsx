@@ -168,6 +168,14 @@ const Header = memo(function Header() {
           )}
           
           <a
+            href="/payment"
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors"
+          >
+            <span className="text-sm">💎</span>
+            <span className="hidden sm:inline">套餐</span>
+          </a>
+          
+          <a
             href="https://github.com"
             target="_blank"
             rel="noopener noreferrer"
