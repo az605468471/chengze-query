@@ -40,19 +40,19 @@ export default function Home() {
             <div className="flex justify-end mb-4">
               <ExportReport contractData={contractData} />
             </div>
-            <RiskScore score={contractData.score} risks={contractData.risks} />
+            <RiskScore score={contractData.riskScore?.score} risks={contractData.riskScore?.risks} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-              <ContractInfo contract={contractData.contract} />
-              <HolderDistribution holders={contractData.holders} />
-              <LiquidityInfo liquidity={contractData.liquidity} />
+              <ContractInfo contract={contractData.contractInfo} />
+              <HolderDistribution holders={contractData.holderData} />
+              <LiquidityInfo liquidity={contractData.liquidityData} />
               <TransactionHistory transactions={contractData.transactions} />
-              <PriceHistory price={contractData.price} />
-              <ContractSecurity security={contractData.security} />
+              <PriceHistory price={contractData.priceHistory} />
+              <ContractSecurity security={contractData.contractSecurity} />
               <Tokenomics tokenomics={contractData.tokenomics} />
               <LiquiditySafety liquiditySafety={contractData.liquiditySafety} />
               <Governance governance={contractData.governance} />
-              <TeamBackground team={contractData.team} />
-              <OnchainAnalysis analysis={contractData.analysis} />
+              <TeamBackground team={contractData.teamBackground} />
+              <OnchainAnalysis analysis={contractData.onchainAnalysis} />
             </div>
           </>
         )}
