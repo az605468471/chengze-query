@@ -30,11 +30,18 @@ const RiskScore = memo(function RiskScore({ score, level, risks }) {
   
   return (
     <div className="bg-gray-800 p-4 sm:p-6 rounded-lg">
-      <h3 className="text-lg font-semibold text-white mb-4">
-        {t('results.riskScore')}
-      </h3>
-      
-      {/* Score Circle */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+        <h3 className="text-base sm:text-lg font-semibold text-white">
+          {t('results.riskScore')}
+        </h3>
+        {contractData.riskScore?.confidence && (
+          <div className="text-xs sm:text-sm text-gray-400">
+            {t('risk.confidence')}: {contractData.riskScore.confidence}%
+          </div>
+        )}
+        </div>
+        
+        {/* Score Circle */}
       <div className="flex items-center justify-center mb-6">
         <div className="relative">
           <svg className="w-24 h-24 sm:w-32 sm:h-32" viewBox="0 0 100 100">
@@ -89,6 +96,11 @@ const RiskScore = memo(function RiskScore({ score, level, risks }) {
                   <p className="text-xs text-gray-400 ml-6">
                     {t(risk.descriptionKey, risk.descriptionParams)}
                   </p>
+                  {risk.mitigation && (
+                    <p className="text-xs text-gray-300 ml-6 mt-1">
+                      <span className="text-gray-500">{t('common.suggestions')}:</span> {risk.mitigation}
+                    </p>
+                  )}
                 </div>
                 {risk.url && (
                   <a 
