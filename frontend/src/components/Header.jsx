@@ -9,7 +9,7 @@ function Header() {
 
   const connectWallet = async () => {
     if (!window.ethereum) {
-      alert('请安装 MetaMask 或其他 Web3 钱包')
+      alert(t('wallet.installMetaMask'))
       return
     }
 
@@ -20,8 +20,8 @@ function Header() {
       })
       setWalletAddress(accounts[0])
     } catch (error) {
-      console.error('连接钱包失败:', error)
-      alert('连接钱包失败')
+      console.error(t('wallet.connectError'), error)
+      alert(t('wallet.connectError'))
     } finally {
       setIsConnecting(false)
     }
@@ -43,7 +43,7 @@ function Header() {
             setWalletAddress(accounts[0])
           }
         } catch (error) {
-          console.error('检查钱包失败:', error)
+          console.error(t('wallet.checkError'), error)
         }
       }
     }
@@ -56,8 +56,8 @@ function Header() {
         <div className="flex items-center gap-3">
           <span className="text-2xl">🛡️</span>
           <div>
-            <h1 className="text-xl font-bold text-white">承泽查询系统</h1>
-            <p className="text-sm text-gray-400">{t('title')}</p>
+            <h1 className="text-xl font-bold text-white">{t('header.systemName')}</h1>
+            <p className="text-sm text-gray-400">{t('header.systemDesc')}</p>
           </div>
         </div>
         
@@ -74,7 +74,7 @@ function Header() {
                 onClick={disconnectWallet}
                 className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg text-sm transition-colors"
               >
-                断开
+                {t('wallet.disconnect')}
               </button>
             </div>
           ) : (
@@ -84,7 +84,7 @@ function Header() {
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors disabled:opacity-50"
             >
               <span className="text-sm">💰</span>
-              {isConnecting ? '连接中...' : '连接钱包'}
+              {isConnecting ? t('wallet.connecting') : t('wallet.connect')}
             </button>
           )}
           

@@ -1,4 +1,16 @@
 {
+  "header": {
+    "systemName": "承泽查询系统",
+    "systemDesc": "DeFi 项目全方位分析与风险评估"
+  },
+  "wallet": {
+    "installMetaMask": "请安装 MetaMask 或其他 Web3 钱包",
+    "connectError": "连接钱包失败",
+    "checkError": "检查钱包失败",
+    "connect": "连接钱包",
+    "connecting": "连接中...",
+    "disconnect": "断开"
+  },
   "title": "DeFi 盾牌",
   "subtitle": "一键分析 DeFi 项目安全性",
   "searchPlaceholder": "输入合约地址 (0x...)",

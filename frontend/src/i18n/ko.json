@@ -1,4 +1,16 @@
 {
+  "header": {
+    "systemName": "승택 쿼리 시스템",
+    "systemDesc": "DeFi 프로젝트 종합 분석 및 리스크 평가"
+  },
+  "wallet": {
+    "installMetaMask": "MetaMask 또는 기타 Web3 지갑을 설치해 주세요",
+    "connectError": "지갑 연결에 실패했습니다",
+    "checkError": "지갑 확인에 실패했습니다",
+    "connect": "지갑 연결",
+    "connecting": "연결 중...",
+    "disconnect": "연결 해제"
+  },
   "title": "DeFi 실드",
   "subtitle": "원클릭 DeFi 프로젝트 안전성 분석",
   "searchPlaceholder": "컨트랙트 주소 입력 (0x...)",

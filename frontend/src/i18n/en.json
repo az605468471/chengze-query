@@ -1,4 +1,16 @@
 {
+  "header": {
+    "systemName": "Chengze Query System",
+    "systemDesc": "DeFi Project Comprehensive Analysis & Risk Assessment"
+  },
+  "wallet": {
+    "installMetaMask": "Please install MetaMask or other Web3 wallet",
+    "connectError": "Failed to connect wallet",
+    "checkError": "Failed to check wallet",
+    "connect": "Connect Wallet",
+    "connecting": "Connecting...",
+    "disconnect": "Disconnect"
+  },
   "title": "DeFi Shield",
   "subtitle": "One-click DeFi Project Safety Analysis",
   "searchPlaceholder": "Enter contract address (0x...)",

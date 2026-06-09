@@ -1,4 +1,16 @@
 {
+  "header": {
+    "systemName": "承泽クエリシステム",
+    "systemDesc": "DeFi プロジェクトの包括的分析とリスク評価"
+  },
+  "wallet": {
+    "installMetaMask": "MetaMask または他の Web3 ウォレットをインストールしてください",
+    "connectError": "ウォレット接続に失敗しました",
+    "checkError": "ウォレットの確認に失敗しました",
+    "connect": "ウォレット接続",
+    "connecting": "接続中...",
+    "disconnect": "切断"
+  },
   "title": "DeFi シールド",
   "subtitle": "ワンクリックで DeFi プロジェクトの安全性を分析",
   "searchPlaceholder": "コントラクトアドレスを入力 (0x...)",
