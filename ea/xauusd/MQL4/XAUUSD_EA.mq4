@@ -2,8 +2,6 @@
 //|                                               XAUUSD_EA.mq4     |
 //|                                    XAUUSD 超级交易EA            |
 //|                                          Author: MasterD        |
-//|                                          Target: 月化20%+       |
-//|                                          Features: 自动优化     |
 //+------------------------------------------------------------------+
 #property copyright "MasterD"
 #property link      "https://github.com/az605468471/chengze-query"
@@ -11,77 +9,113 @@
 #property strict
 
 //+------------------------------------------------------------------+
-//| 包含文件                                                          |
+//| 基础配置                                                          |
 //+------------------------------------------------------------------+
-#include "config.mqh"
-#include "strategy.mqh"
-#include "risk.mqh"
-#include "optimizer.mqh"
-#include "utils.mqh"
+extern string   Symbol_Trade    = "XAUUSD";        // 交易品种
+extern int      Timeframe       = PERIOD_H1;       // 时间周期
+
+//+------------------------------------------------------------------+
+//| 资金管理                                                          |
+//+------------------------------------------------------------------+
+extern double   LotSize         = 0.01;            // 基础手数
+extern double   RiskPercent     = 2.0;             // 单笔风险(%)
+extern double   MaxDrawdown     = 10.0;            // 最大回撤(%)
+extern double   MinLots         = 0.01;            // 最小手数
+extern double   MaxLots         = 1.0;             // 最大手数
+
+//+------------------------------------------------------------------+
+//| 止损止盈                                                          |
+//+------------------------------------------------------------------+
+extern int      TakeProfit      = 100;             // 止盈点数
+extern int      StopLoss        = 50;              // 止损点数
+extern int      TrailingStop    = 30;              // 移动止损点数
+extern int      TrailingStep    = 10;              // 移动止损步长
+extern bool     UseTrailingStop = true;            // 启用移动止损
+
+//+------------------------------------------------------------------+
+//| 保本止损                                                          |
+//+------------------------------------------------------------------+
+extern bool     UseBreakeven    = true;            // 启用保本止损
+extern int      BreakevenStart  = 5;               // 保本启动点数（盈利5点后保本）
+extern int      BreakevenProfit = 0;               // 保本点数（0表示移到开仓价）
+extern double   BreakevenBuffer = 0.5;             // 保本缓冲（扣除点差）
+
+//+------------------------------------------------------------------+
+//| 顺势加仓                                                          |
+//+------------------------------------------------------------------+
+extern bool     UseAddPosition  = true;            // 启用顺势加仓
+extern int      AddPositionPoints = 10;            // 加仓点数（盈利10点后加仓）
+extern double   LotMultiplier   = 0.5;             // 手数乘数（原始手数的一半）
+
+//+------------------------------------------------------------------+
+//| 反转信号出场                                                      |
+//+------------------------------------------------------------------+
+extern bool     CloseOnReverse  = true;            // 反转信号平仓
+extern bool     AlertClose      = true;            // 平仓提醒
+
+//+------------------------------------------------------------------+
+//| 策略参数                                                          |
+//+------------------------------------------------------------------+
+extern int      EMA_Fast        = 20;              // 快速EMA周期
+extern int      EMA_Medium      = 50;              // 中速EMA周期
+extern int      EMA_Slow        = 200;             // 慢速EMA周期
+
+extern int      RSI_Period      = 14;              // RSI周期
+extern double   RSI_Overbought  = 70;              // RSI超买
+extern double   RSI_Oversold    = 30;              // RSI超卖
+
+extern int      MACD_Fast       = 12;              // MACD快线
+extern int      MACD_Slow       = 26;              // MACD慢线
+extern int      MACD_Signal     = 9;               // MACD信号线
+
+extern int      ATR_Period      = 14;              // ATR周期
+extern double   ATR_Multiplier  = 2.0;             // ATR乘数
+
+//+------------------------------------------------------------------+
+//| 交易设置                                                          |
+//+------------------------------------------------------------------+
+extern int      MagicNumber     = 12345678;        // 魔术号码
+extern int      Slippage        = 3;               // 滑点
+extern int      TradeStartHour  = 9;               // 交易开始时间（北京时间）
+extern int      TradeEndHour    = 23;              // 交易结束时间（北京时间）
+extern bool     TradeMonday     = true;            // 周一交易
+extern bool     TradeFriday     = true;            // 周五交易
+
+//+------------------------------------------------------------------+
+//| 自动优化目标                                                      |
+//+------------------------------------------------------------------+
+extern int      OptimizationCycle = 24;            // 优化周期（小时）
+extern double   TargetWinRate     = 0.6;           // 目标胜率（60%）
+extern double   TargetProfitFactor = 1.5;          // 目标盈亏比
+extern double   TargetMaxDrawdown  = 0.15;         // 目标最大回撤（15%）
 
 //+------------------------------------------------------------------+
 //| 全局变量                                                          |
 //+------------------------------------------------------------------+
-
-// 策略实例
-CStrategy*      g_strategy;
-CRiskManager*   g_riskManager;
-COptimizer*     g_optimizer;
-CUtils*         g_utils;
-
-// 状态变量
 bool            g_isInitialized = false;
 datetime        g_lastBarTime = 0;
 int             g_tradeCount = 0;
 double          g_initialBalance = 0;
-
-// 性能统计
 double          g_totalProfit = 0;
 double          g_maxDrawdown = 0;
 int             g_winCount = 0;
 int             g_lossCount = 0;
+double          g_baseLot = 0;
+int             g_addCount = 0;
+datetime        g_lastTradeTime = 0;
 
 //+------------------------------------------------------------------+
 //| Expert initialization function                                    |
 //+------------------------------------------------------------------+
 int OnInit()
 {
-   // 初始化组件
-   g_strategy = new CStrategy();
-   g_riskManager = new CRiskManager();
-   g_optimizer = new COptimizer();
-   g_utils = new CUtils();
-
-   // 初始化策略
-   if (!g_strategy.Init(Symbol_Trade, Timeframe))
-   {
-      Print("❌ 策略初始化失败");
-      return INIT_FAILED;
-   }
-
-   // 初始化风险管理
-   if (!g_riskManager.Init(AccountBalance(), RiskPercent, MaxDrawdown))
-   {
-      Print("❌ 风险管理初始化失败");
-      return INIT_FAILED;
-   }
-
-   // 初始化优化器
-   if (!g_optimizer.Init(Symbol_Trade, Timeframe))
-   {
-      Print("❌ 优化器初始化失败");
-      return INIT_FAILED;
-   }
-
-   // 记录初始资金
    g_initialBalance = AccountBalance();
-
+   g_baseLot = LotSize;
+   
    g_isInitialized = true;
    Print("✅ XAUUSD EA 初始化成功");
-   Print("📊 目标月化收益：20%+");
-   Print("🔧 自动优化：已启用");
-   Print("💰 初始资金：$", g_initialBalance);
-
+   Print("💰 初始资金：$", DoubleToStr(g_initialBalance, 2));
+   
    return INIT_SUCCEEDED;
 }
 
@@ -90,12 +124,6 @@ int OnInit()
 //+------------------------------------------------------------------+
 void OnDeinit(const int reason)
 {
-   // 清理资源
-   if (g_strategy != NULL) delete g_strategy;
-   if (g_riskManager != NULL) delete g_riskManager;
-   if (g_optimizer != NULL) delete g_optimizer;
-   if (g_utils != NULL) delete g_utils;
-
    Print("📊 EA已停止，总交易次数：", g_tradeCount);
 }
 
@@ -105,131 +133,102 @@ void OnDeinit(const int reason)
 void OnTick()
 {
    if (!g_isInitialized) return;
-
-   // 检查是否新K线
-   bool isNewBar = IsNewBar();
-
-   // 更新风险管理器状态
-   g_riskManager.Update(AccountEquity(), AccountBalance());
-
-   // 检查是否需要自动优化
-   if (g_optimizer.ShouldOptimize())
-   {
-      Print("🔧 启动自动优化...");
-      g_optimizer.Optimize();
-      Print("✅ 优化完成");
-   }
-
-   // 检查交易时间
+   
+   datetime currentBarTime = iTime(Symbol_Trade, Timeframe, 0);
+   if (currentBarTime == g_lastBarTime) return;
+   g_lastBarTime = currentBarTime;
+   
    if (!IsTradeTime()) return;
-
-   // 检查点差
-   if (MarketInfo(Symbol_Trade, MODE_SPREAD) > MaxSpread) return;
-
-   // 仅在新K线开仓（避免重复信号）
-   if (TradeOnNewBar && !isNewBar) return;
-
-   // 获取交易信号
-   int signal = g_strategy.GetSignal();
-
-   // 处理信号
-   if (signal != 0)
+   
+   if (CountOrders() > 0)
    {
-      ProcessSignal(signal);
-   }
-
-   // 管理持仓
-   ManagePositions();
-}
-
-//+------------------------------------------------------------------+
-//| 处理交易信号                                                      |
-//+------------------------------------------------------------------+
-void ProcessSignal(int signal)
-{
-   // 检查最大持仓数
-   if (CountPositions() >= MaxPositions) return;
-
-   // 检查风险管理
-   if (!g_riskManager.CanTrade()) return;
-
-   // 计算手数
-   double lots = CalculateLots();
-
-   // 计算止损止盈
-   double sl, tp;
-   CalculateSLTP(signal, sl, tp);
-
-   // 执行交易
-   if (signal == 1) // 买入
-   {
-      if (AlertOpen) Alert("📈 XAUUSD 买入信号");
-      OpenBuy(lots, sl, tp);
-   }
-   else if (signal == -1) // 卖出
-   {
-      if (AlertOpen) Alert("📉 XAUUSD 卖出信号");
-      OpenSell(lots, sl, tp);
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 开多单                                                            |
-//+------------------------------------------------------------------+
-void OpenBuy(double lots, double sl, double tp)
-{
-   int ticket = OrderSend(
-      Symbol_Trade,
-      OP_BUY,
-      lots,
-      Ask,
-      Slippage,
-      sl,
-      tp,
-      "XAUUSD EA Buy",
-      MagicNumber,
-      0,
-      clrGreen
-   );
-
-   if (ticket > 0)
-   {
-      g_tradeCount++;
-      Print("✅ 开多成功：Ticket=", ticket, " 手数=", lots);
+      ManagePositions();
    }
    else
    {
-      Print("❌ 开多失败：", GetLastError());
+      CheckOpenSignal();
    }
 }
 
 //+------------------------------------------------------------------+
-//| 开空单                                                            |
+//| 检查开仓信号                                                      |
 //+------------------------------------------------------------------+
-void OpenSell(double lots, double sl, double tp)
+void CheckOpenSignal()
 {
-   int ticket = OrderSend(
-      Symbol_Trade,
-      OP_SELL,
-      lots,
-      Bid,
-      Slippage,
-      sl,
-      tp,
-      "XAUUSD EA Sell",
-      MagicNumber,
-      0,
-      clrRed
-   );
+   double emaFast = iMA(Symbol_Trade, Timeframe, EMA_Fast, 0, MODE_EMA, PRICE_CLOSE, 0);
+   double emaMedium = iMA(Symbol_Trade, Timeframe, EMA_Medium, 0, MODE_EMA, PRICE_CLOSE, 0);
+   double emaSlow = iMA(Symbol_Trade, Timeframe, EMA_Slow, 0, MODE_EMA, PRICE_CLOSE, 0);
+   double rsi = iRSI(Symbol_Trade, Timeframe, RSI_Period, PRICE_CLOSE, 0);
+   double macdMain = iMACD(Symbol_Trade, Timeframe, MACD_Fast, MACD_Slow, MACD_Signal, PRICE_CLOSE, MODE_MAIN, 0);
+   double macdSignal = iMACD(Symbol_Trade, Timeframe, MACD_Fast, MACD_Slow, MACD_Signal, PRICE_CLOSE, MODE_SIGNAL, 0);
+   double atr = iATR(Symbol_Trade, Timeframe, ATR_Period, 0);
+   
+   double closePrice = iClose(Symbol_Trade, Timeframe, 0);
+   double highPrice = iHigh(Symbol_Trade, Timeframe, 0);
+   double lowPrice = iLow(Symbol_Trade, Timeframe, 0);
+   
+   bool isBreakoutUp = false;
+   bool isBreakoutDown = false;
+   
+   if (closePrice > highPrice && emaFast > emaMedium && emaMedium > emaSlow && rsi > 50 && rsi < RSI_Overbought && macdMain > macdSignal)
+   {
+      isBreakoutUp = true;
+   }
+   
+   if (closePrice < lowPrice && emaFast < emaMedium && emaMedium < emaSlow && rsi < 50 && rsi > RSI_Oversold && macdMain < macdSignal)
+   {
+      isBreakoutDown = true;
+   }
+   
+   if (isBreakoutUp) OpenBuy(atr);
+   else if (isBreakoutDown) OpenSell(atr);
+}
 
+//+------------------------------------------------------------------+
+//| 开多仓                                                            |
+//+------------------------------------------------------------------+
+void OpenBuy(double atr)
+{
+   double price = Ask;
+   double sl = price - atr * ATR_Multiplier;
+   double tp = price + TakeProfit * Point;
+   
+   int ticket = OrderSend(Symbol_Trade, OP_BUY, g_baseLot, price, Slippage, sl, tp, "XAUUSD_BUY", MagicNumber, 0, clrGreen);
+   
    if (ticket > 0)
    {
+      Print("✅ 开多仓成功：", DoubleToStr(price, Digits));
       g_tradeCount++;
-      Print("✅ 开空成功：Ticket=", ticket, " 手数=", lots);
+      g_lastTradeTime = TimeCurrent();
+      g_addCount = 0;
    }
    else
    {
-      Print("❌ 开空失败：", GetLastError());
+      Print("❌ 开多仓失败：", GetLastError());
+   }
+}
+
+//+------------------------------------------------------------------+
+//| 开空仓                                                            |
+//+------------------------------------------------------------------+
+void OpenSell(double atr)
+{
+   double price = Bid;
+   double sl = price + atr * ATR_Multiplier;
+   double tp = price - TakeProfit * Point;
+   
+   int ticket = OrderSend(Symbol_Trade, OP_SELL, g_baseLot, price, Slippage, sl, tp, "XAUUSD_SELL", MagicNumber, 0, clrRed);
+   
+   if (ticket > 0)
+   {
+      Print("✅ 开空仓成功：", DoubleToStr(price, Digits));
+      g_tradeCount++;
+      g_lastTradeTime = TimeCurrent();
+      g_addCount = 0;
+   }
+   else
+   {
+      Print("❌ 开空仓失败：", GetLastError());
    }
 }
 
@@ -242,56 +241,12 @@ void ManagePositions()
    {
       if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES))
       {
-         if (OrderMagicNumber() == MagicNumber)
+         if (OrderSymbol() == Symbol_Trade && OrderMagicNumber() == MagicNumber)
          {
-            // 移动止损
-            if (UseTrailingStop)
-            {
-               ApplyTrailingStop();
-            }
-
-            // 保本止损
-            if (UseBreakeven)
-            {
-               ApplyBreakeven();
-            }
-
-            // 检查反向信号平仓
-            if (CloseOnReverse)
-            {
-               CheckReverseClose();
-            }
-         }
-      }
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 移动止损                                                          |
-//+------------------------------------------------------------------+
-void ApplyTrailingStop()
-{
-   if (OrderType() == OP_BUY)
-   {
-      double newSL = Bid - TrailingStop * Point;
-      if (Bid - OrderOpenPrice() > TrailingStop * Point)
-      {
-         if (OrderStopLoss() < newSL || OrderStopLoss() == 0)
-         {
-            bool result = OrderModify(OrderTicket(), OrderOpenPrice(), newSL, OrderTakeProfit(), 0, clrGreen);
-            if (result) Print("✅ 移动止损更新：", newSL);
-         }
-      }
-   }
-   else if (OrderType() == OP_SELL)
-   {
-      double newSL = Ask + TrailingStop * Point;
-      if (OrderOpenPrice() - Ask > TrailingStop * Point)
-      {
-         if (OrderStopLoss() > newSL || OrderStopLoss() == 0)
-         {
-            bool result = OrderModify(OrderTicket(), OrderOpenPrice(), newSL, OrderTakeProfit(), 0, clrRed);
-            if (result) Print("✅ 移动止损更新：", newSL);
+            if (UseBreakeven) ApplyBreakeven();
+            if (UseTrailingStop) ApplyTrailingStop();
+            if (UseAddPosition) CheckAddPosition();
+            if (CloseOnReverse) CheckReverseClose();
          }
       }
    }
@@ -302,146 +257,178 @@ void ApplyTrailingStop()
 //+------------------------------------------------------------------+
 void ApplyBreakeven()
 {
+   double openPrice = OrderOpenPrice();
+   double currentSL = OrderStopLoss();
+   double currentPrice = OrderType() == OP_BUY ? Bid : Ask;
+   
+   double profitPoints = 0;
    if (OrderType() == OP_BUY)
+      profitPoints = (currentPrice - openPrice) / Point;
+   else
+      profitPoints = (openPrice - currentPrice) / Point;
+   
+   if (profitPoints >= BreakevenStart)
    {
-      if (Bid - OrderOpenPrice() > BreakevenStart * Point)
+      double newSL = 0;
+      if (OrderType() == OP_BUY)
       {
-         double newSL = OrderOpenPrice() + BreakevenProfit * Point;
-         if (OrderStopLoss() < newSL)
+         newSL = openPrice + BreakevenBuffer * Point;
+         if (currentSL < newSL)
          {
-            bool result = OrderModify(OrderTicket(), OrderOpenPrice(), newSL, OrderTakeProfit(), 0, clrGreen);
-            if (result) Print("✅ 保本止损设置：", newSL);
+            OrderModify(OrderTicket(), openPrice, newSL, OrderTakeProfit(), 0, clrYellow);
          }
       }
-   }
-   else if (OrderType() == OP_SELL)
-   {
-      if (OrderOpenPrice() - Ask > BreakevenStart * Point)
+      else
       {
-         double newSL = OrderOpenPrice() - BreakevenProfit * Point;
-         if (OrderStopLoss() > newSL || OrderStopLoss() == 0)
+         newSL = openPrice - BreakevenBuffer * Point;
+         if (currentSL > newSL || currentSL == 0)
          {
-            bool result = OrderModify(OrderTicket(), OrderOpenPrice(), newSL, OrderTakeProfit(), 0, clrRed);
-            if (result) Print("✅ 保本止损设置：", newSL);
+            OrderModify(OrderTicket(), openPrice, newSL, OrderTakeProfit(), 0, clrYellow);
          }
       }
    }
 }
 
 //+------------------------------------------------------------------+
-//| 检查反向信号平仓                                                  |
+//| 移动止损                                                          |
+//+------------------------------------------------------------------+
+void ApplyTrailingStop()
+{
+   double openPrice = OrderOpenPrice();
+   double currentSL = OrderStopLoss();
+   double currentPrice = OrderType() == OP_BUY ? Bid : Ask;
+   
+   double profitPoints = 0;
+   if (OrderType() == OP_BUY)
+      profitPoints = (currentPrice - openPrice) / Point;
+   else
+      profitPoints = (openPrice - currentPrice) / Point;
+   
+   int dynamicTrailingStop = TrailingStop;
+   
+   if (profitPoints >= 50)
+      dynamicTrailingStop = 10;
+   else if (profitPoints >= 20)
+      dynamicTrailingStop = 10;
+   else if (profitPoints >= 10)
+      dynamicTrailingStop = 5;
+   
+   if (profitPoints >= 10)
+   {
+      double newSL = 0;
+      if (OrderType() == OP_BUY)
+      {
+         newSL = currentPrice - dynamicTrailingStop * Point;
+         if (newSL > currentSL + TrailingStep * Point)
+         {
+            OrderModify(OrderTicket(), openPrice, newSL, OrderTakeProfit(), 0, clrBlue);
+         }
+      }
+      else
+      {
+         newSL = currentPrice + dynamicTrailingStop * Point;
+         if (newSL < currentSL - TrailingStep * Point || currentSL == 0)
+         {
+            OrderModify(OrderTicket(), openPrice, newSL, OrderTakeProfit(), 0, clrBlue);
+         }
+      }
+   }
+}
+
+//+------------------------------------------------------------------+
+//| 顺势加仓                                                          |
+//+------------------------------------------------------------------+
+void CheckAddPosition()
+{
+   if (g_addCount >= 3) return;
+   if (TimeCurrent() - g_lastTradeTime < 300) return;
+   
+   double openPrice = OrderOpenPrice();
+   double currentPrice = OrderType() == OP_BUY ? Bid : Ask;
+   
+   double profitPoints = 0;
+   if (OrderType() == OP_BUY)
+      profitPoints = (currentPrice - openPrice) / Point;
+   else
+      profitPoints = (openPrice - currentPrice) / Point;
+   
+   if (profitPoints >= AddPositionPoints)
+   {
+      double emaFast = iMA(Symbol_Trade, Timeframe, EMA_Fast, 0, MODE_EMA, PRICE_CLOSE, 0);
+      double emaMedium = iMA(Symbol_Trade, Timeframe, EMA_Medium, 0, MODE_EMA, PRICE_CLOSE, 0);
+      
+      bool isTrend = false;
+      if (OrderType() == OP_BUY && emaFast > emaMedium) isTrend = true;
+      else if (OrderType() == OP_SELL && emaFast < emaMedium) isTrend = true;
+      
+      if (isTrend)
+      {
+         double addLot = NormalizeDouble(g_baseLot * LotMultiplier, 2);
+         int ticket = -1;
+         
+         if (OrderType() == OP_BUY)
+            ticket = OrderSend(Symbol_Trade, OP_BUY, addLot, Ask, Slippage, 0, 0, "XAUUSD_ADD", MagicNumber, 0, clrGreen);
+         else
+            ticket = OrderSend(Symbol_Trade, OP_SELL, addLot, Bid, Slippage, 0, 0, "XAUUSD_ADD", MagicNumber, 0, clrRed);
+         
+         if (ticket > 0)
+         {
+            Print("✅ 加仓成功：", DoubleToStr(addLot, 2), "手");
+            g_addCount++;
+            g_lastTradeTime = TimeCurrent();
+         }
+      }
+   }
+}
+
+//+------------------------------------------------------------------+
+//| 反转信号出场                                                      |
 //+------------------------------------------------------------------+
 void CheckReverseClose()
 {
-   int signal = g_strategy.GetSignal();
-
-   if (OrderType() == OP_BUY && signal == -1)
-   {
-      ClosePosition();
-      if (AlertClose) Alert("🔄 反向信号平多");
-   }
-   else if (OrderType() == OP_SELL && signal == 1)
-   {
-      ClosePosition();
-      if (AlertClose) Alert("🔄 反向信号平空");
-   }
-}
-
-//+------------------------------------------------------------------+
-//| 平仓                                                              |
-//+------------------------------------------------------------------+
-void ClosePosition()
-{
+   double emaFast = iMA(Symbol_Trade, Timeframe, EMA_Fast, 0, MODE_EMA, PRICE_CLOSE, 0);
+   double emaMedium = iMA(Symbol_Trade, Timeframe, EMA_Medium, 0, MODE_EMA, PRICE_CLOSE, 0);
+   double rsi = iRSI(Symbol_Trade, Timeframe, RSI_Period, PRICE_CLOSE, 0);
+   double macdMain = iMACD(Symbol_Trade, Timeframe, MACD_Fast, MACD_Slow, MACD_Signal, PRICE_CLOSE, MODE_MAIN, 0);
+   double macdSignal = iMACD(Symbol_Trade, Timeframe, MACD_Fast, MACD_Slow, MACD_Signal, PRICE_CLOSE, MODE_SIGNAL, 0);
+   
+   bool shouldClose = false;
+   
    if (OrderType() == OP_BUY)
    {
-      bool result = OrderClose(OrderTicket(), OrderLots(), Bid, Slippage, clrYellow);
-      if (result)
-      {
-         double profit = OrderProfit() + OrderSwap() + OrderCommission();
-         g_totalProfit += profit;
-         if (profit > 0) g_winCount++; else g_lossCount++;
-         Print("✅ 平多成功：盈亏=", profit);
-      }
+      if (emaFast < emaMedium && rsi > RSI_Overbought && macdMain < macdSignal)
+         shouldClose = true;
    }
    else if (OrderType() == OP_SELL)
    {
-      bool result = OrderClose(OrderTicket(), OrderLots(), Ask, Slippage, clrYellow);
-      if (result)
-      {
-         double profit = OrderProfit() + OrderSwap() + OrderCommission();
-         g_totalProfit += profit;
-         if (profit > 0) g_winCount++; else g_lossCount++;
-         Print("✅ 平空成功：盈亏=", profit);
-      }
+      if (emaFast > emaMedium && rsi < RSI_Oversold && macdMain > macdSignal)
+         shouldClose = true;
    }
-}
-
-//+------------------------------------------------------------------+
-//| 计算手数                                                          |
-//+------------------------------------------------------------------+
-double CalculateLots()
-{
-   double lots = g_riskManager.CalculateLotSize(
-      Symbol_Trade,
-      StopLoss,
-      LotSize,
-      MinLots,
-      MaxLots
-   );
-
-   return lots;
-}
-
-//+------------------------------------------------------------------+
-//| 计算止损止盈                                                      |
-//+------------------------------------------------------------------+
-void CalculateSLTP(int signal, double &sl, double &tp)
-{
-   double atr = iATR(Symbol_Trade, Timeframe, ATR_Period, 0);
-
-   if (signal == 1) // 买入
+   
+   if (shouldClose)
    {
-      sl = Ask - atr * ATR_Multiplier;
-      tp = Ask + atr * ATR_Multiplier * 2; // 盈亏比1:2
-   }
-   else if (signal == -1) // 卖出
-   {
-      sl = Bid + atr * ATR_Multiplier;
-      tp = Bid - atr * ATR_Multiplier * 2; // 盈亏比1:2
+      if (OrderType() == OP_BUY)
+         OrderClose(OrderTicket(), OrderLots(), Bid, Slippage, clrRed);
+      else
+         OrderClose(OrderTicket(), OrderLots(), Ask, Slippage, clrGreen);
    }
 }
 
 //+------------------------------------------------------------------+
-//| 统计持仓数                                                        |
+//| 统计订单数量                                                      |
 //+------------------------------------------------------------------+
-int CountPositions()
+int CountOrders()
 {
    int count = 0;
-   for (int i = 0; i < OrdersTotal(); i++)
+   for (int i = OrdersTotal() - 1; i >= 0; i--)
    {
       if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES))
       {
-         if (OrderMagicNumber() == MagicNumber)
-         {
+         if (OrderSymbol() == Symbol_Trade && OrderMagicNumber() == MagicNumber)
             count++;
-         }
       }
    }
    return count;
-}
-
-//+------------------------------------------------------------------+
-//| 检查新K线                                                         |
-//+------------------------------------------------------------------+
-bool IsNewBar()
-{
-   datetime currentBarTime = iTime(Symbol_Trade, Timeframe, 0);
-   if (currentBarTime != g_lastBarTime)
-   {
-      g_lastBarTime = currentBarTime;
-      return true;
-   }
-   return false;
 }
 
 //+------------------------------------------------------------------+
@@ -449,57 +436,16 @@ bool IsNewBar()
 //+------------------------------------------------------------------+
 bool IsTradeTime()
 {
-   int hour = Hour();
-
-   // 转换为北京时间（GMT+8）
-   int beijingHour = (hour + 8) % 24;
-
-   // 检查是否在交易时间范围内
-   if (beijingHour < TradeStartHour || beijingHour >= TradeEndHour)
-   {
+   int hour = TimeHour(TimeCurrent());
+   
+   if (hour < TradeStartHour || hour > TradeEndHour)
       return false;
-   }
-
-   // 检查周一周五
-   if (DayOfWeek() == 1 && !TradeMonday) return false;
-   if (DayOfWeek() == 5 && !TradeFriday) return false;
-
+   
+   if (!TradeMonday && DayOfWeek() == 1)
+      return false;
+   
+   if (!TradeFriday && DayOfWeek() == 5)
+      return false;
+   
    return true;
 }
-
-//+------------------------------------------------------------------+
-//| 自定义函数                                                        |
-//+------------------------------------------------------------------+
-
-// 获取EA状态
-string GetEAStatus()
-{
-   string status = "";
-   status += "📊 XAUUSD EA 状态\n";
-   status += "==================\n";
-   status += "💰 账户余额：$" + DoubleToString(AccountBalance(), 2) + "\n";
-   status += "📈 净值：$" + DoubleToString(AccountEquity(), 2) + "\n";
-   status += "📊 总盈亏：$" + DoubleToString(g_totalProfit, 2) + "\n";
-   status += "🎯 胜率：";
-   if (g_winCount + g_lossCount > 0)
-   {
-      double winRate = (double)g_winCount / (g_winCount + g_lossCount) * 100;
-      status += DoubleToString(winRate, 1) + "%\n";
-   }
-   else
-   {
-      status += "N/A\n";
-   }
-   status += "📝 总交易次数：" + IntegerToString(g_tradeCount) + "\n";
-   status += "🔧 自动优化：" + (g_optimizer.IsOptimizing() ? "进行中" : "已完成") + "\n";
-
-   return status;
-}
-
-// 打印状态
-void PrintStatus()
-{
-   Print(GetEAStatus());
-}
-
-//+------------------------------------------------------------------+
