@@ -160,19 +160,29 @@ void CheckOpenSignal()
    double macdSignal = iMACD(Symbol_Trade, Timeframe, MACD_Fast, MACD_Slow, MACD_Signal, PRICE_CLOSE, MODE_SIGNAL, 0);
    double atr = iATR(Symbol_Trade, Timeframe, ATR_Period, 0);
    
-   double closePrice = iClose(Symbol_Trade, Timeframe, 0);
-   double highPrice = iHigh(Symbol_Trade, Timeframe, 0);
-   double lowPrice = iLow(Symbol_Trade, Timeframe, 0);
+   // 使用前一根K线数据（已完成的K线）
+   double prevClose = iClose(Symbol_Trade, Timeframe, 1);
+   double prevHigh = iHigh(Symbol_Trade, Timeframe, 1);
+   double prevLow = iLow(Symbol_Trade, Timeframe, 1);
+   double prevOpen = iOpen(Symbol_Trade, Timeframe, 1);
    
    bool isBreakoutUp = false;
    bool isBreakoutDown = false;
    
-   if (closePrice > highPrice && emaFast > emaMedium && emaMedium > emaSlow && rsi > 50 && rsi < RSI_Overbought && macdMain > macdSignal)
+   // 做多条件：趋势向上 + 动量确认
+   if (emaFast > emaMedium && emaMedium > emaSlow 
+       && rsi > 50 && rsi < RSI_Overbought 
+       && macdMain > macdSignal
+       && prevClose > prevOpen)  // 阳线确认
    {
       isBreakoutUp = true;
    }
    
-   if (closePrice < lowPrice && emaFast < emaMedium && emaMedium < emaSlow && rsi < 50 && rsi > RSI_Oversold && macdMain < macdSignal)
+   // 做空条件：趋势向下 + 动量确认
+   if (emaFast < emaMedium && emaMedium < emaSlow 
+       && rsi < 50 && rsi > RSI_Oversold 
+       && macdMain < macdSignal
+       && prevClose < prevOpen)  // 阴线确认
    {
       isBreakoutDown = true;
    }
