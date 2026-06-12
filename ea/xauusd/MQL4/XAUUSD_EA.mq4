@@ -12,7 +12,7 @@
 //| 基础配置                                                          |
 //+------------------------------------------------------------------+
 extern string   Symbol_Trade    = "XAUUSD";        // 交易品种
-extern int      Timeframe       = PERIOD_H1;       // 时间周期
+extern int      Timeframe       = PERIOD_M15;      // 时间周期（15分钟）
 
 //+------------------------------------------------------------------+
 //| 资金管理                                                          |
@@ -76,10 +76,7 @@ extern double   ATR_Multiplier  = 2.0;             // ATR乘数
 //+------------------------------------------------------------------+
 extern int      MagicNumber     = 12345678;        // 魔术号码
 extern int      Slippage        = 3;               // 滑点
-extern int      TradeStartHour  = 9;               // 交易开始时间（北京时间）
-extern int      TradeEndHour    = 23;              // 交易结束时间（北京时间）
-extern bool     TradeMonday     = true;            // 周一交易
-extern bool     TradeFriday     = true;            // 周五交易
+// 交易时间已移除，全天24小时运行
 
 //+------------------------------------------------------------------+
 //| 自动优化目标                                                      |
@@ -436,16 +433,5 @@ int CountOrders()
 //+------------------------------------------------------------------+
 bool IsTradeTime()
 {
-   int hour = TimeHour(TimeCurrent());
-   
-   if (hour < TradeStartHour || hour > TradeEndHour)
-      return false;
-   
-   if (!TradeMonday && DayOfWeek() == 1)
-      return false;
-   
-   if (!TradeFriday && DayOfWeek() == 5)
-      return false;
-   
-   return true;
+   return true; // 全天24小时运行，无时间限制
 }
