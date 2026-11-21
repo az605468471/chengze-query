@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>承泽查询 · 币圈体检</title>
+<meta name="description" content="输入合约地址，30 秒生成中文风险体检报告。聚合 GoPlus、DexScreener、DefiLlama 三大数据源，每条数据标明出处。">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0b0e14;--card:#141922;--card2:#1a2130;--line:#252d3d;
+  --txt:#e6edf7;--muted:#7d8998;--accent:#3b82f6;--accent2:#60a5fa;
+  --green:#22c55e;--yellow:#eab308;--orange:#f97316;--red:#ef4444;
+  --sans:"Noto Sans SC",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+}
+body{font-family:var(--sans);background:var(--bg);color:var(--txt);line-height:1.7;min-height:100vh;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 50% -10%,rgba(59,130,246,.13) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 40% at 85% 90%,rgba(34,197,94,.07) 0%,transparent 55%)}
+.wrap{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:0 20px}
+header{padding:26px 0 0;text-align:center}
+.logo{display:inline-flex;align-items:center;gap:11px;font-size:1.24rem;font-weight:900;letter-spacing:.06em}
+.logo .dot{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--accent),#8b5cf6);display:grid;place-items:center;font-size:.95rem;font-weight:900;box-shadow:0 4px 18px rgba(59,130,246,.4)}
+.logo small{display:block;font-size:.62rem;font-weight:400;color:var(--muted);letter-spacing:.28em;margin-top:2px}
+.search-box{margin:38px 0 32px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.chain-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.chain-tab{padding:7px 15px;border-radius:8px;background:var(--card2);border:1px solid transparent;color:var(--muted);font-size:.82rem;cursor:pointer;transition:.22s;font-weight:500}
+.chain-tab:hover{color:var(--txt);border-color:var(--line)}
+.chain-tab.on{background:rgba(59,130,246,.14);border-color:var(--accent);color:var(--accent2)}
+.input-row{display:flex;gap:10px}
+.input-row input{flex:1;padding:15px 18px;border-radius:11px;border:1px solid var(--line);background:#0e131c;color:var(--txt);font-size:.94rem;outline:none;font-family:ui-monospace,monospace;transition:.22s}
+.input-row input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(59,130,246,.13)}
+.input-row input::placeholder{color:#4a5464;font-family:var(--sans)}
+.btn{padding:15px 32px;border:none;border-radius:11px;font-size:.94rem;font-weight:700;background:linear-gradient(135deg,var(--accent),#6366f1);color:#fff;cursor:pointer;transition:.22s;white-space:nowrap;font-family:var(--sans)}
+.btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 24px rgba(59,130,246,.4)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.hint{margin-top:12px;font-size:.76rem;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap}
+.hint b{color:var(--accent2);font-weight:500}
+.loading{display:none;text-align:center;padding:50px 20px}
+.loading.on{display:block}
+.spinner{width:42px;height:42px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;margin:0 auto 18px;animation:spin .85s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{color:var(--muted);font-size:.88rem}
+.error{display:none;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.32);border-radius:12px;padding:18px 22px;margin-bottom:20px;color:#fca5a5;font-size:.88rem}
+.error.on{display:block}
+.result{display:none}
+.result.on{display:block}
+.overview{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px;margin-bottom:20px;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center}
+.score-ring{position:relative;width:130px;height:130px;flex-shrink:0}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring .val{position:absolute;inset:0;display:grid;place-items:center}
+.score-ring .num{font-size:2.5rem;font-weight:900;line-height:1;text-align:center}
+.score-ring .lbl{font-size:.58rem;color:var(--muted);letter-spacing:.14em;margin-top:2px;text-align:center}
+.token-name{font-size:1.5rem;font-weight:900;margin-bottom:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.token-sym{font-size:.8rem;color:var(--muted);background:var(--card2);padding:3px 10px;border-radius:6px;font-weight:500}
+.grade-line{font-size:.92rem;margin-bottom:14px;display:flex;align-items:center;gap:9px;font-weight:600}
+.meta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 22px;font-size:.82rem}
+.meta-grid div{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.meta-grid .k{color:var(--muted)}
+.meta-grid .v{font-family:ui-monospace,monospace;font-size:.8rem;text-align:right;word-break:break-all;max-width:60%}
+.veto{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.35);border-radius:14px;padding:20px 24px;margin-bottom:20px}
+.veto-title{font-size:.88rem;font-weight:700;color:#fca5a5;margin-bottom:12px}
+.veto-item{padding:9px 0;border-bottom:1px solid rgba(239,68,68,.15);font-size:.85rem}
+.veto-item:last-child{border-bottom:none}
+.veto-item b{color:#fca5a5;font-weight:600}
+.veto-item span{color:var(--muted);font-size:.8rem;display:block;margin-top:2px}
+.dims{display:grid;gap:14px;margin-bottom:20px}
+.dim{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.dim-head{display:flex;justify-content:space-between;align-items:center;padding:16px 22px;cursor:pointer;user-select:none}
+.dim-title{font-size:.94rem;font-weight:700}
+.dim-score{font-family:ui-monospace,monospace;font-size:.86rem;font-weight:700}
+.bar{height:4px;background:var(--card2)}
+.bar-fill{height:100%;transition:width .7s cubic-bezier(.4,0,.2,1)}
+.dim-items{padding:4px 22px 18px;display:none}
+.dim.open .dim-items{display:block}
+.dim-item{display:grid;grid-template-columns:1fr auto;gap:14px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.045);font-size:.83rem;align-items:center}
+.dim-item:last-child{border-bottom:none}
+.dim-item .k{display:flex;align-items:center;gap:8px}
+.dim-item .v{font-family:ui-monospace,monospace;font-size:.79rem;text-align:right}
+.dim-item .src{font-size:.66rem;color:#4a5464;margin-left:6px}
+.dotok{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.dotok.y{background:var(--green)}
+.dotok.n{background:var(--red)}
+.risks{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:20px}
+.risks h3{font-size:.9rem;font-weight:700;margin-bottom:14px;color:var(--yellow)}
+.risk-item{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.045);font-size:.84rem}
+.risk-item:last-child{border-bottom:none}
+.risk-item b{color:var(--orange);font-weight:600}
+.risk-item span{color:var(--muted);font-size:.79rem;display:block;margin-top:2px}
+.sources{background:var(--card2);border-radius:12px;padding:18px 22px;font-size:.78rem;color:var(--muted);margin-bottom:20px}
+.sources b{color:var(--txt);font-weight:600;display:block;margin-bottom:8px;font-size:.8rem}
+.sources .row{display:flex;justify-content:space-between;padding:4px 0}
+.disclaimer{font-size:.74rem;color:#4a5464;line-height:1.8;padding:16px 0 40px;text-align:center;border-top:1px solid rgba(255,255,255,.05);margin-top:26px}
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty .icon{font-size:2.6rem;margin-bottom:16px;opacity:.3}
+.empty p{font-size:.88rem}
+@media(max-width:640px){
+  .overview{grid-template-columns:1fr;gap:22px;text-align:center;padding:24px}
+  .score-ring{margin:0 auto}
+  .token-name,.grade-line{justify-content:center}
+  .meta-grid{grid-template-columns:1fr;text-align:left}
+  .meta-grid .v{text-align:right}
+  .input-row{flex-direction:column}
+  .btn{width:100%}
+  .search-box{padding:20px}
+  .wrap{padding:0 16px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">
+      <span class="dot">泽</span>
+      <div>承泽查询<small>DEFI SHIELD</small></div>
+    </div>
+  </header>
+
+  <div class="search-box">
+    <div class="chain-tabs" id="chainTabs">
+      <div class="chain-tab on" data-chain="56">BSC</div>
+      <div class="chain-tab" data-chain="1">Ethereum</div>
+      <div class="chain-tab" data-chain="8453">Base</div>
+      <div class="chain-tab" data-chain="42161">Arbitrum</div>
+    </div>
+    <div class="input-row">
+      <input id="addrInput" type="text" placeholder="输入代币合约地址 0x..." autocomplete="off" spellcheck="false">
+      <button class="btn" id="queryBtn">开始体检</button>
+    </div>
+    <div class="hint">
+      <span>数据源：<b>GoPlus</b> · <b>DexScreener</b> · <b>DefiLlama</b></span>
+      <span>每条数据均标注出处</span>
+    </div>
+  </div>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p>正在拉取链上数据...</p>
+  </div>
+
+  <div class="error" id="error"></div>
+  <div class="result" id="result"></div>
+
+  <div class="empty" id="empty">
+    <div class="icon">◎</div>
+    <p>输入合约地址，30 秒生成体检报告</p>
+  </div>
+
+  <div class="disclaimer">
+    本工具聚合公开数据，仅供参考，不构成任何投资建议。<br>
+    数字资产风险极高，请自行判断并承担相应风险。
+  </div>
+</div>
+
+<script src="js/query.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+let chainId = 56;
+
+document.querySelectorAll('.chain-tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.chain-tab').forEach(x => x.classList.remove('on'));
+    t.classList.add('on');
+    chainId = parseInt(t.dataset.chain, 10);
+  });
+});
+
+$('queryBtn').addEventListener('click', doQuery);
+$('addrInput').addEventListener('keydown', e => { if (e.key === 'Enter') doQuery(); });
+
+async function doQuery() {
+  const addr = $('addrInput').value.trim();
+  if (!/^0x[a-fA-F0-9]{40}$/.test(addr)) {
+    showError('请输入正确的合约地址（0x 开头的 42 位）');
+    return;
+  }
+
+  $('error').classList.remove('on');
+  $('result').classList.remove('on');
+  $('empty').style.display = 'none';
+  $('loading').classList.add('on');
+  $('queryBtn').disabled = true;
+
+  const t0 = Date.now();
+  try {
+    const data = await queryToken(chainId, addr);
+    renderResult(data, Date.now() - t0);
+    $('loading').classList.remove('on');
+    $('result').classList.add('on');
+  } catch (e) {
+    $('loading').classList.remove('on');
+    showError(e.message || '查询失败，请稍后重试');
+    $('empty').style.display = 'block';
+  } finally {
+    $('queryBtn').disabled = false;
+  }
+}
+
+function showError(msg) {
+  const el = $('error');
+  el.textContent = '⚠️ ' + msg;
+  el.classList.add('on');
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderResult(d, ms) {
+  const sc = d.score;
+  const C = 2 * Math.PI * 56;
+  const offset = C * (1 - sc.total / 100);
+
+  let dimsHTML = '';
+  sc.dims.forEach((dim, i) => {
+    const pct = dim.max > 0 ? (dim.score / dim.max) * 100 : 0;
+    const color = pct >= 70 ? 'var(--green)' : pct >= 40 ? 'var(--yellow)' : 'var(--red)';
+    let itemsHTML = '';
+    dim.items.forEach(it => {
+      itemsHTML += '<div class="dim-item"><div class="k"><span class="dotok ' + (it.ok ? 'y' : 'n') + '"></span>' + esc(it.k) + '</div><div class="v">' + esc(it.v) + '<span class="src">' + esc(it.src) + '</span></div></div>';
+    });
+    dimsHTML += '<div class="dim ' + (i === 0 ? 'open' : '') + '">' +
+      '<div class="dim-head" onclick="this.parentNode.classList.toggle(\'open\')">' +
+        '<div class="dim-title">' + esc(dim.name) + '</div>' +
+        '<div class="dim-score" style="color:' + color + '">' + dim.score + ' / ' + dim.max + '</div>' +
+      '</div>' +
+      '<div class="bar"><div class="bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div>' +
+      '<div class="dim-items">' + itemsHTML + '</div></div>';
+  });
+
+  let vetoHTML = '';
+  if (sc.flags.length > 0) {
+    let list = sc.flags.map(f => '<div class="veto-item"><b>❌ ' + esc(f.k) + '</b><span>' + esc(f.desc) + '</span></div>').join('');
+    vetoHTML = '<div class="veto"><div class="veto-title">⚠️ 触发一票否决（总分上限锁定 25）</div>' + list + '</div>';
+  }
+
+  let risksHTML = '';
+  if (sc.risks.length > 0) {
+    let list = sc.risks.map(r => '<div class="risk-item"><b>' + esc(r.k) + '</b><span>' + esc(r.desc) + '</span></div>').join('');
+    risksHTML = '<div class="risks"><h3>发现 ' + sc.risks.length + ' 项风险</h3>' + list + '</div>';
+  }
+
+  const ts = new Date(d.fetchedAt).toLocaleString('zh-CN');
+  const sourcesHTML = '<div class="sources"><b>📋 数据来源与时间</b>' +
+    '<div class="row"><span>GoPlus 安全检测</span><span>' + ts + '</span></div>' +
+    '<div class="row"><span>DexScreener 行情</span><span>' + ts + '</span></div>' +
+    '<div class="row"><span>DefiLlama 协议数据</span><span>' + ts + '</span></div>' +
+    '<div class="row" style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06)"><span>查询耗时</span><span>' + ms + ' ms</span></div></div>';
+
+  const liq = d.dex?.liquidityUsd || 0;
+  const vol = d.dex?.volume24h || 0;
+  const tx = d.dex?.txns24h || 0;
+
+  $('result').innerHTML =
+    '<div class="overview"><div class="score-ring">' +
+      '<svg width="130" height="130">' +
+        '<circle cx="65" cy="65" r="56" fill="none" stroke="#252d3d" stroke-width="9"/>' +
+        '<circle cx="65" cy="65" r="56" fill="none" stroke="' + sc.gradeColor + '" stroke-width="9" stroke-dasharray="' + C + '" stroke-dashoffset="' + offset + '" stroke-linecap="round" style="transition:stroke-dashoffset 1s ease"/>' +
+      '</svg>' +
+      '<div class="val"><div class="num" style="color:' + sc.gradeColor + '">' + sc.total + '</div><div class="lbl">RISK SCORE</div></div>' +
+    '</div><div>' +
+      '<div class="token-name">' + esc(d.basic.name) + ' <span class="token-sym">' + esc(d.basic.symbol) + '</span></div>' +
+      '<div class="grade-line" style="color:' + sc.gradeColor + '"><span>' + sc.grade + ' 级</span><span>·</span><span>' + esc(sc.gradeText) + '</span></div>' +
+      '<div class="meta-grid">' +
+        '<div><span class="k">链</span><span class="v">' + esc(d.chainName) + '</span></div>' +
+        '<div><span class="k">持币地址</span><span class="v">' + d.basic.holderCount.toLocaleString() + '</span></div>' +
+        '<div><span class="k">前10持仓</span><span class="v">' + d.holders.top10Pct.toFixed(2) + '%</span></div>' +
+        '<div><span class="k">流动性</span><span class="v">$' + liq.toLocaleString(undefined,{maximumFractionDigits:0}) + '</span></div>' +
+        '<div><span class="k">24h 成交</span><span class="v">$' + vol.toLocaleString(undefined,{maximumFractionDigits:0}) + '</span></div>' +
+        '<div><span class="k">24h 笔数</span><span class="v">' + tx.toLocaleString() + '</span></div>' +
+      '</div>' +
+    '</div></div>' +
+    vetoHTML +
+    '<div class="dims">' + dimsHTML + '</div>' +
+    risksHTML +
+    sourcesHTML;
+}
+</script>
+</body>
+</html>
